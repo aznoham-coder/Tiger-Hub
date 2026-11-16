@@ -1,3 +1,6 @@
+-- Tiger Hub: make sure the shared env table exists (some executors do not provide the `env` global)
+env = env or (type(getgenv) == "function" and getgenv()) or _G
+
 do
 	local ok, busy = pcall(function()
 		local prev = env.TigerHubInstance
