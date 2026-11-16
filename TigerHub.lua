@@ -217,8 +217,8 @@ Lib.Conns = {}
 Lib.Version = {
 	Current = "3.7.1",
 	Display = "V3.7.1",
-	Url = "https://raw.githubusercontent.com/CherryCalCor/Septus-HubRedesign/refs/heads/main/version.json",
-	Repo = "https://github.com/Tiger-Hub-Panel/Septus-HubRedesign",
+	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
+	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
 	Listeners = {}
 }
@@ -31308,7 +31308,7 @@ local function StartLoadingSequence(Blur)
 	local copying = false
 	GithubBtn.MouseButton1Click:Connect(function()
 		local copyFunc = setclipboard or toclipboard or set_clipboard
-		if copyFunc then pcall(copyFunc, "github.com/Tiger-Hub-Panel") end
+		if copyFunc then pcall(copyFunc, "github.com/aznoham-coder/Tiger-Hub") end
 		if copying then return end
 		copying = true
 		GithubBtn.Text = "Link Copied ✓"
