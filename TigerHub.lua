@@ -184,8 +184,12 @@ local App = {
 
 		TotalPlaytimeSeconds = 0,
 		LastActivityTick = os.clock(),
-		IsDecorActive = false,
-		Ach_10Hours_Claimed = false
+		ActiveDecor = nil,
+		Ach_10Hours_Claimed = false,
+		Ach_24Hours_Claimed = false,
+		Ach_Streak7_Claimed = false,
+		Ach_Collector10_Claimed = false,
+		Ach_Rainbow50_Claimed = false
 	},
 
 	Refs = {
@@ -218,8 +222,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.3",
-	Display = "V3.7.3",
+	Current = "3.7.4",
+	Display = "V3.7.4",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2490,7 +2494,33 @@ do
 		["Fixed saved config cards possibly turning invisible after deleting or creating a config: the list now rebuilds safely and groups reopen."] = "Исправлено исчезновение карточек конфигов после удаления или создания конфига: список теперь безопасно перестраивается, а группы раскрываются.",
 		["The hub is now called Tiger Hub: full rebrand with a new repository."] = "Хаб теперь называется Tiger Hub: полный ребрендинг с новым репозиторием.",
 		["Fixed the Scripts category loading slowly: script lists, script details and image sources are now all fetched in parallel and previews download up to ten at a time."] = "Исправлена медленная загрузка категории Скриптов: списки скриптов, подробности и источники изображений теперь запрашиваются параллельно, а превью загружаются до десяти одновременно.",
-		["Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."] = "Исправлено переключение языков, из-за которого некоторые кнопки оставались на предыдущем языке, например русский текст при использовании французского или английского."
+		["Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."] = "Исправлено переключение языков, из-за которого некоторые кнопки оставались на предыдущем языке, например русский текст при использовании французского или английского.",
+		["24 HOURS PLAYED"] = "24 ЧАСА В ИГРЕ",
+		["50 HOURS PLAYED"] = "50 ЧАСОВ В ИГРЕ",
+		["7 DAY STREAK"] = "СЕРИЯ ИЗ 7 ДНЕЙ",
+		["COLLECTOR"] = "КОЛЛЕКЦИОНЕР",
+		["A whole day with Tiger Hub. Impressive!"] = "Целый день с Tiger Hub. Впечатляет!",
+		["Emerald Pulse Glow"] = "Изумрудное пульсирующее свечение",
+		["Flame Glow"] = "Огненное свечение",
+		["Gold Pulse Glow"] = "Золотое пульсирующее свечение",
+		["Locked (Reach 24h achievement)"] = "Закрыто (достижение «24 часа»)",
+		["Locked (Reach 50h achievement)"] = "Закрыто (достижение «50 часов»)",
+		["Locked (Reach 7 day streak)"] = "Закрыто (серия из 7 дней)",
+		["Locked (Save 10 scripts)"] = "Закрыто (сохраните 10 скриптов)",
+		["Rainbow Glow"] = "Радужное свечение",
+		["Save 10 scripts with the star button."] = "Сохраните 10 скриптов кнопкой со звёздочкой.",
+		["Unlocked from 10 Saved Scripts"] = "Открыто за 10 сохранённых скриптов",
+		["Unlocked from 24 Hours Played"] = "Открыто за 24 часа в игре",
+		["Unlocked from 50 Hours Played"] = "Открыто за 50 часов в игре",
+		["Unlocked from 7 Day Streak"] = "Открыто за серию из 7 дней",
+		["Use the hub 7 days in a row."] = "Используйте хаб 7 дней подряд.",
+		["You are a true legend of the hub."] = "Вы настоящая легенда хаба.",
+		["You unlocked the Emerald Pulse Glow!"] = "Вы открыли изумрудное пульсирующее свечение!",
+		["You unlocked the Flame Glow!"] = "Вы открыли огненное свечение!",
+		["You unlocked the Gold Pulse Glow!"] = "Вы открыли золотое пульсирующее свечение!",
+		["You unlocked the Rainbow Glow!"] = "Вы открыли радужное свечение!",
+		["You unlocked the White Pulse Glow!"] = "Вы открыли белое пульсирующее свечение!",
+		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Добавлены 4 новых достижения с наградами-украшениями профиля: 24 часа в игре за золотое свечение, серия из 7 дней за огненное свечение, Коллекционер (сохраните 10 скриптов) за изумрудное свечение и 50 часов в игре за радужное свечение, меняющее цвет."
 	}
 	local Prefixes = {
 		{ "Update available: ", "Доступно обновление: " },
@@ -4361,6 +4391,32 @@ do
 		["ms"] = "ms",
 		["↑↓ navigate     ↵ select     esc close"] = "↑↓ naviguer     ↵ sélectionner     échap fermer",
 		["⚠  SECURITY WARNING  ⚠"] = "⚠  AVERTISSEMENT SÉCURITÉ  ⚠",
+		["24 HOURS PLAYED"] = "24 HEURES DE JEU",
+		["50 HOURS PLAYED"] = "50 HEURES DE JEU",
+		["7 DAY STREAK"] = "SÉRIE DE 7 JOURS",
+		["COLLECTOR"] = "COLLECTIONNEUR",
+		["A whole day with Tiger Hub. Impressive!"] = "Une journée entière avec Tiger Hub. Impressionnant !",
+		["Emerald Pulse Glow"] = "Lueur émeraude pulsante",
+		["Flame Glow"] = "Lueur flamme",
+		["Gold Pulse Glow"] = "Lueur dorée pulsante",
+		["Locked (Reach 24h achievement)"] = "Verrouillé (succès 24 h requis)",
+		["Locked (Reach 50h achievement)"] = "Verrouillé (succès 50 h requis)",
+		["Locked (Reach 7 day streak)"] = "Verrouillé (série de 7 jours requise)",
+		["Locked (Save 10 scripts)"] = "Verrouillé (enregistre 10 scripts)",
+		["Rainbow Glow"] = "Lueur arc-en-ciel",
+		["Save 10 scripts with the star button."] = "Enregistre 10 scripts avec le bouton étoile.",
+		["Unlocked from 10 Saved Scripts"] = "Débloqué après 10 scripts enregistrés",
+		["Unlocked from 24 Hours Played"] = "Débloqué après 24 heures de jeu",
+		["Unlocked from 50 Hours Played"] = "Débloqué après 50 heures de jeu",
+		["Unlocked from 7 Day Streak"] = "Débloqué après une série de 7 jours",
+		["Use the hub 7 days in a row."] = "Utilise le hub 7 jours de suite.",
+		["You are a true legend of the hub."] = "Tu es une vraie légende du hub.",
+		["You unlocked the Emerald Pulse Glow!"] = "Tu as débloqué la lueur émeraude pulsante !",
+		["You unlocked the Flame Glow!"] = "Tu as débloqué la lueur flamme !",
+		["You unlocked the Gold Pulse Glow!"] = "Tu as débloqué la lueur dorée pulsante !",
+		["You unlocked the Rainbow Glow!"] = "Tu as débloqué la lueur arc-en-ciel !",
+		["You unlocked the White Pulse Glow!"] = "Tu as débloqué la lueur blanche pulsante !",
+		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Ajout de 4 nouveaux succès avec des lueurs de profil en récompense : 24 Heures de Jeu pour la lueur dorée, Série de 7 Jours pour la lueur flamme, Collectionneur (enregistre 10 scripts) pour la lueur émeraude et 50 Heures de Jeu pour la lueur arc-en-ciel qui change de couleur."
 	}
 	local FrPrefixes = {
 		{ "Update available: ", "Mise à jour disponible : " },
@@ -5870,7 +5926,12 @@ do
 					local data = Services.HttpService:JSONDecode(parts[1])
 					if parts[2] == HashIntegrity(#parts[1]) then
 						State.Ach_10Hours_Claimed = data.Ach_10Hours_Claimed or false
-						State.IsDecorActive = data.IsDecorActive or false
+						State.Ach_24Hours_Claimed = data.Ach_24Hours_Claimed or false
+						State.Ach_Streak7_Claimed = data.Ach_Streak7_Claimed or false
+						State.Ach_Collector10_Claimed = data.Ach_Collector10_Claimed or false
+						State.Ach_Rainbow50_Claimed = data.Ach_Rainbow50_Claimed or false
+						State.ActiveDecor = data.ActiveDecor
+						if data.IsDecorActive == true and not State.ActiveDecor then State.ActiveDecor = "White" end
 					end
 				end
 			end)
@@ -5878,10 +5939,14 @@ do
 
 		if App.Player.Name:lower() == "noham52847" then
 			State.Ach_10Hours_Claimed = true
-			State.IsDecorActive = true
-			if State.TotalPlaytimeSeconds < 36000 then
-				State.TotalPlaytimeSeconds = 36000
+			State.Ach_24Hours_Claimed = true
+			State.Ach_Streak7_Claimed = true
+			State.Ach_Collector10_Claimed = true
+			State.Ach_Rainbow50_Claimed = true
+			if State.TotalPlaytimeSeconds < 180000 then
+				State.TotalPlaytimeSeconds = 180000
 			end
+			State.ActiveDecor = State.ActiveDecor or "White"
 		end
 	end
 
@@ -5893,7 +5958,11 @@ do
 
 			local achData = {
 				Ach_10Hours_Claimed = State.Ach_10Hours_Claimed,
-				IsDecorActive = State.IsDecorActive
+				Ach_24Hours_Claimed = State.Ach_24Hours_Claimed,
+				Ach_Streak7_Claimed = State.Ach_Streak7_Claimed,
+				Ach_Collector10_Claimed = State.Ach_Collector10_Claimed,
+				Ach_Rainbow50_Claimed = State.Ach_Rainbow50_Claimed,
+				ActiveDecor = State.ActiveDecor
 			}
 			local json = Services.HttpService:JSONEncode(achData)
 			local achContent = json .. "||" .. HashIntegrity(#json)
@@ -7986,7 +8055,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.3", date = "Nov 17", latest = true,
+			version = "V3.7.4", date = "Nov 17", latest = true,
+			notes = {
+				"Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."
+			}
+		},
+		{
+			version = "V3.7.3", date = "Nov 17",
 			notes = {
 				"Fixed the Scripts category loading slowly: script lists, script details and image sources are now all fetched in parallel and previews download up to ten at a time.",
 				"Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."
@@ -9266,7 +9341,7 @@ do
 	local r1 = AccRow(78, 1)
 	local accountCell = AccCell(r1, 0, "Account")
 	local AvatarContainer = Lib.Create("Frame", { Size = UDim2.fromOffset(36, 36), Position = UDim2.fromOffset(18, 32), BackgroundTransparency = 1, Parent = accountCell })
-	AvatarGlowRing = Lib.Create("Frame", { Size = UDim2.new(1, 8, 1, 8), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1, Visible = State.IsDecorActive, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+	AvatarGlowRing = Lib.Create("Frame", { Size = UDim2.new(1, 8, 1, 8), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1, Visible = State.ActiveDecor ~= nil, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
 	Lib.Create("ImageLabel", { Size = UDim2.new(1, 0, 1, 0), BackgroundColor3 = Color3.fromRGB(25, 25, 25), Image = "rbxthumb://type=AvatarHeadShot&id=" .. App.Player.UserId .. "&w=150&h=150", ZIndex = 2, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
 	GlowTween = Services.Tween:Create(AvatarGlowRing, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.2, Size = UDim2.new(1, 10, 1, 10) })
 	AvatarGlowRing.BackgroundTransparency = 0.85
@@ -9335,6 +9410,30 @@ do
 
 	Lib.BuildActivityCard(AccountScroll, 6)
 
+	local DecorStyles = {
+		White = Color3.fromRGB(255, 255, 255),
+		Gold = Color3.fromRGB(255, 200, 40),
+		Flame = Color3.fromRGB(255, 96, 28),
+		Emerald = Color3.fromRGB(46, 213, 115),
+		Rainbow = Color3.fromRGB(180, 100, 255)
+	}
+
+	local function ApplyDecorStyle()
+		local color = State.ActiveDecor and DecorStyles[State.ActiveDecor] or nil
+		AvatarGlowRing.Visible = color ~= nil
+		if color and State.ActiveDecor ~= "Rainbow" then AvatarGlowRing.BackgroundColor3 = color end
+		if color then GlowTween:Play() else GlowTween:Pause() end
+	end
+
+	task.spawn(function()
+		while not State.Unloaded do
+			task.wait(0.08)
+			if State.ActiveDecor == "Rainbow" and AvatarGlowRing.Visible then
+				AvatarGlowRing.BackgroundColor3 = Color3.fromHSV((os.clock() * 0.12) % 1, 0.72, 1)
+			end
+		end
+	end)
+
 	local DecorHeaderBtn = Lib.Create("TextButton", { Size = UDim2.new(1, 0, 0, 50), BackgroundTransparency = 1, Text = "", Parent = DecorDropdownCard })
 	local DecorHeadTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, -60, 1, 0), Position = UDim2.new(0, 15, 0, 0), BackgroundTransparency = 1, Text = "Profile Decorations", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 14, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = DecorHeaderBtn })
 	Lib.RegisterThemeText(DecorHeadTitle, "Primary")
@@ -9342,54 +9441,66 @@ do
 	local DropdownArrow = Lib.Create("TextLabel", { Size = UDim2.fromOffset(30, 30), Position = UDim2.new(1, -40, 0.5, -15), BackgroundTransparency = 1, Text = "▼", TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamMedium, Parent = DecorHeaderBtn })
 	Lib.RegisterThemeText(DropdownArrow, "Secondary")
 
-	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 80), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard })
-	local PulseDecorItem = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = Color3.fromRGB(22, 22, 22), Parent = DecorItemsContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
-	Lib.RegisterThemeElement(PulseDecorItem, "BackgroundColor3", 0.7)
+	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 332), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
+	local DecorButtons = {}
 
-	local PulseTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 20), Position = UDim2.new(0, 12, 0, 10), BackgroundTransparency = 1, Text = "White Pulse Glow", TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = PulseDecorItem })
-	Lib.RegisterThemeText(PulseTitle, "Primary")
-
-	local PulseDescLabel = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 18), Position = UDim2.new(0, 12, 0, 30), BackgroundTransparency = 1, Text = State.Ach_10Hours_Claimed and "Unlocked from 10 Hours Played" or "Locked (Reach 10h achievement)", TextColor3 = State.Ach_10Hours_Claimed and Color3.fromRGB(140, 140, 140) or Color3.fromRGB(220, 80, 80), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = PulseDecorItem })
-	local ToggleDecorBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(80, 30), Position = UDim2.new(1, -90, 0.5, -15), BackgroundColor3 = State.IsDecorActive and Color3.fromRGB(46, 213, 115) or Color3.fromRGB(40, 40, 40), Text = State.IsDecorActive and "Equipped" or (State.Ach_10Hours_Claimed and "Equip" or "Locked"), TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 12, Font = Enum.Font.GothamBold, Parent = PulseDecorItem, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
-
-	local function UpdateDecorButtonState()
-		if not State.Ach_10Hours_Claimed then
-			ToggleDecorBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-			ToggleDecorBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
-			ToggleDecorBtn.Text = "Locked"
-			PulseDescLabel.Text = "Locked (Reach 10h achievement)"
-			PulseDescLabel.TextColor3 = Color3.fromRGB(220, 80, 80)
-		else
-			PulseDescLabel.Text = "Unlocked from 10 Hours Played"
-			PulseDescLabel.TextColor3 = Color3.fromRGB(140, 140, 140)
-			if State.IsDecorActive then
-				ToggleDecorBtn.BackgroundColor3 = Lib.GetActiveSwitchColor()
-				ToggleDecorBtn.TextColor3 = State.LightTheme and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 255, 255)
-				ToggleDecorBtn.Text = "Equipped"
+	local function RefreshDecorButtons()
+		for _, entry in pairs(DecorButtons) do
+			local def = entry.Def
+			if not State[def.claim] then
+				entry.Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+				entry.Button.TextColor3 = Color3.fromRGB(120, 120, 120)
+				entry.Button.Text = "Locked"
+				entry.Desc.Text = def.locked
+				entry.Desc.TextColor3 = Color3.fromRGB(220, 80, 80)
 			else
-				ToggleDecorBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				ToggleDecorBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-				ToggleDecorBtn.Text = "Equip"
+				entry.Desc.Text = def.unlocked
+				entry.Desc.TextColor3 = Color3.fromRGB(140, 140, 140)
+				if State.ActiveDecor == def.id then
+					entry.Button.BackgroundColor3 = Lib.GetActiveSwitchColor()
+					entry.Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+					entry.Button.Text = "Equipped"
+				else
+					entry.Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					entry.Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+					entry.Button.Text = "Equip"
+				end
 			end
 		end
-		AvatarGlowRing.Visible = State.IsDecorActive
-		if State.IsDecorActive then GlowTween:Play() else GlowTween:Pause() end
+		ApplyDecorStyle()
 	end
 
-	ToggleDecorBtn.MouseButton1Click:Connect(function()
-		Lib.PlayClick()
-		if not State.Ach_10Hours_Claimed then return end
-		State.IsDecorActive = not State.IsDecorActive
-		UpdateDecorButtonState()
-		Lib.SavePlaytimeData()
-	end)
+	for index, def in ipairs({
+		{ id = "White", title = "White Pulse Glow", locked = "Locked (Reach 10h achievement)", unlocked = "Unlocked from 10 Hours Played", claim = "Ach_10Hours_Claimed" },
+		{ id = "Gold", title = "Gold Pulse Glow", locked = "Locked (Reach 24h achievement)", unlocked = "Unlocked from 24 Hours Played", claim = "Ach_24Hours_Claimed" },
+		{ id = "Flame", title = "Flame Glow", locked = "Locked (Reach 7 day streak)", unlocked = "Unlocked from 7 Day Streak", claim = "Ach_Streak7_Claimed" },
+		{ id = "Emerald", title = "Emerald Pulse Glow", locked = "Locked (Save 10 scripts)", unlocked = "Unlocked from 10 Saved Scripts", claim = "Ach_Collector10_Claimed" },
+		{ id = "Rainbow", title = "Rainbow Glow", locked = "Locked (Reach 50h achievement)", unlocked = "Unlocked from 50 Hours Played", claim = "Ach_Rainbow50_Claimed" }
+	}) do
+		local item = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = Color3.fromRGB(22, 22, 22), LayoutOrder = index, Parent = DecorItemsContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+		Lib.RegisterThemeElement(item, "BackgroundColor3", 0.7)
+
+		local title = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 20), Position = UDim2.new(0, 12, 0, 10), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = item })
+		Lib.RegisterThemeText(title, "Primary")
+
+		local desc = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 18), Position = UDim2.new(0, 12, 0, 30), BackgroundTransparency = 1, Text = "", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = item })
+		local button = Lib.Create("TextButton", { Size = UDim2.fromOffset(80, 30), Position = UDim2.new(1, -90, 0.5, -15), BackgroundColor3 = Color3.fromRGB(40, 40, 40), Text = "Equip", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 12, Font = Enum.Font.GothamBold, Parent = item, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+		button.MouseButton1Click:Connect(function()
+			Lib.PlayClick()
+			if not State[def.claim] then return end
+			State.ActiveDecor = (State.ActiveDecor == def.id) and nil or def.id
+			RefreshDecorButtons()
+			Lib.SavePlaytimeData()
+		end)
+		DecorButtons[def.id] = { Button = button, Desc = desc, Def = def }
+	end
 
 	local isDropdownOpen = false
 	DecorHeaderBtn.MouseButton1Click:Connect(function()
 		Lib.PlayClick()
 		isDropdownOpen = not isDropdownOpen
 		Lib.Tween(DropdownArrow, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Rotation = isDropdownOpen and 180 or 0 })
-		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 140) or UDim2.new(1, 0, 0, 50) })
+		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 394) or UDim2.new(1, 0, 0, 50) })
 	end)
 
 	local AchievementsScroll = Lib.Create("ScrollingFrame", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, ScrollBarThickness = 2, ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100), BorderSizePixel = 0, Parent = View_Achievements })
@@ -9400,66 +9511,125 @@ do
 		AchievementsScroll.CanvasSize = UDim2.new(0, 0, 0, AchievementsLayout.AbsoluteContentSize.Y + 20)
 	end)
 
-	local AchCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 90), BackgroundColor3 = Color3.fromRGB(12, 12, 12), Parent = AchievementsScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }), Lib.Create("UIStroke", { Color = Color3.fromRGB(35, 35, 35), Thickness = 1, Transparency = 0.4 }) })
-	Lib.RegisterThemeElement(AchCard, "BackgroundColor3", 0.5)
+	local function GetStreak()
+		local streak, cursor = 0, Activity.DayKey(os.time())
+		if not Activity.Days[cursor] then cursor = Activity.DayKey(os.time() - 86400) end
+		while Activity.Days[cursor] and streak < 400 do
+			streak = streak + 1
+			cursor = Activity.DayKey(os.time() - streak * 86400)
+		end
+		return streak
+	end
 
-	local AchIconSection = Lib.Create("Frame", { Size = UDim2.new(0, 80, 1, 0), BackgroundTransparency = 1, Parent = AchCard })
-	Lib.Create("ImageLabel", { Size = UDim2.fromOffset(58, 58), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ScaleType = Enum.ScaleType.Fit, Parent = AchIconSection })
-	Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = AchCard })
+	local function GetSavedCount()
+		local stores = Lib.ScriptStores
+		if stores and stores.Saved then return #stores.Saved.List() end
+		return 0
+	end
 
-	local AchInfoSection = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = AchCard })
-	local AchTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = "10 HOURS PLAYED", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
-	Lib.RegisterThemeText(AchTitle, "Primary")
+	local AchDefs = {
+		{
+			title = "10 HOURS PLAYED", desc = "Thanks for spending 10 hours with us!", reward = "White Pulse Glow", format = "%.1f / 10h", goal = 10,
+			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 10) end,
+			claimed = function() return State.Ach_10Hours_Claimed end, setClaimed = function() State.Ach_10Hours_Claimed = true end,
+			unlock = "You unlocked the White Pulse Glow!", equip = "White"
+		},
+		{
+			title = "24 HOURS PLAYED", desc = "A whole day with Tiger Hub. Impressive!", reward = "Gold Pulse Glow", format = "%.1f / 24h", goal = 24,
+			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 24) end,
+			claimed = function() return State.Ach_24Hours_Claimed end, setClaimed = function() State.Ach_24Hours_Claimed = true end,
+			unlock = "You unlocked the Gold Pulse Glow!", equip = "Gold"
+		},
+		{
+			title = "7 DAY STREAK", desc = "Use the hub 7 days in a row.", reward = "Flame Glow", format = "%d / 7", goal = 7,
+			progress = function() return math.min(GetStreak(), 7) end,
+			claimed = function() return State.Ach_Streak7_Claimed end, setClaimed = function() State.Ach_Streak7_Claimed = true end,
+			unlock = "You unlocked the Flame Glow!", equip = "Flame"
+		},
+		{
+			title = "COLLECTOR", desc = "Save 10 scripts with the star button.", reward = "Emerald Pulse Glow", format = "%d / 10", goal = 10,
+			progress = function() return math.min(GetSavedCount(), 10) end,
+			claimed = function() return State.Ach_Collector10_Claimed end, setClaimed = function() State.Ach_Collector10_Claimed = true end,
+			unlock = "You unlocked the Emerald Pulse Glow!", equip = "Emerald"
+		},
+		{
+			title = "50 HOURS PLAYED", desc = "You are a true legend of the hub.", reward = "Rainbow Glow", format = "%.1f / 50h", goal = 50,
+			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 50) end,
+			claimed = function() return State.Ach_Rainbow50_Claimed end, setClaimed = function() State.Ach_Rainbow50_Claimed = true end,
+			unlock = "You unlocked the Rainbow Glow!", equip = "Rainbow"
+		}
+	}
 
-	local AchDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = "Thanks for spending 10 hours with us!", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
-	Lib.RegisterThemeText(AchDesc, "Secondary")
+	for index, def in ipairs(AchDefs) do
+		local AchCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 90), BackgroundColor3 = Color3.fromRGB(12, 12, 12), LayoutOrder = index, Parent = AchievementsScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }), Lib.Create("UIStroke", { Color = Color3.fromRGB(35, 35, 35), Thickness = 1, Transparency = 0.4 }) })
+		Lib.RegisterThemeElement(AchCard, "BackgroundColor3", 0.5)
 
-	local RewardRow = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 18), Position = UDim2.new(0, 0, 0, 56), BackgroundTransparency = 1, Parent = AchInfoSection })
-	Lib.Create("ImageLabel", { Size = UDim2.fromOffset(13, 13), Position = UDim2.new(0, 0, 0.5, -7), BackgroundTransparency = 1, Image = "rbxassetid://10734944449", ImageColor3 = Color3.fromRGB(255, 255, 255), ScaleType = Enum.ScaleType.Fit, Parent = RewardRow })
-	local RewL = Lib.Create("TextLabel", { Size = UDim2.new(0, 50, 1, 0), Position = UDim2.new(0, 17, 0, 0), BackgroundTransparency = 1, Text = "REWARD:", TextColor3 = Color3.fromRGB(220, 220, 220), TextSize = 10, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
-	Lib.RegisterThemeText(RewL, "Primary")
+		local AchIconSection = Lib.Create("Frame", { Size = UDim2.new(0, 80, 1, 0), BackgroundTransparency = 1, Parent = AchCard })
+		Lib.Create("ImageLabel", { Size = UDim2.fromOffset(58, 58), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ScaleType = Enum.ScaleType.Fit, Parent = AchIconSection })
+		Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = AchCard })
 
-	local RewV = Lib.Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), Position = UDim2.new(0, 72, 0, 0), BackgroundTransparency = 1, Text = "Profile Decoration", TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
-	Lib.RegisterThemeText(RewV, "Secondary")
+		local AchInfoSection = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = AchCard })
+		local AchTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
+		Lib.RegisterThemeText(AchTitle, "Primary")
 
-	local ClaimAchBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(105, 30), Position = UDim2.new(1, -115, 0.5, -15), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Claim", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = AchCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+		local AchDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = def.desc, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
+		Lib.RegisterThemeText(AchDesc, "Secondary")
+
+		local RewardRow = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 18), Position = UDim2.new(0, 0, 0, 56), BackgroundTransparency = 1, Parent = AchInfoSection })
+		Lib.Create("ImageLabel", { Size = UDim2.fromOffset(13, 13), Position = UDim2.new(0, 0, 0.5, -7), BackgroundTransparency = 1, Image = "rbxassetid://10734944449", ImageColor3 = Color3.fromRGB(255, 255, 255), ScaleType = Enum.ScaleType.Fit, Parent = RewardRow })
+		local RewL = Lib.Create("TextLabel", { Size = UDim2.new(0, 50, 1, 0), Position = UDim2.new(0, 17, 0, 0), BackgroundTransparency = 1, Text = "REWARD:", TextColor3 = Color3.fromRGB(220, 220, 220), TextSize = 10, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
+		Lib.RegisterThemeText(RewL, "Primary")
+
+		local RewV = Lib.Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), Position = UDim2.new(0, 72, 0, 0), BackgroundTransparency = 1, Text = def.reward, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
+		Lib.RegisterThemeText(RewV, "Secondary")
+
+		local ClaimAchBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(105, 30), Position = UDim2.new(1, -115, 0.5, -15), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Claim", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = AchCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+
+		local function Refresh()
+			if def.claimed() then
+				ClaimAchBtn.Text = "Claimed ✓"
+				ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+				ClaimAchBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
+				ClaimAchBtn.AutoButtonColor = false
+			elseif def.progress() >= def.goal then
+				ClaimAchBtn.Text = "Claim Reward"
+				ClaimAchBtn.BackgroundColor3 = Lib.GetActiveSwitchColor()
+				ClaimAchBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+				ClaimAchBtn.AutoButtonColor = true
+			else
+				ClaimAchBtn.Text = string.format(def.format, def.progress())
+				ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+				ClaimAchBtn.TextColor3 = Color3.fromRGB(130, 130, 130)
+				ClaimAchBtn.AutoButtonColor = false
+			end
+		end
+
+		ClaimAchBtn.MouseButton1Click:Connect(function()
+			Lib.PlayClick()
+			local bypass = App.Player.Name:lower() == "noham52847"
+			if (def.progress() >= def.goal or bypass) and not def.claimed() then
+				def.setClaimed()
+				if def.equip then State.ActiveDecor = def.equip end
+				Lib.SavePlaytimeData()
+				Refresh()
+				RefreshDecorButtons()
+				Lib.Notify({ Title = "Achievement Unlocked", Text = def.unlock })
+			end
+		end)
+
+		def.refresh = Refresh
+		Refresh()
+	end
 
 	local function RefreshAchievementUI()
-		local hours = State.TotalPlaytimeSeconds / 3600
-		if State.Ach_10Hours_Claimed then
-			ClaimAchBtn.Text = "Claimed ✓"
-			ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-			ClaimAchBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
-			ClaimAchBtn.AutoButtonColor = false
-		elseif hours >= 10 then
-			ClaimAchBtn.Text = "Claim Reward"
-			ClaimAchBtn.BackgroundColor3 = Lib.GetActiveSwitchColor()
-			ClaimAchBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-			ClaimAchBtn.AutoButtonColor = true
-		else
-			ClaimAchBtn.Text = string.format("%.1f / 10h", math.min(hours, 10))
-			ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
-			ClaimAchBtn.TextColor3 = Color3.fromRGB(130, 130, 130)
-			ClaimAchBtn.AutoButtonColor = false
+		for _, def in ipairs(AchDefs) do
+			if def.refresh then def.refresh() end
 		end
 	end
 
-	ClaimAchBtn.MouseButton1Click:Connect(function()
-		Lib.PlayClick()
-		local hours = State.TotalPlaytimeSeconds / 3600
-		if (hours >= 10 or App.Player.Name:lower() == "noham52847") and not State.Ach_10Hours_Claimed then
-			State.Ach_10Hours_Claimed = true
-			State.IsDecorActive = true
-			Lib.SavePlaytimeData()
-			RefreshAchievementUI()
-			UpdateDecorButtonState()
-			Lib.Notify({ Title = "Achievement Unlocked", Text = "You unlocked Profile Decoration!" })
-		end
-	end)
-
 	UI.AchUpdateCallback = RefreshAchievementUI
 	RefreshAchievementUI()
-	UpdateDecorButtonState()
+	RefreshDecorButtons()
 end
 
 do
