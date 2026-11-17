@@ -222,8 +222,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.4",
-	Display = "V3.7.4",
+	Current = "3.7.5",
+	Display = "V3.7.5",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2520,7 +2520,8 @@ do
 		["You unlocked the Gold Pulse Glow!"] = "Вы открыли золотое пульсирующее свечение!",
 		["You unlocked the Rainbow Glow!"] = "Вы открыли радужное свечение!",
 		["You unlocked the White Pulse Glow!"] = "Вы открыли белое пульсирующее свечение!",
-		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Добавлены 4 новых достижения с наградами-украшениями профиля: 24 часа в игре за золотое свечение, серия из 7 дней за огненное свечение, Коллекционер (сохраните 10 скриптов) за изумрудное свечение и 50 часов в игре за радужное свечение, меняющее цвет."
+		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Добавлены 4 новых достижения с наградами-украшениями профиля: 24 часа в игре за золотое свечение, серия из 7 дней за огненное свечение, Коллекционер (сохраните 10 скриптов) за изумрудное свечение и 50 часов в игре за радужное свечение, меняющее цвет.",
+		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "На карточках достижений теперь показывается превью кольца-награды: белое, золотое, огненное и изумрудное, а для награды за 50 часов — анимированное радужное."
 	}
 	local Prefixes = {
 		{ "Update available: ", "Доступно обновление: " },
@@ -4416,7 +4417,8 @@ do
 		["You unlocked the Gold Pulse Glow!"] = "Tu as débloqué la lueur dorée pulsante !",
 		["You unlocked the Rainbow Glow!"] = "Tu as débloqué la lueur arc-en-ciel !",
 		["You unlocked the White Pulse Glow!"] = "Tu as débloqué la lueur blanche pulsante !",
-		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Ajout de 4 nouveaux succès avec des lueurs de profil en récompense : 24 Heures de Jeu pour la lueur dorée, Série de 7 Jours pour la lueur flamme, Collectionneur (enregistre 10 scripts) pour la lueur émeraude et 50 Heures de Jeu pour la lueur arc-en-ciel qui change de couleur."
+		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Ajout de 4 nouveaux succès avec des lueurs de profil en récompense : 24 Heures de Jeu pour la lueur dorée, Série de 7 Jours pour la lueur flamme, Collectionneur (enregistre 10 scripts) pour la lueur émeraude et 50 Heures de Jeu pour la lueur arc-en-ciel qui change de couleur.",
+		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "Les cartes de succès affichent maintenant un aperçu de l'anneau de récompense : blanc, doré, flamme et émeraude, avec un arc-en-ciel animé pour la récompense des 50 heures."
 	}
 	local FrPrefixes = {
 		{ "Update available: ", "Mise à jour disponible : " },
@@ -8055,7 +8057,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.4", date = "Nov 17", latest = true,
+			version = "V3.7.5", date = "Nov 17", latest = true,
+			notes = {
+				"Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."
+			}
+		},
+		{
+			version = "V3.7.4", date = "Nov 17",
 			notes = {
 				"Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."
 			}
@@ -9529,31 +9537,31 @@ do
 
 	local AchDefs = {
 		{
-			title = "10 HOURS PLAYED", desc = "Thanks for spending 10 hours with us!", reward = "White Pulse Glow", format = "%.1f / 10h", goal = 10,
+			title = "10 HOURS PLAYED", desc = "Thanks for spending 10 hours with us!", reward = "White Pulse Glow", format = "%.1f / 10h", goal = 10, previewColor = Color3.fromRGB(255, 255, 255),
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 10) end,
 			claimed = function() return State.Ach_10Hours_Claimed end, setClaimed = function() State.Ach_10Hours_Claimed = true end,
 			unlock = "You unlocked the White Pulse Glow!", equip = "White"
 		},
 		{
-			title = "24 HOURS PLAYED", desc = "A whole day with Tiger Hub. Impressive!", reward = "Gold Pulse Glow", format = "%.1f / 24h", goal = 24,
+			title = "24 HOURS PLAYED", desc = "A whole day with Tiger Hub. Impressive!", reward = "Gold Pulse Glow", format = "%.1f / 24h", goal = 24, previewColor = Color3.fromRGB(255, 200, 40),
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 24) end,
 			claimed = function() return State.Ach_24Hours_Claimed end, setClaimed = function() State.Ach_24Hours_Claimed = true end,
 			unlock = "You unlocked the Gold Pulse Glow!", equip = "Gold"
 		},
 		{
-			title = "7 DAY STREAK", desc = "Use the hub 7 days in a row.", reward = "Flame Glow", format = "%d / 7", goal = 7,
+			title = "7 DAY STREAK", desc = "Use the hub 7 days in a row.", reward = "Flame Glow", format = "%d / 7", goal = 7, previewColor = Color3.fromRGB(255, 96, 28),
 			progress = function() return math.min(GetStreak(), 7) end,
 			claimed = function() return State.Ach_Streak7_Claimed end, setClaimed = function() State.Ach_Streak7_Claimed = true end,
 			unlock = "You unlocked the Flame Glow!", equip = "Flame"
 		},
 		{
-			title = "COLLECTOR", desc = "Save 10 scripts with the star button.", reward = "Emerald Pulse Glow", format = "%d / 10", goal = 10,
+			title = "COLLECTOR", desc = "Save 10 scripts with the star button.", reward = "Emerald Pulse Glow", format = "%d / 10", goal = 10, previewColor = Color3.fromRGB(46, 213, 115),
 			progress = function() return math.min(GetSavedCount(), 10) end,
 			claimed = function() return State.Ach_Collector10_Claimed end, setClaimed = function() State.Ach_Collector10_Claimed = true end,
 			unlock = "You unlocked the Emerald Pulse Glow!", equip = "Emerald"
 		},
 		{
-			title = "50 HOURS PLAYED", desc = "You are a true legend of the hub.", reward = "Rainbow Glow", format = "%.1f / 50h", goal = 50,
+			title = "50 HOURS PLAYED", desc = "You are a true legend of the hub.", reward = "Rainbow Glow", format = "%.1f / 50h", goal = 50, previewColor = Color3.fromRGB(180, 100, 255),
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 50) end,
 			claimed = function() return State.Ach_Rainbow50_Claimed end, setClaimed = function() State.Ach_Rainbow50_Claimed = true end,
 			unlock = "You unlocked the Rainbow Glow!", equip = "Rainbow"
@@ -9565,7 +9573,22 @@ do
 		Lib.RegisterThemeElement(AchCard, "BackgroundColor3", 0.5)
 
 		local AchIconSection = Lib.Create("Frame", { Size = UDim2.new(0, 80, 1, 0), BackgroundTransparency = 1, Parent = AchCard })
-		Lib.Create("ImageLabel", { Size = UDim2.fromOffset(58, 58), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ScaleType = Enum.ScaleType.Fit, Parent = AchIconSection })
+
+		local PreviewHalo = Lib.Create("Frame", { Size = UDim2.fromOffset(62, 62), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = def.previewColor, BackgroundTransparency = 0.78, Visible = false, Parent = AchIconSection, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+		local PreviewRing = Lib.Create("Frame", { Size = UDim2.fromOffset(50, 50), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = def.previewColor, BackgroundTransparency = 0.65, Parent = AchIconSection, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+		Lib.Create("Frame", { Size = UDim2.fromOffset(38, 38), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(22, 22, 22), Parent = PreviewRing, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+
+		if def.equip == "Rainbow" then
+			task.spawn(function()
+				while not State.Unloaded do
+					task.wait(0.08)
+					if PreviewRing.Parent then
+						PreviewRing.BackgroundColor3 = Color3.fromHSV((os.clock() * 0.12) % 1, 0.72, 1)
+						PreviewHalo.BackgroundColor3 = PreviewRing.BackgroundColor3
+					end
+				end
+			end)
+		end
 		Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = AchCard })
 
 		local AchInfoSection = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = AchCard })
@@ -9586,7 +9609,10 @@ do
 		local ClaimAchBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(105, 30), Position = UDim2.new(1, -115, 0.5, -15), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Claim", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = AchCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
 
 		local function Refresh()
-			if def.claimed() then
+			local owned = def.claimed()
+			PreviewRing.BackgroundTransparency = owned and 0.08 or 0.65
+			PreviewHalo.Visible = owned
+			if owned then
 				ClaimAchBtn.Text = "Claimed ✓"
 				ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 				ClaimAchBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
