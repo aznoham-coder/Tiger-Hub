@@ -218,8 +218,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.2",
-	Display = "V3.7.2",
+	Current = "3.7.3",
+	Display = "V3.7.3",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2488,7 +2488,9 @@ do
 		["Fixed the Emotes and Animation Packs pages loading slowly: all sources are now fetched in parallel and loaded pages are cached."] = "Исправлена медленная загрузка страниц Эмоций и Наборов анимаций: все источники теперь запрашиваются параллельно, а загруженные страницы кэшируются.",
 		["Completed the French translation of the interface: every section, setting and changelog note is now translated."] = "Завершён французский перевод интерфейса: переведены все разделы, настройки и заметки обновлений.",
 		["Fixed saved config cards possibly turning invisible after deleting or creating a config: the list now rebuilds safely and groups reopen."] = "Исправлено исчезновение карточек конфигов после удаления или создания конфига: список теперь безопасно перестраивается, а группы раскрываются.",
-		["The hub is now called Tiger Hub: full rebrand with a new repository."] = "Хаб теперь называется Tiger Hub: полный ребрендинг с новым репозиторием."
+		["The hub is now called Tiger Hub: full rebrand with a new repository."] = "Хаб теперь называется Tiger Hub: полный ребрендинг с новым репозиторием.",
+		["Fixed the Scripts category loading slowly: script lists, script details and image sources are now all fetched in parallel and previews download up to ten at a time."] = "Исправлена медленная загрузка категории Скриптов: списки скриптов, подробности и источники изображений теперь запрашиваются параллельно, а превью загружаются до десяти одновременно.",
+		["Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."] = "Исправлено переключение языков, из-за которого некоторые кнопки оставались на предыдущем языке, например русский текст при использовании французского или английского."
 	}
 	local Prefixes = {
 		{ "Update available: ", "Доступно обновление: " },
@@ -3181,8 +3183,10 @@ do
 		["Fixed menu-related bugs."] = "Correction de bugs liés au menu.",
 		["Fixed saved config cards possibly turning invisible after deleting or creating a config: the list now rebuilds safely and groups reopen."] = "Correction des cartes de configs qui pouvaient devenir invisibles après suppression ou création d'une config : la liste se reconstruit maintenant en sécurité et les groupes se rouvrent.",
 		["Fixed script card images not loading when a site served WebP or relative image links."] = "Correction des images des cartes de scripts qui ne se chargeaient pas quand un site servait du WebP ou des liens d'images relatifs.",
+		["Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."] = "Correction du changement de langue qui laissait certains boutons dans la langue précédente, comme du texte russe alors qu'on utilise le français ou l'anglais.",
 		["Fixed the Developer Console and Remote Spy windows changing their transparency with Panel Transparency and their settings text being hard to read."] = "Correction des fenêtres Console Développeur et Remote Spy qui changeaient de transparence avec la transparence des panneaux, et de leur texte de réglages difficile à lire.",
 		["Fixed the Emotes and Animation Packs pages loading slowly: all sources are now fetched in parallel and loaded pages are cached."] = "Correction de la lenteur de chargement des pages Émotes et Packs d'animations : toutes les sources sont maintenant récupérées en parallèle et les pages chargées sont mises en cache.",
+		["Fixed the Scripts category loading slowly: script lists, script details and image sources are now all fetched in parallel and previews download up to ten at a time."] = "Correction de la lenteur de chargement de la catégorie Scripts : les listes de scripts, les détails des scripts et les sources d'images sont maintenant tous récupérés en parallèle et les aperçus se téléchargent jusqu'à dix en même temps.",
 		["Fixed the Scripts list getting stuck on loading after an error while building cards."] = "Correction de la liste des scripts bloquée sur le chargement après une erreur pendant la construction des cartes.",
 		["Fixed the Update Log not being translated into Russian."] = "Correction du Journal des mises à jour non traduit en russe.",
 		["Fixed the copying of loadstring references for scripts."] = "Correction de la copie des références loadstring des scripts.",
@@ -4456,36 +4460,53 @@ do
 		end
 	end)
 
-	local function Translate(text)
-		if not Active then return text end
-		local value = Active.Dict[text]
+	local Reverse = {}
+	local function ReverseFor(lang)
+		local map = Reverse[lang]
+		if not map then
+			map = {}
+			for key, value in pairs(lang.Dict) do
+				if map[value] == nil then map[value] = key end
+			end
+			Reverse[lang] = map
+		end
+		return map
+	end
+
+	local function TranslateWith(lang, text)
+		if not lang then return text end
+		local value = lang.Dict[text]
 		if value then return value end
 		if text:byte(1) == 226 and text:sub(1, 5) == "\u{2022}  " then
-			return "\u{2022}  " .. Translate(text:sub(6))
+			return "\u{2022}  " .. TranslateWith(lang, text:sub(6))
 		end
-		for i = 1, #Active.Prefixes do
-			local prefix = Active.Prefixes[i]
+		for i = 1, #lang.Prefixes do
+			local prefix = lang.Prefixes[i]
 			if text:sub(1, #prefix[1]) == prefix[1] then
 				return prefix[2] .. text:sub(#prefix[1] + 1)
 			end
 		end
-		for i = 1, #Active.Rules do
-			local rule = Active.Rules[i]
+		for i = 1, #lang.Rules do
+			local rule = lang.Rules[i]
 			local out, count = text:gsub(rule[1], rule[2])
 			if count > 0 then return out end
 		end
 		if text:find(" | ", 1, true) then
 			local parts, changed = {}, false
 			for part in (text .. " | "):gmatch("(.-) | ") do
-				local value = Active.Dict[part]
+				local value = lang.Dict[part]
 				if value then changed = true end
 				parts[#parts + 1] = value or part
 			end
 			if changed then return table.concat(parts, " | ") end
 		end
 		local month, day = text:match("^(%a%a%a) (%d+)$")
-		if month and Active.Months[month] then return day .. " " .. Active.Months[month] end
+		if month and lang.Months[month] then return day .. " " .. lang.Months[month] end
 		return text
+	end
+
+	local function Translate(text)
+		return TranslateWith(Active, text)
 	end
 
 	function Lib.Ru(text)
@@ -4520,19 +4541,42 @@ do
 		return Orig[inst] or inst.Text
 	end
 
-	local function Refresh(inst)
-		local text = inst.Text
-		local original = Orig[inst]
-		if original and Translate(original) == text then return end
+	local function Retranslate(store, inst, get, set)
+		local text = get()
+		local original = store[inst]
+		if original then
+			local target = Translate(original)
+			if target == text then return end
+			for _, lang in pairs(LangTables) do
+				if lang ~= Active and TranslateWith(lang, original) == text then
+					set(target)
+					return
+				end
+			end
+		end
 		local translated = Translate(text)
 		if translated ~= text then
-			Orig[inst] = text
-			busy = true
-			inst.Text = translated
-			busy = false
-		else
-			Orig[inst] = nil
+			store[inst] = text
+			set(translated)
+			return
 		end
+		for _, lang in pairs(LangTables) do
+			if lang ~= Active then
+				local key = ReverseFor(lang)[text]
+				if key then
+					store[inst] = key
+					set(Translate(key))
+					return
+				end
+			end
+		end
+		store[inst] = nil
+	end
+
+	local function Refresh(inst)
+		busy = true
+		pcall(Retranslate, Orig, inst, function() return inst.Text end, function(value) inst.Text = value end)
+		busy = false
 	end
 
 	local function Prepare(inst)
@@ -4545,15 +4589,16 @@ do
 				end)
 			end
 		elseif class == "TextBox" then
-			local holder = inst.PlaceholderText
-			if holder ~= "" then
-				local translated = Translate(holder)
-				if translated ~= holder then
-					OrigHolder[inst] = holder
-					inst.PlaceholderText = translated
-				end
-			end
+			Retranslate(OrigHolder, inst, function() return inst.PlaceholderText end, function(value) inst.PlaceholderText = value end)
 		end
+	end
+
+	local function WasTranslation(text, displayed)
+		if displayed == text then return true end
+		for _, lang in pairs(LangTables) do
+			if TranslateWith(lang, text) == displayed then return true end
+		end
+		return false
 	end
 
 	local function Restore()
@@ -4562,14 +4607,11 @@ do
 			Watching[inst] = nil
 		end
 		for inst, text in pairs(Orig) do
-			if inst.Parent then
-				local translated = Translate(text)
-				if inst.Text == translated then inst.Text = text end
-			end
+			if inst.Parent and WasTranslation(text, inst.Text) then inst.Text = text end
 			Orig[inst] = nil
 		end
 		for inst, text in pairs(OrigHolder) do
-			if inst.Parent and inst.PlaceholderText == Translate(text) then inst.PlaceholderText = text end
+			if inst.Parent and WasTranslation(text, inst.PlaceholderText) then inst.PlaceholderText = text end
 			OrigHolder[inst] = nil
 		end
 	end
@@ -5395,36 +5437,55 @@ function API.HTTPRequest(url, accept, extra)
 
 	local function Attempt(target)
 		local host = target:match("//([^/]+)") or target
+		local attempts = {}
 		if type(req) == "function" then
 			for _, headers in ipairs(headerSets) do
-				local ok, res = Lib.Timed(function()
-					return req({ Url = target, Method = "GET", Headers = headers })
-				end, 8)
-				if not ok then
-					Note(host, "request error " .. tostring(res))
-				elseif type(res) ~= "table" then
-					Note(host, "empty response")
-				elseif res.StatusCode and (res.StatusCode < 200 or res.StatusCode >= 300) then
-					local body = Accept(host, res.Body)
-					if body then Note(host, "HTTP " .. res.StatusCode) end
-				else
-					local body = Accept(host, res.Body)
-					if body then return body end
+				attempts[#attempts + 1] = function()
+					local ok, res = Lib.Timed(function()
+						return req({ Url = target, Method = "GET", Headers = headers })
+					end, 8)
+					if not ok then
+						Note(host, "request error " .. tostring(res))
+					elseif type(res) ~= "table" then
+						Note(host, "empty response")
+					elseif res.StatusCode and (res.StatusCode < 200 or res.StatusCode >= 300) then
+						local body = Accept(host, res.Body)
+						if body then Note(host, "HTTP " .. res.StatusCode) end
+					else
+						local body = Accept(host, res.Body)
+						if body then return body end
+					end
 				end
 			end
 		end
 		if hasGet then
-			local ok, body = Lib.Timed(function() return game:HttpGet(target) end, 8)
-			if ok then
-				local accepted = Accept(host, body)
-				if accepted then return accepted end
-			else
-				Note(host, "HttpGet error " .. tostring(body))
+			attempts[#attempts + 1] = function()
+				local ok, body = Lib.Timed(function() return game:HttpGet(target) end, 8)
+				if ok then
+					local accepted = Accept(host, body)
+					if accepted then return accepted end
+				else
+					Note(host, "HttpGet error " .. tostring(body))
+				end
 			end
 		end
-		if type(req) ~= "function" and not hasGet then
+		if #attempts == 0 then
 			Note(host, "executor has no HTTP function")
+			return nil
 		end
+		if #attempts == 1 then return attempts[1]() end
+		local winner, pending = nil, #attempts
+		for index = 1, #attempts do
+			local run = attempts[index]
+			task.spawn(function()
+				local body = run()
+				if body and not winner then winner = body end
+				pending -= 1
+			end)
+		end
+		local started = os.clock()
+		while not winner and pending > 0 and os.clock() - started < 9 do task.wait(0.05) end
+		return winner
 	end
 
 	local body = Attempt(url)
@@ -5509,7 +5570,7 @@ do
 	local ROOT, FOLDER = "TigerHub", "TigerHub/img"
 	local PLACEHOLDER = "rbxassetid://113533839488998"
 	local ACCEPT = "image/png,image/jpeg;q=0.9,*/*;q=0.1"
-	local MAX_ACTIVE, MAX_FILES, RETRY_AFTER = 6, 400, 20
+	local MAX_ACTIVE, MAX_FILES, RETRY_AFTER = 10, 400, 12
 	local EXTENSIONS = { "png", "jpg" }
 	local HttpService, Run = Services.HttpService, Services.Run
 	local supported = type(writefile) == "function" and type(isfile) == "function" and type(getcustomasset) == "function"
@@ -5566,16 +5627,27 @@ do
 			end
 		end
 		if not path then
-			for _, source in ipairs(Sources(url)) do
-				local ok, body = API.HTTPRequest(source, ACCEPT)
-				local ext = ok and type(body) == "string" and Extension(body)
-				if ext then
-					path = key .. "." .. ext
-					if not pcall(writefile, path, body) then return nil end
-					break
-				end
+			local sources = Sources(url)
+			local pending, winner, body = #sources, nil, nil
+			for index = 1, #sources do
+				local source = sources[index]
+				task.spawn(function()
+					local ok, data = API.HTTPRequest(source, ACCEPT)
+					local ext = ok and type(data) == "string" and Extension(data)
+					if ext and not winner then
+						winner, body = ext, data
+					end
+					pending -= 1
+				end)
 			end
-			if not path then return nil end
+			local started = os.clock()
+			while not winner and pending > 0 and os.clock() - started < 26 do task.wait(0.05) end
+			if winner then
+				path = key .. "." .. winner
+				if not pcall(writefile, path, body) then return nil end
+			else
+				return nil
+			end
 		end
 		local ok, asset = pcall(getcustomasset, path)
 		return ok and asset or nil
@@ -7914,7 +7986,14 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.2", date = "Nov 16", latest = true,
+			version = "V3.7.3", date = "Nov 17", latest = true,
+			notes = {
+				"Fixed the Scripts category loading slowly: script lists, script details and image sources are now all fetched in parallel and previews download up to ten at a time.",
+				"Fixed switching languages leaving some buttons in the previous language, like Russian text while using French or English."
+			}
+		},
+		{
+			version = "V3.7.2", date = "Nov 16",
 			notes = {
 				"Fixed the Emotes and Animation Packs pages loading slowly: all sources are now fetched in parallel and loaded pages are cached.",
 				"Completed the French translation of the interface: every section, setting and changelog note is now translated.",
@@ -24377,10 +24456,19 @@ do
 			urls[2] = "https://rscripts.net/api/scripts?page=" .. page .. legacy
 			urls[3] = "https://api.rscripts.net/v1/scripts?limit=30&page=" .. page .. legacy
 		end
+		local pending, won = #urls, false
 		for _, url in ipairs(urls) do
-			local decoded = Src.Decode(url)
-			if decoded and Src.ParseR(decoded, result) then break end
+			task.spawn(function()
+				local decoded = Src.Decode(url)
+				if decoded and not won then
+					won = true
+					Src.ParseR(decoded, result)
+				end
+				pending -= 1
+			end)
 		end
+		local started = os.clock()
+		while not won and pending > 0 and os.clock() - started < 30 do task.wait(0.05) end
 		return result
 	end
 
