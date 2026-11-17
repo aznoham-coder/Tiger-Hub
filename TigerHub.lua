@@ -2573,7 +2573,8 @@ do
 		["Update failed"] = "Ошибка обновления",
 		["Could not download the update."] = "Не удалось скачать обновление.",
 		["The downloaded script is invalid."] = "Скачанный скрипт повреждён.",
-		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Добавлено удалённое обновление: когда доступно обновление, кнопка «Проверить обновления» становится «Обновить сейчас» и перезапускает панель с новой версией без перезапуска игры. Также достижение DJ (1 час музыки, награда — фиолетовое свечение), огонёк рядом с серией дней, конфетти при получении каждой награды, новая вкладка «Топ» с глобальными таблицами по времени и достижениям, а также задания, открывающие своё имя в таблице, эффект искр и двойное кольцо."
+		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Добавлено удалённое обновление: когда доступно обновление, кнопка «Проверить обновления» становится «Обновить сейчас» и перезапускает панель с новой версией без перезапуска игры. Также достижение DJ (1 час музыки, награда — фиолетовое свечение), огонёк рядом с серией дней, конфетти при получении каждой награды, новая вкладка «Топ» с глобальными таблицами по времени и достижениям, а также задания, открывающие своё имя в таблице, эффект искр и двойное кольцо.",
+		["Global Leaderboard"] = "Глобальный рейтинг"
 	}
 	local Prefixes = {
 		{ "Update available: ", "Доступно обновление: " },
@@ -4516,7 +4517,8 @@ do
 		["Update failed"] = "Échec de la mise à jour",
 		["Could not download the update."] = "Impossible de télécharger la mise à jour.",
 		["The downloaded script is invalid."] = "Le script téléchargé est invalide.",
-		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Ajout de la mise à jour à distance : quand une mise à jour est disponible, le bouton Vérifier les mises à jour devient Mettre à jour et recharge le panel avec la nouvelle version sans relancer le jeu. Aussi le succès DJ (1 heure de musique, récompense : lueur violette), une flamme à côté de la série de jours, des confettis à chaque récompense réclamée, un nouvel onglet Classement avec les tops globaux Top Temps Panel et Top Succès, et des quêtes qui débloquent un pseudo de classement personnalisé, l'effet étincelles et le double anneau."
+		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Ajout de la mise à jour à distance : quand une mise à jour est disponible, le bouton Vérifier les mises à jour devient Mettre à jour et recharge le panel avec la nouvelle version sans relancer le jeu. Aussi le succès DJ (1 heure de musique, récompense : lueur violette), une flamme à côté de la série de jours, des confettis à chaque récompense réclamée, un nouvel onglet Classement avec les tops globaux Top Temps Panel et Top Succès, et des quêtes qui débloquent un pseudo de classement personnalisé, l'effet étincelles et le double anneau.",
+		["Global Leaderboard"] = "Classement mondial"
 	}
 	local FrPrefixes = {
 		{ "Update available: ", "Mise à jour disponible : " },
@@ -9297,25 +9299,47 @@ function Lib.BuildTop(group)
 		return out, mine
 	end
 
-	local function BuildSection(order, title, sortField, formatValue)
-		local card = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = order, Parent = TopScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 12) }) })
-		Lib.RegisterThemeElement(card, "BackgroundColor3", 0.5)
-		local header = Lib.Create("TextLabel", { Size = UDim2.new(1, -28, 0, 34), Position = UDim2.new(0, 14, 0, 0), BackgroundTransparency = 1, Text = title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = card })
-		Lib.RegisterThemeText(header, "Primary")
-		local rows = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Parent = card, Lib.Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder }) })
-		return rows
+	local Board = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = 1, Parent = TopScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 12) }) })
+	Lib.RegisterThemeElement(Board, "BackgroundColor3", 0.5)
+
+	local BoardHead = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 42), BackgroundTransparency = 1, Parent = Board })
+	Lib.Create("ImageLabel", { Size = UDim2.fromOffset(18, 18), Position = UDim2.fromOffset(16, 12), BackgroundTransparency = 1, Image = "rbxassetid://10734944449", ImageColor3 = Color3.fromRGB(255, 200, 40), ScaleType = Enum.ScaleType.Fit, Parent = BoardHead })
+	local BoardTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, -140, 1, 0), Position = UDim2.fromOffset(42, 0), BackgroundTransparency = 1, Text = "Global Leaderboard", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = BoardHead })
+	Lib.RegisterThemeText(BoardTitle, "Primary")
+
+	local Columns = Lib.Create("Frame", { Size = UDim2.new(1, -28, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.new(0, 14, 0, 42), BackgroundTransparency = 1, Parent = Board, Lib.Create("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 12), SortOrder = Enum.SortOrder.LayoutOrder }), Lib.Create("UIPadding", { PaddingBottom = UDim.new(0, 12) }) })
+
+	local RankColors = {
+		[1] = Color3.fromRGB(255, 200, 40),
+		[2] = Color3.fromRGB(206, 206, 206),
+		[3] = Color3.fromRGB(205, 127, 50)
+	}
+
+	local function BuildColumn(order, title)
+		local col = Lib.Create("Frame", { Size = UDim2.new(0.5, -6, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(22, 22, 22), LayoutOrder = order, Parent = Columns, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 10) }) })
+		Lib.RegisterThemeElement(col, "BackgroundColor3", 0.7)
+		local head = Lib.Create("TextLabel", { Size = UDim2.new(1, -24, 0, 32), Position = UDim2.fromOffset(12, 0), BackgroundTransparency = 1, Text = title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = col })
+		Lib.RegisterThemeText(head, "Primary")
+		return Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.new(0, 0, 0, 32), BackgroundTransparency = 1, Parent = col, Lib.Create("UIListLayout", { Padding = UDim.new(0, 2), SortOrder = Enum.SortOrder.LayoutOrder }), Lib.Create("UIPadding", { PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), PaddingBottom = UDim.new(0, 8) }) })
 	end
 
+	local TimeRows = BuildColumn(1, "Top Panel Time")
+	local AchRows = BuildColumn(2, "Top Achievements")
+
 	local function BuildRow(container, order, rank, name, value, mine)
-		local row = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 26), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = mine and 0.93 or 1, LayoutOrder = order, Parent = container })
-		Lib.Create("TextLabel", { Size = UDim2.new(0, 34, 1, 0), Position = UDim2.new(0, 10, 0, 0), BackgroundTransparency = 1, Text = "#" .. rank, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = row })
-		Lib.Create("TextLabel", { Size = UDim2.new(1, -190, 1, 0), Position = UDim2.new(0, 44, 0, 0), BackgroundTransparency = 1, Text = name, TextColor3 = Color3.fromRGB(235, 235, 235), TextSize = 12, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row })
-		Lib.Create("TextLabel", { Size = UDim2.new(0, 130, 1, 0), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -12, 0, 0), BackgroundTransparency = 1, Text = value, TextColor3 = Color3.fromRGB(160, 160, 160), TextSize = 12, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = row })
+		local row = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 30), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = mine and 0.88 or 1, LayoutOrder = order, Parent = container, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 7) }) })
+		local badgeColor = RankColors[rank]
+		local badge = Lib.Create("Frame", { Size = UDim2.fromOffset(22, 22), Position = UDim2.new(0, 5, 0.5, 0), AnchorPoint = Vector2.new(0, 0.5), BackgroundColor3 = badgeColor or Color3.fromRGB(55, 55, 55), BorderSizePixel = 0, Parent = row, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+		Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = tostring(rank), TextColor3 = badgeColor and Color3.fromRGB(24, 24, 24) or Color3.fromRGB(200, 200, 200), TextSize = 11, Font = Enum.Font.GothamBold, Parent = badge })
+		Lib.Create("TextLabel", { Size = UDim2.new(1, -108, 1, 0), Position = UDim2.new(0, 33, 0, 0), BackgroundTransparency = 1, Text = name, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 12, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row })
+		Lib.Create("TextLabel", { Size = UDim2.new(0, 86, 1, 0), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -8, 0, 0), BackgroundTransparency = 1, Text = value, TextColor3 = Color3.fromRGB(170, 170, 170), TextSize = 11, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = row })
 	end
 
 	local function Render(data, mine)
-		for _, child in ipairs(TopScroll:GetChildren()) do
-			if child:IsA("Frame") then child:Destroy() end
+		for _, rows in ipairs({ TimeRows, AchRows }) do
+			for _, child in ipairs(rows:GetChildren()) do
+				if child:IsA("Frame") then child:Destroy() end
+			end
 		end
 		local list = {}
 		for key, entry in pairs(data.users) do
@@ -9325,22 +9349,23 @@ function Lib.BuildTop(group)
 		table.sort(list, function(a, b)
 			return (tonumber(a.entry.time) or 0) > (tonumber(b.entry.time) or 0)
 		end)
-		local timeRows = BuildSection(1, "Top Panel Time")
 		for index = 1, math.min(#list, 10) do
 			local entry = list[index].entry
-			BuildRow(timeRows, index, index, CleanName(entry.name), FormatTime(entry.time), list[index].key == MyKey)
+			BuildRow(TimeRows, index, index, CleanName(entry.name), FormatTime(entry.time), list[index].key == MyKey)
 		end
 		if #list == 0 then
-			BuildRow(timeRows, 1, 1, "Nobody yet — be the first!", "", false)
+			BuildRow(TimeRows, 1, 1, "Nobody yet — be the first!", "", false)
 		end
 
 		table.sort(list, function(a, b)
 			return (tonumber(a.entry.ach) or 0) > (tonumber(b.entry.ach) or 0)
 		end)
-		local achRows = BuildSection(2, "Top Achievements")
 		for index = 1, math.min(#list, 10) do
 			local entry = list[index].entry
-			BuildRow(achRows, index, index, CleanName(entry.name), tostring(tonumber(entry.ach) or 0), list[index].key == MyKey)
+			BuildRow(AchRows, index, index, CleanName(entry.name), tostring(tonumber(entry.ach) or 0), list[index].key == MyKey)
+		end
+		if #list == 0 then
+			BuildRow(AchRows, 1, 1, "Nobody yet — be the first!", "", false)
 		end
 
 		TopStatus.Text = "Updated " .. os.date("%H:%M", data.updated)
@@ -10209,17 +10234,17 @@ do
 
 	local QuestDefs = {
 		{
-			title = "WELCOME PLAYER", desc = "Play 5 hours to customize your name.", reward = "Custom Name", format = "%.1f / 5h", goal = 5,
+			id = "player", title = "WELCOME PLAYER", desc = "Play 5 hours to customize your name.", reward = "Custom Name", format = "%.1f / 5h", goal = 5,
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 5) end,
 			claim = "Quest_Player_Claimed", unlock = "Custom name unlocked!"
 		},
 		{
-			title = "STAR SUPPORTER", desc = "Claim 2 achievement rewards.", reward = "Sparkle Effect", format = "%d / 2", goal = 2,
+			id = "star", title = "STAR SUPPORTER", desc = "Claim 2 achievement rewards.", reward = "Sparkle Effect", format = "%d / 2", goal = 2,
 			progress = function() return math.min(ClaimedAchCount(), 2) end,
 			claim = "Quest_Star_Claimed", unlock = "Sparkle effect unlocked!"
 		},
 		{
-			title = "MUSIC LOVER", desc = "Listen to 30 minutes of music.", reward = "Double Ring Effect", format = "%.1f / 30m", goal = 30,
+			id = "music", title = "MUSIC LOVER", desc = "Listen to 30 minutes of music.", reward = "Double Ring Effect", format = "%.1f / 30m", goal = 30,
 			progress = function() return math.min(State.MusicSeconds / 60, 30) end,
 			claim = "Quest_Music_Claimed", unlock = "Double ring effect unlocked!"
 		}
@@ -10236,7 +10261,39 @@ do
 			Lib.RegisterThemeElement(QuestCard, "BackgroundColor3", 0.5)
 
 			local QuestIcon = Lib.Create("Frame", { Size = UDim2.new(0, 80, 1, 0), BackgroundTransparency = 1, Parent = QuestCard })
-			Lib.Create("ImageLabel", { Size = UDim2.fromOffset(52, 52), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ImageColor3 = Color3.fromRGB(200, 200, 200), ScaleType = Enum.ScaleType.Fit, Parent = QuestIcon })
+			if def.id == "player" then
+				local PreviewRing = Lib.Create("Frame", { Size = UDim2.fromOffset(62, 62), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 0.85, BorderSizePixel = 0, Parent = QuestIcon, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+				Services.Tween:Create(PreviewRing, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.25, Size = UDim2.fromOffset(68, 68) }):Play()
+				local PreviewPill = Lib.Create("Frame", { Size = UDim2.fromOffset(40, 40), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(24, 24, 24), BorderSizePixel = 0, Parent = QuestIcon, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+				Lib.RegisterThemeElement(PreviewPill, "BackgroundColor3", 0.7)
+				Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "Aa", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 14, Font = Enum.Font.GothamBold, Parent = PreviewPill })
+			elseif def.id == "star" then
+				local PreviewLayer = Lib.Create("Frame", { Size = UDim2.fromOffset(56, 56), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Parent = QuestIcon })
+				for PreviewDotIndex = 1, 8 do
+					local PreviewDotAngle = (PreviewDotIndex - 1) * math.pi * 2 / 8
+					local PreviewDot = Lib.Create("Frame", { Size = UDim2.fromOffset(5, 5), Position = UDim2.new(0.5, math.cos(PreviewDotAngle) * 22, 0.5, math.sin(PreviewDotAngle) * 22), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 214, 90), BackgroundTransparency = 0.45, BorderSizePixel = 0, Parent = PreviewLayer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+					task.spawn(function()
+						task.wait(PreviewDotIndex * 0.09)
+						if not State.Unloaded then
+							Services.Tween:Create(PreviewDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.05, Size = UDim2.fromOffset(7, 7) }):Play()
+						end
+					end)
+				end
+				Services.Tween:Create(PreviewLayer, TweenInfo.new(8, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), { Rotation = 360 }):Play()
+				Lib.Create("TextLabel", { Size = UDim2.fromOffset(22, 22), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Text = "✨", TextSize = 16, Font = Enum.Font.GothamBold, Parent = QuestIcon })
+			elseif def.id == "music" then
+				local MusicRing1 = Lib.Create("Frame", { Size = UDim2.fromOffset(44, 44), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(150, 70, 230), BackgroundTransparency = 0.85, BorderSizePixel = 0, Parent = QuestIcon, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+				Services.Tween:Create(MusicRing1, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.25, Size = UDim2.fromOffset(50, 50) }):Play()
+				local MusicRing2 = Lib.Create("Frame", { Size = UDim2.fromOffset(58, 58), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(150, 70, 230), BackgroundTransparency = 0.85, BorderSizePixel = 0, Parent = QuestIcon, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+				task.delay(0.45, function()
+					if not State.Unloaded then
+						Services.Tween:Create(MusicRing2, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.25, Size = UDim2.fromOffset(64, 64) }):Play()
+					end
+				end)
+				Lib.Create("TextLabel", { Size = UDim2.fromOffset(24, 24), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Text = "🎵", TextSize = 16, Font = Enum.Font.GothamBold, Parent = QuestIcon })
+			else
+				Lib.Create("ImageLabel", { Size = UDim2.fromOffset(52, 52), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ImageColor3 = Color3.fromRGB(200, 200, 200), ScaleType = Enum.ScaleType.Fit, Parent = QuestIcon })
+			end
 			Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = QuestCard })
 
 			local QuestInfo = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = QuestCard })
