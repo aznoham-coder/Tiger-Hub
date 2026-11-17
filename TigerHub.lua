@@ -9673,7 +9673,7 @@ do
 		AccountScroll.CanvasSize = UDim2.new(0, 0, 0, AccountLayout.AbsoluteContentSize.Y + 20)
 	end)
 
-	local AvatarGlowRing, GlowTween
+	local AvatarGlowRing, GlowTween, AvatarGlowRing2, GlowTween2, SparkleLayer, SparkleSpin, AccDName
 	do
 	local AccRows = {}
 
@@ -9728,15 +9728,15 @@ do
 	AvatarGlowRing.BackgroundTransparency = 0.85
 	AvatarGlowRing.Size = UDim2.new(1, 4, 1, 4)
 
-	local AvatarGlowRing2 = Lib.Create("Frame", { Size = UDim2.new(1, 8, 1, 8), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
-	local GlowTween2 = Services.Tween:Create(AvatarGlowRing2, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.2, Size = UDim2.new(1, 10, 1, 10) })
+	AvatarGlowRing2 = Lib.Create("Frame", { Size = UDim2.new(1, 8, 1, 8), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+	GlowTween2 = Services.Tween:Create(AvatarGlowRing2, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.2, Size = UDim2.new(1, 10, 1, 10) })
 	AvatarGlowRing2.BackgroundTransparency = 0.85
 	AvatarGlowRing2.Size = UDim2.new(1, 4, 1, 4)
 	task.delay(0.45, function()
 		if State.DoubleRingOn and not State.Unloaded then GlowTween2:Play() end
 	end)
 
-	local SparkleLayer = Lib.Create("Frame", { Size = UDim2.new(1, 24, 1, 24), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer })
+	SparkleLayer = Lib.Create("Frame", { Size = UDim2.new(1, 24, 1, 24), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer })
 	for sparkleIndex = 1, 10 do
 		local sparkleAngle = (sparkleIndex - 1) * math.pi * 2 / 10
 		local sparkleDot = Lib.Create("Frame", {
@@ -9756,8 +9756,8 @@ do
 			end
 		end)
 	end
-	local SparkleSpin = Services.Tween:Create(SparkleLayer, TweenInfo.new(9, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), { Rotation = 360 })
-	local AccDName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 18), Position = UDim2.fromOffset(64, 32), BackgroundTransparency = 1, Text = App.Player.DisplayName, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
+	SparkleSpin = Services.Tween:Create(SparkleLayer, TweenInfo.new(9, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), { Rotation = 360 })
+	AccDName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 18), Position = UDim2.fromOffset(64, 32), BackgroundTransparency = 1, Text = App.Player.DisplayName, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
 	Lib.RegisterThemeText(AccDName, "Primary")
 	local AccUName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 14), Position = UDim2.fromOffset(64, 51), BackgroundTransparency = 1, Text = "@" .. App.Player.Name, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
 	Lib.RegisterThemeText(AccUName, "Secondary")
@@ -10047,11 +10047,11 @@ do
 	end)
 
 	local function GetStreak()
-		local streak, cursor = 0, Activity.DayKey(os.time())
-		if not Activity.Days[cursor] then cursor = Activity.DayKey(os.time() - 86400) end
-		while Activity.Days[cursor] and streak < 400 do
+		local streak, cursor = 0, Lib.Activity.DayKey(os.time())
+		if not Lib.Activity.Days[cursor] then cursor = Lib.Activity.DayKey(os.time() - 86400) end
+		while Lib.Activity.Days[cursor] and streak < 400 do
 			streak = streak + 1
-			cursor = Activity.DayKey(os.time() - streak * 86400)
+			cursor = Lib.Activity.DayKey(os.time() - streak * 86400)
 		end
 		return streak
 	end
