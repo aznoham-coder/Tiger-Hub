@@ -189,7 +189,15 @@ local App = {
 		Ach_24Hours_Claimed = false,
 		Ach_Streak7_Claimed = false,
 		Ach_Collector10_Claimed = false,
-		Ach_Rainbow50_Claimed = false
+		Ach_Rainbow50_Claimed = false,
+		MusicSeconds = 0,
+		Ach_DJ_Claimed = false,
+		Quest_Player_Claimed = false,
+		Quest_Star_Claimed = false,
+		Quest_Music_Claimed = false,
+		CustomName = "",
+		SparkleOn = false,
+		DoubleRingOn = false
 	},
 
 	Refs = {
@@ -222,8 +230,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.5",
-	Display = "V3.7.5",
+	Current = "3.7.6",
+	Display = "V3.7.6",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2521,7 +2529,51 @@ do
 		["You unlocked the Rainbow Glow!"] = "Вы открыли радужное свечение!",
 		["You unlocked the White Pulse Glow!"] = "Вы открыли белое пульсирующее свечение!",
 		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Добавлены 4 новых достижения с наградами-украшениями профиля: 24 часа в игре за золотое свечение, серия из 7 дней за огненное свечение, Коллекционер (сохраните 10 скриптов) за изумрудное свечение и 50 часов в игре за радужное свечение, меняющее цвет.",
-		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "На карточках достижений теперь показывается превью кольца-награды: белое, золотое, огненное и изумрудное, а для награды за 50 часов — анимированное радужное."
+		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "На карточках достижений теперь показывается превью кольца-награды: белое, золотое, огненное и изумрудное, а для награды за 50 часов — анимированное радужное.",
+		["Listen to 1 hour of music in the player."] = "Послушайте 1 час музыки в плеере.",
+		["Violet Pulse Glow"] = "Фиолетовое пульсирующее свечение",
+		["Locked (Reach the DJ achievement)"] = "Закрыто (достижение «DJ»)",
+		["Unlocked from 1 Hour of Music"] = "Открыто за 1 час музыки",
+		["You unlocked the Violet Pulse Glow!"] = "Вы открыли фиолетовое пульсирующее свечение!",
+		["Quests"] = "Задания",
+		["Complete quests to unlock extras: custom name and profile effects."] = "Выполните задания, чтобы открыть бонусы: своё имя и эффекты профиля.",
+		["WELCOME PLAYER"] = "ОСВОЕНИЕ ХАБА",
+		["Play 5 hours to customize your name."] = "Играйте 5 часов, чтобы настроить своё имя.",
+		["REWARD: Custom Name"] = "НАГРАДА: своё имя",
+		["STAR SUPPORTER"] = "ЗВЁЗДНЫЙ ФАНАТ",
+		["Claim 2 achievement rewards."] = "Заберите 2 награды за достижения.",
+		["Sparkle Effect"] = "Эффект искр",
+		["REWARD: Sparkle Effect"] = "НАГРАДА: эффект искр",
+		["MUSIC LOVER"] = "МЕЛОМАН",
+		["Listen to 30 minutes of music."] = "Послушайте 30 минут музыки.",
+		["Double Ring Effect"] = "Эффект двойного кольца",
+		["REWARD: Double Ring Effect"] = "НАГРАДА: двойное кольцо",
+		["Quest Completed"] = "Задание выполнено",
+		["Custom name unlocked!"] = "Своё имя открыто!",
+		["Sparkle effect unlocked!"] = "Эффект искр открыт!",
+		["Double ring effect unlocked!"] = "Двойное кольцо открыто!",
+		["Profile Effects"] = "Эффекты профиля",
+		["Locked (Complete the Star Supporter quest)"] = "Закрыто (выполните задание «Звёздный фанат»)",
+		["Locked (Complete the Music Lover quest)"] = "Закрыто (выполните задание «Меломан»)",
+		["Unlocked from the Star Supporter quest"] = "Открыто за задание «Звёздный фанат»",
+		["Unlocked from the Music Lover quest"] = "Открыто за задание «Меломан»",
+		["Custom Name"] = "Своё имя",
+		["Custom name"] = "Своё имя",
+		["Locked — complete the Welcome Player quest"] = "Закрыто — выполните задание «Освоение хаба»",
+		["Custom name cleared"] = "Своё имя очищено",
+		["Unknown"] = "Неизвестный",
+		["Leaderboard"] = "Топ",
+		["Top Panel Time"] = "Топ по времени в хабе",
+		["Top Achievements"] = "Топ по достижениям",
+		["Syncing leaderboard..."] = "Синхронизация таблицы...",
+		["Leaderboard unavailable"] = "Таблица недоступна",
+		["Nobody yet — be the first!"] = "Пока никого — будьте первым!",
+		["Update Now"] = "Обновить сейчас",
+		["Downloading the latest version..."] = "Скачиваем последнюю версию...",
+		["Update failed"] = "Ошибка обновления",
+		["Could not download the update."] = "Не удалось скачать обновление.",
+		["The downloaded script is invalid."] = "Скачанный скрипт повреждён.",
+		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Добавлено удалённое обновление: когда доступно обновление, кнопка «Проверить обновления» становится «Обновить сейчас» и перезапускает панель с новой версией без перезапуска игры. Также достижение DJ (1 час музыки, награда — фиолетовое свечение), огонёк рядом с серией дней, конфетти при получении каждой награды, новая вкладка «Топ» с глобальными таблицами по времени и достижениям, а также задания, открывающие своё имя в таблице, эффект искр и двойное кольцо."
 	}
 	local Prefixes = {
 		{ "Update available: ", "Доступно обновление: " },
@@ -2575,6 +2627,8 @@ do
 		{ "Repeated: ", "Повторов: " },
 		{ "Custom ", "Свой " },
 		{ "Asset ", "Asset " },
+		{ "Leaderboard name: ", "Имя в таблице: " },
+		{ "Leaderboard name set to ", "Имя для таблицы: " }
 	}
 	local Months = { Jan = "янв", Feb = "фев", Mar = "мар", Apr = "апр", May = "мая", Jun = "июн", Jul = "июл", Aug = "авг", Sep = "сен", Oct = "окт", Nov = "ноя", Dec = "дек" }
 	local Rules = {
@@ -4418,7 +4472,51 @@ do
 		["You unlocked the Rainbow Glow!"] = "Tu as débloqué la lueur arc-en-ciel !",
 		["You unlocked the White Pulse Glow!"] = "Tu as débloqué la lueur blanche pulsante !",
 		["Adding 4 new achievements with profile decoration rewards: 24 Hours Played for a Gold Pulse Glow, 7 Day Streak for a Flame Glow, Collector (save 10 scripts) for an Emerald Pulse Glow and 50 Hours Played for a color-changing Rainbow Glow."] = "Ajout de 4 nouveaux succès avec des lueurs de profil en récompense : 24 Heures de Jeu pour la lueur dorée, Série de 7 Jours pour la lueur flamme, Collectionneur (enregistre 10 scripts) pour la lueur émeraude et 50 Heures de Jeu pour la lueur arc-en-ciel qui change de couleur.",
-		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "Les cartes de succès affichent maintenant un aperçu de l'anneau de récompense : blanc, doré, flamme et émeraude, avec un arc-en-ciel animé pour la récompense des 50 heures."
+		["Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."] = "Les cartes de succès affichent maintenant un aperçu de l'anneau de récompense : blanc, doré, flamme et émeraude, avec un arc-en-ciel animé pour la récompense des 50 heures.",
+		["Listen to 1 hour of music in the player."] = "Écoute 1 heure de musique dans le lecteur.",
+		["Violet Pulse Glow"] = "Lueur violette pulsante",
+		["Locked (Reach the DJ achievement)"] = "Verrouillé (succès DJ requis)",
+		["Unlocked from 1 Hour of Music"] = "Débloqué après 1 heure de musique",
+		["You unlocked the Violet Pulse Glow!"] = "Tu as débloqué la lueur violette pulsante !",
+		["Quests"] = "Quêtes",
+		["Complete quests to unlock extras: custom name and profile effects."] = "Termine les quêtes pour débloquer des bonus : pseudo personnalisé et effets de profil.",
+		["WELCOME PLAYER"] = "DÉCOUVERTE DU HUB",
+		["Play 5 hours to customize your name."] = "Joue 5 heures pour personnaliser ton pseudo.",
+		["REWARD: Custom Name"] = "RÉCOMPENSE : pseudo personnalisé",
+		["STAR SUPPORTER"] = "SUPER FAN",
+		["Claim 2 achievement rewards."] = "Récupère 2 récompenses de succès.",
+		["Sparkle Effect"] = "Effet étincelles",
+		["REWARD: Sparkle Effect"] = "RÉCOMPENSE : effet étincelles",
+		["MUSIC LOVER"] = "MÉLOMANE",
+		["Listen to 30 minutes of music."] = "Écoute 30 minutes de musique.",
+		["Double Ring Effect"] = "Effet double anneau",
+		["REWARD: Double Ring Effect"] = "RÉCOMPENSE : effet double anneau",
+		["Quest Completed"] = "Quête terminée",
+		["Custom name unlocked!"] = "Pseudo personnalisé débloqué !",
+		["Sparkle effect unlocked!"] = "Effet étincelles débloqué !",
+		["Double ring effect unlocked!"] = "Effet double anneau débloqué !",
+		["Profile Effects"] = "Effets de profil",
+		["Locked (Complete the Star Supporter quest)"] = "Verrouillé (termine la quête Super Fan)",
+		["Locked (Complete the Music Lover quest)"] = "Verrouillé (termine la quête Mélomane)",
+		["Unlocked from the Star Supporter quest"] = "Débloqué avec la quête Super Fan",
+		["Unlocked from the Music Lover quest"] = "Débloqué avec la quête Mélomane",
+		["Custom Name"] = "Pseudo personnalisé",
+		["Custom name"] = "Pseudo personnalisé",
+		["Locked — complete the Welcome Player quest"] = "Verrouillé — termine la quête Découverte du Hub",
+		["Custom name cleared"] = "Pseudo personnalisé effacé",
+		["Unknown"] = "Inconnu",
+		["Leaderboard"] = "Classement",
+		["Top Panel Time"] = "Top Temps Panel",
+		["Top Achievements"] = "Top Succès",
+		["Syncing leaderboard..."] = "Synchronisation du classement...",
+		["Leaderboard unavailable"] = "Classement indisponible",
+		["Nobody yet — be the first!"] = "Personne pour l'instant — sois le premier !",
+		["Update Now"] = "Mettre à jour",
+		["Downloading the latest version..."] = "Téléchargement de la dernière version...",
+		["Update failed"] = "Échec de la mise à jour",
+		["Could not download the update."] = "Impossible de télécharger la mise à jour.",
+		["The downloaded script is invalid."] = "Le script téléchargé est invalide.",
+		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Ajout de la mise à jour à distance : quand une mise à jour est disponible, le bouton Vérifier les mises à jour devient Mettre à jour et recharge le panel avec la nouvelle version sans relancer le jeu. Aussi le succès DJ (1 heure de musique, récompense : lueur violette), une flamme à côté de la série de jours, des confettis à chaque récompense réclamée, un nouvel onglet Classement avec les tops globaux Top Temps Panel et Top Succès, et des quêtes qui débloquent un pseudo de classement personnalisé, l'effet étincelles et le double anneau."
 	}
 	local FrPrefixes = {
 		{ "Update available: ", "Mise à jour disponible : " },
@@ -4471,7 +4569,9 @@ do
 		{ "Clipboard is unavailable: ", "Presse-papiers indisponible : " },
 		{ "Repeated: ", "Répétitions : " },
 		{ "Custom ", "Personnalisé " },
-		{ "Asset ", "Asset " }
+		{ "Asset ", "Asset " },
+		{ "Leaderboard name: ", "Pseudo du classement : " },
+		{ "Leaderboard name set to ", "Pseudo du classement défini sur " }
 	}
 	local FrMonths = { Jan = "janv", Feb = "févr", Mar = "mars", Apr = "avr", May = "mai", Jun = "juin", Jul = "juil", Aug = "août", Sep = "sept", Oct = "oct", Nov = "nov", Dec = "déc" }
 	local FrRules = {
@@ -4903,6 +5003,45 @@ function Lib.NotifLayout()
 	end
 	Lib.NotifSides[name] = layout
 	return layout
+end
+
+function Lib.Celebrate()
+	local screen = UI.Screen
+	if not screen or State.Unloaded then return end
+	local layer = Lib.Create("Frame", { Name = "TigerCelebrate", Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ZIndex = 60, BorderSizePixel = 0, Parent = screen })
+	local colors = {
+		Color3.fromRGB(255, 214, 10),
+		Color3.fromRGB(255, 96, 28),
+		Color3.fromRGB(46, 213, 115),
+		Color3.fromRGB(64, 156, 255),
+		Color3.fromRGB(180, 100, 255),
+		Color3.fromRGB(255, 255, 255)
+	}
+	local centerX = math.floor(layer.AbsoluteSize.X / 2)
+	local centerY = math.floor(layer.AbsoluteSize.Y / 2)
+	for _ = 1, 34 do
+		local size = math.random(5, 9)
+		local piece = Lib.Create("Frame", {
+			Size = UDim2.fromOffset(size, size - 2),
+			Position = UDim2.fromOffset(centerX, centerY),
+			Rotation = math.random(0, 359),
+			BackgroundColor3 = colors[math.random(#colors)],
+			BorderSizePixel = 0,
+			ZIndex = 60,
+			Parent = layer,
+			Lib.Create("UICorner", { CornerRadius = UDim.new(0, 2) })
+		})
+		local goal = UDim2.fromOffset(centerX + math.random(-270, 270), centerY + math.random(-310, 170))
+		local spin = math.random(-360, 720)
+		local tween = Services.Tween:Create(piece, TweenInfo.new(math.random(70, 130) / 100, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), { Position = goal, Rotation = piece.Rotation + spin, BackgroundTransparency = 1 })
+		tween.Completed:Connect(function()
+			if piece.Parent then piece:Destroy() end
+		end)
+		tween:Play()
+	end
+	task.delay(2, function()
+		if layer.Parent then layer:Destroy() end
+	end)
 end
 
 function Lib.Notify(options)
@@ -5618,6 +5757,36 @@ do
 		end)
 	end
 
+	function V.UpdateNow()
+		if V.Updating then return end
+		V.Updating = true
+		Lib.Notify({ Title = "Update Now", Text = "Downloading the latest version..." })
+		task.spawn(function()
+			local ok, source = pcall(game.HttpGet, game, "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/TigerHub.lua")
+			if not ok or type(source) ~= "string" or #source < 10000 then
+				V.Updating = false
+				Lib.Notify({ Title = "Update failed", Text = "Could not download the update." })
+				return
+			end
+			local chunk, loadErr = loadstring(source)
+			if not chunk then
+				V.Updating = false
+				Lib.Notify({ Title = "Update failed", Text = "The downloaded script is invalid." })
+				return
+			end
+			Lib.Unload()
+			Lib.StopCurrentEmote()
+			Lib.SavePlaytimeData()
+			pcall(function() if Refs.IntroBlur then Refs.IntroBlur:Destroy() end end)
+			pcall(function() if Refs.GlassBlur then Refs.GlassBlur:Destroy() end end)
+			pcall(function() UI.Screen:Destroy() end)
+			local ran, runErr = pcall(chunk)
+			if not ran then
+				print("[TigerHub] Self-update error: " .. tostring(runErr))
+			end
+		end)
+	end
+
 	function V.Start()
 		V.Started = true
 		Announce()
@@ -5932,6 +6101,14 @@ do
 						State.Ach_Streak7_Claimed = data.Ach_Streak7_Claimed or false
 						State.Ach_Collector10_Claimed = data.Ach_Collector10_Claimed or false
 						State.Ach_Rainbow50_Claimed = data.Ach_Rainbow50_Claimed or false
+						State.MusicSeconds = tonumber(data.MusicSeconds) or 0
+						State.Ach_DJ_Claimed = data.Ach_DJ_Claimed or false
+						State.Quest_Player_Claimed = data.Quest_Player_Claimed or false
+						State.Quest_Star_Claimed = data.Quest_Star_Claimed or false
+						State.Quest_Music_Claimed = data.Quest_Music_Claimed or false
+						State.CustomName = type(data.CustomName) == "string" and data.CustomName or ""
+						State.SparkleOn = data.SparkleOn or false
+						State.DoubleRingOn = data.DoubleRingOn or false
 						State.ActiveDecor = data.ActiveDecor
 						if data.IsDecorActive == true and not State.ActiveDecor then State.ActiveDecor = "White" end
 					end
@@ -5945,8 +6122,15 @@ do
 			State.Ach_Streak7_Claimed = true
 			State.Ach_Collector10_Claimed = true
 			State.Ach_Rainbow50_Claimed = true
+			State.Ach_DJ_Claimed = true
+			State.Quest_Player_Claimed = true
+			State.Quest_Star_Claimed = true
+			State.Quest_Music_Claimed = true
 			if State.TotalPlaytimeSeconds < 180000 then
 				State.TotalPlaytimeSeconds = 180000
+			end
+			if State.MusicSeconds < 7200 then
+				State.MusicSeconds = 7200
 			end
 			State.ActiveDecor = State.ActiveDecor or "White"
 		end
@@ -5964,6 +6148,14 @@ do
 				Ach_Streak7_Claimed = State.Ach_Streak7_Claimed,
 				Ach_Collector10_Claimed = State.Ach_Collector10_Claimed,
 				Ach_Rainbow50_Claimed = State.Ach_Rainbow50_Claimed,
+				MusicSeconds = math.floor(State.MusicSeconds),
+				Ach_DJ_Claimed = State.Ach_DJ_Claimed,
+				Quest_Player_Claimed = State.Quest_Player_Claimed,
+				Quest_Star_Claimed = State.Quest_Star_Claimed,
+				Quest_Music_Claimed = State.Quest_Music_Claimed,
+				CustomName = State.CustomName,
+				SparkleOn = State.SparkleOn,
+				DoubleRingOn = State.DoubleRingOn,
 				ActiveDecor = State.ActiveDecor
 			}
 			local json = Services.HttpService:JSONEncode(achData)
@@ -8057,7 +8249,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.5", date = "Nov 17", latest = true,
+			version = "V3.7.6", date = "Nov 17", latest = true,
+			notes = {
+				"Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."
+			}
+		},
+		{
+			version = "V3.7.5", date = "Nov 17",
 			notes = {
 				"Achievement cards now show a preview of the reward ring in white, gold, flame and emerald, with an animated rainbow for the 50 hours reward."
 			}
@@ -8327,7 +8525,9 @@ function Lib.BuildUpdateLog(view)
 	end
 
 	ActionButton("Check for Updates", 1, Version.Check)
-	local copyButton = ActionButton("Copy Link", 2, function()
+	local updateNowButton = ActionButton("Update Now", 2, Version.UpdateNow)
+	updateNowButton.Visible = false
+	local copyButton = ActionButton("Copy Link", 3, function()
 		local copy = setclipboard or toclipboard or set_clipboard
 		if copy then pcall(copy, Version.Repo) end
 		Lib.Notify({ Title = "GitHub", Text = "Copied!" })
@@ -8353,6 +8553,7 @@ function Lib.BuildUpdateLog(view)
 		statusLabel.Text = tone[2]
 		detailLabel.Text = "Installed: " .. Version.Display .. "  ·  Latest: " .. (latest and ("V" .. latest) or "—")
 		copyButton.Visible = status == "outdated"
+		updateNowButton.Visible = status == "outdated"
 		if tone == tones.checking then
 			pulse = Services.Tween:Create(dot, TweenInfo.new(0.7, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.75 })
 			pulse:Play()
@@ -9015,6 +9216,168 @@ function Lib.BuildInfo(view)
 end
 
 
+function Lib.BuildTop(group)
+	local Http = Services.HttpService
+	local URL = "https://textdb.dev/api/data/tigerhub-top-c93f7a1"
+	local Req = (syn and syn.request) or http_request or request or (fluxus and fluxus.request) or (http and http.request)
+	local MyKey = App.Player.Name:lower()
+
+	local TopScroll = Lib.Create("ScrollingFrame", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, ScrollBarThickness = 2, ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100), BorderSizePixel = 0, Parent = group })
+	local TopLayout = Lib.Create("UIListLayout", { Padding = UDim.new(0, 14), SortOrder = Enum.SortOrder.LayoutOrder, Parent = TopScroll })
+	Lib.Create("UIPadding", { PaddingTop = UDim.new(0, 5), PaddingLeft = UDim.new(0, 5), PaddingRight = UDim.new(0, 10), PaddingBottom = UDim.new(0, 15), Parent = TopScroll })
+	TopLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+		TopScroll.CanvasSize = UDim2.new(0, 0, 0, TopLayout.AbsoluteContentSize.Y + 20)
+	end)
+
+	local TopStatus = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), BackgroundTransparency = 1, LayoutOrder = 0, Text = "Syncing leaderboard...", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = TopScroll })
+	Lib.RegisterThemeText(TopStatus, "Secondary")
+
+	local function AchCount()
+		local count = 0
+		for _, flag in ipairs({ "Ach_10Hours_Claimed", "Ach_24Hours_Claimed", "Ach_Streak7_Claimed", "Ach_Collector10_Claimed", "Ach_Rainbow50_Claimed", "Ach_DJ_Claimed" }) do
+			if State[flag] then count = count + 1 end
+		end
+		return count
+	end
+
+	local function CleanName(value)
+		value = tostring(value or ""):gsub("[%c]", ""):gsub("^%s+", ""):gsub("%s+$", "")
+		if #value > 24 then value = value:sub(1, 24) end
+		if value == "" then value = "Unknown" end
+		return value
+	end
+
+	local function FormatTime(seconds)
+		seconds = math.floor(tonumber(seconds) or 0)
+		if seconds < 60 then return seconds .. "s" end
+		local minutes = math.floor(seconds / 60)
+		if minutes < 60 then return minutes .. "m" end
+		local hours = math.floor(minutes / 60)
+		if hours < 24 then return hours .. "h " .. (minutes % 60) .. "m" end
+		return math.floor(hours / 24) .. "d " .. (hours % 24) .. "h"
+	end
+
+	local function LoadRemote()
+		local ok, body = API.HTTPRequest(URL .. "?t=" .. os.time(), "application/json")
+		if not ok or type(body) ~= "string" or body == "" then return nil end
+		local decoded, data = pcall(Http.JSONDecode, Http, body)
+		if not decoded or type(data) ~= "table" or type(data.users) ~= "table" then return nil end
+		return data
+	end
+
+	local function SaveRemote(data)
+		if not Req then return end
+		pcall(function()
+			Req({ Url = URL, Method = "POST", Headers = { ["Content-Type"] = "text/plain", ["User-Agent"] = "Mozilla/5.0" }, Body = Http:JSONEncode(data) })
+		end)
+	end
+
+	local function MergeAndPrune(data)
+		local now = os.time()
+		local mine = {
+			name = CleanName(State.CustomName ~= "" and State.CustomName or App.Player.DisplayName),
+			time = math.floor(State.TotalPlaytimeSeconds),
+			ach = AchCount(),
+			seen = now
+		}
+		local list, cutoff = {}, now - 60 * 86400
+		list[#list + 1] = { key = MyKey, entry = mine }
+		for key, entry in pairs(data.users) do
+			if key ~= MyKey and type(entry) == "table" and (tonumber(entry.seen) or 0) >= cutoff then
+				list[#list + 1] = { key = key, entry = entry }
+			end
+		end
+		table.sort(list, function(a, b)
+			return (tonumber(a.entry.seen) or 0) > (tonumber(b.entry.seen) or 0)
+		end)
+		local out = { updated = now, users = {} }
+		for index = 1, math.min(#list, 200) do
+			out.users[list[index].key] = list[index].entry
+		end
+		return out, mine
+	end
+
+	local function BuildSection(order, title, sortField, formatValue)
+		local card = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = order, Parent = TopScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 12) }) })
+		Lib.RegisterThemeElement(card, "BackgroundColor3", 0.5)
+		local header = Lib.Create("TextLabel", { Size = UDim2.new(1, -28, 0, 34), Position = UDim2.new(0, 14, 0, 0), BackgroundTransparency = 1, Text = title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = card })
+		Lib.RegisterThemeText(header, "Primary")
+		local rows = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 0), AutomaticSize = Enum.AutomaticSize.Y, Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Parent = card, Lib.Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder }) })
+		return rows
+	end
+
+	local function BuildRow(container, order, rank, name, value, mine)
+		local row = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 26), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = mine and 0.93 or 1, LayoutOrder = order, Parent = container })
+		Lib.Create("TextLabel", { Size = UDim2.new(0, 34, 1, 0), Position = UDim2.new(0, 10, 0, 0), BackgroundTransparency = 1, Text = "#" .. rank, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = row })
+		Lib.Create("TextLabel", { Size = UDim2.new(1, -190, 1, 0), Position = UDim2.new(0, 44, 0, 0), BackgroundTransparency = 1, Text = name, TextColor3 = Color3.fromRGB(235, 235, 235), TextSize = 12, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row })
+		Lib.Create("TextLabel", { Size = UDim2.new(0, 130, 1, 0), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -12, 0, 0), BackgroundTransparency = 1, Text = value, TextColor3 = Color3.fromRGB(160, 160, 160), TextSize = 12, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = row })
+	end
+
+	local function Render(data, mine)
+		for _, child in ipairs(TopScroll:GetChildren()) do
+			if child:IsA("Frame") then child:Destroy() end
+		end
+		local list = {}
+		for key, entry in pairs(data.users) do
+			if type(entry) == "table" then list[#list + 1] = { key = key, entry = entry } end
+		end
+
+		table.sort(list, function(a, b)
+			return (tonumber(a.entry.time) or 0) > (tonumber(b.entry.time) or 0)
+		end)
+		local timeRows = BuildSection(1, "Top Panel Time")
+		for index = 1, math.min(#list, 10) do
+			local entry = list[index].entry
+			BuildRow(timeRows, index, index, CleanName(entry.name), FormatTime(entry.time), list[index].key == MyKey)
+		end
+		if #list == 0 then
+			BuildRow(timeRows, 1, 1, "Nobody yet — be the first!", "", false)
+		end
+
+		table.sort(list, function(a, b)
+			return (tonumber(a.entry.ach) or 0) > (tonumber(b.entry.ach) or 0)
+		end)
+		local achRows = BuildSection(2, "Top Achievements")
+		for index = 1, math.min(#list, 10) do
+			local entry = list[index].entry
+			BuildRow(achRows, index, index, CleanName(entry.name), tostring(tonumber(entry.ach) or 0), list[index].key == MyKey)
+		end
+
+		TopStatus.Text = "Updated " .. os.date("%H:%M", data.updated)
+	end
+
+	local busy, lastSync = false, 0
+	local function Sync()
+		if busy or State.Unloaded then return end
+		if os.time() - lastSync < 60 then return end
+		busy = true
+		TopStatus.Text = "Syncing leaderboard..."
+		task.spawn(function()
+			local data = LoadRemote()
+			busy = false
+			lastSync = os.time()
+			if data then
+				local out, mine = MergeAndPrune(data)
+				Render(out, mine)
+				SaveRemote(out)
+			else
+				TopStatus.Text = "Leaderboard unavailable"
+			end
+		end)
+	end
+
+	group:GetPropertyChangedSignal("Visible"):Connect(function()
+		if group.Visible then Sync() end
+	end)
+
+	task.spawn(function()
+		while not State.Unloaded do
+			task.wait(600)
+			Sync()
+		end
+	end)
+end
+
 do
 	local HomeSection = Lib.Create("CanvasGroup", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Visible = false, Parent = UI.ContentArea })
 	UI.HomeSection = HomeSection
@@ -9039,6 +9402,7 @@ do
 	Lib.BuildDevelopers(MakeTab("Developers", 170))
 	Lib.BuildUpdateLog(MakeTab("Update Log", 210))
 	Lib.BuildInfo(MakeTab("Info", 250))
+	Lib.BuildTop(MakeTab("Leaderboard", 290))
 	UI.HomeSearch = { SideBar, HomeTabs, HomeViews }
 
 	Lib.Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 14), Parent = View_Overview })
@@ -9213,7 +9577,11 @@ do
 		check.MouseButton1Up:Connect(function() Lib.Tween(checkScale, 0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out, { Scale = 1 }) end)
 		check.MouseButton1Click:Connect(function()
 			Lib.PlayClick()
-			Version.Check()
+			if Version.Status == "outdated" then
+				Version.UpdateNow()
+			else
+				Version.Check()
+			end
 		end)
 
 		local tones = {
@@ -9236,6 +9604,11 @@ do
 			Lib.Tween(pillDot, 0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { BackgroundColor3 = tone[1] })
 			pillDot.BackgroundTransparency = 0
 			pillText.Text = tone[2]
+			if status == "outdated" then
+				check.Text = "Update Now"
+			else
+				check.Text = "Check for Updates"
+			end
 			if tone == tones.checking then
 				pulse = Services.Tween:Create(pillDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.75 })
 				pulse:Play()
@@ -9354,6 +9727,36 @@ do
 	GlowTween = Services.Tween:Create(AvatarGlowRing, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.2, Size = UDim2.new(1, 10, 1, 10) })
 	AvatarGlowRing.BackgroundTransparency = 0.85
 	AvatarGlowRing.Size = UDim2.new(1, 4, 1, 4)
+
+	local AvatarGlowRing2 = Lib.Create("Frame", { Size = UDim2.new(1, 8, 1, 8), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
+	local GlowTween2 = Services.Tween:Create(AvatarGlowRing2, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.2, Size = UDim2.new(1, 10, 1, 10) })
+	AvatarGlowRing2.BackgroundTransparency = 0.85
+	AvatarGlowRing2.Size = UDim2.new(1, 4, 1, 4)
+	task.delay(0.45, function()
+		if State.DoubleRingOn and not State.Unloaded then GlowTween2:Play() end
+	end)
+
+	local SparkleLayer = Lib.Create("Frame", { Size = UDim2.new(1, 24, 1, 24), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Visible = false, Parent = AvatarContainer })
+	for sparkleIndex = 1, 10 do
+		local sparkleAngle = (sparkleIndex - 1) * math.pi * 2 / 10
+		local sparkleDot = Lib.Create("Frame", {
+			Size = UDim2.fromOffset(5, 5),
+			Position = UDim2.new(0.5, math.cos(sparkleAngle) * 27, 0.5, math.sin(sparkleAngle) * 27),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			BackgroundColor3 = Color3.fromRGB(255, 235, 190),
+			BackgroundTransparency = 0.5,
+			BorderSizePixel = 0,
+			Parent = SparkleLayer,
+			Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+		})
+		task.spawn(function()
+			task.wait(sparkleIndex * 0.08)
+			if not State.Unloaded then
+				Services.Tween:Create(sparkleDot, TweenInfo.new(0.75, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.05, Size = UDim2.fromOffset(7, 7) }):Play()
+			end
+		end)
+	end
+	local SparkleSpin = Services.Tween:Create(SparkleLayer, TweenInfo.new(9, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), { Rotation = 360 })
 	local AccDName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 18), Position = UDim2.fromOffset(64, 32), BackgroundTransparency = 1, Text = App.Player.DisplayName, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
 	Lib.RegisterThemeText(AccDName, "Primary")
 	local AccUName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 14), Position = UDim2.fromOffset(64, 51), BackgroundTransparency = 1, Text = "@" .. App.Player.Name, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
@@ -9423,14 +9826,21 @@ do
 		Gold = Color3.fromRGB(255, 200, 40),
 		Flame = Color3.fromRGB(255, 96, 28),
 		Emerald = Color3.fromRGB(46, 213, 115),
+		Violet = Color3.fromRGB(150, 70, 230),
 		Rainbow = Color3.fromRGB(180, 100, 255)
 	}
 
 	local function ApplyDecorStyle()
 		local color = State.ActiveDecor and DecorStyles[State.ActiveDecor] or nil
+		if not color and State.DoubleRingOn then color = Color3.fromRGB(255, 255, 255) end
 		AvatarGlowRing.Visible = color ~= nil
 		if color and State.ActiveDecor ~= "Rainbow" then AvatarGlowRing.BackgroundColor3 = color end
 		if color then GlowTween:Play() else GlowTween:Pause() end
+		AvatarGlowRing2.Visible = State.DoubleRingOn
+		AvatarGlowRing2.BackgroundColor3 = AvatarGlowRing.BackgroundColor3
+		if State.DoubleRingOn and AvatarGlowRing2.Visible then GlowTween2:Play() else GlowTween2:Pause() end
+		SparkleLayer.Visible = State.SparkleOn
+		if State.SparkleOn then SparkleSpin:Play() else SparkleSpin:Pause() end
 	end
 
 	task.spawn(function()
@@ -9438,6 +9848,9 @@ do
 			task.wait(0.08)
 			if State.ActiveDecor == "Rainbow" and AvatarGlowRing.Visible then
 				AvatarGlowRing.BackgroundColor3 = Color3.fromHSV((os.clock() * 0.12) % 1, 0.72, 1)
+			end
+			if AvatarGlowRing2.Visible then
+				AvatarGlowRing2.BackgroundColor3 = AvatarGlowRing.BackgroundColor3
 			end
 		end
 	end)
@@ -9449,7 +9862,7 @@ do
 	local DropdownArrow = Lib.Create("TextLabel", { Size = UDim2.fromOffset(30, 30), Position = UDim2.new(1, -40, 0.5, -15), BackgroundTransparency = 1, Text = "▼", TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamMedium, Parent = DecorHeaderBtn })
 	Lib.RegisterThemeText(DropdownArrow, "Secondary")
 
-	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 332), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
+	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 400), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
 	local DecorButtons = {}
 
 	local function RefreshDecorButtons()
@@ -9483,6 +9896,7 @@ do
 		{ id = "Gold", title = "Gold Pulse Glow", locked = "Locked (Reach 24h achievement)", unlocked = "Unlocked from 24 Hours Played", claim = "Ach_24Hours_Claimed" },
 		{ id = "Flame", title = "Flame Glow", locked = "Locked (Reach 7 day streak)", unlocked = "Unlocked from 7 Day Streak", claim = "Ach_Streak7_Claimed" },
 		{ id = "Emerald", title = "Emerald Pulse Glow", locked = "Locked (Save 10 scripts)", unlocked = "Unlocked from 10 Saved Scripts", claim = "Ach_Collector10_Claimed" },
+		{ id = "Violet", title = "Violet Pulse Glow", locked = "Locked (Reach the DJ achievement)", unlocked = "Unlocked from 1 Hour of Music", claim = "Ach_DJ_Claimed" },
 		{ id = "Rainbow", title = "Rainbow Glow", locked = "Locked (Reach 50h achievement)", unlocked = "Unlocked from 50 Hours Played", claim = "Ach_Rainbow50_Claimed" }
 	}) do
 		local item = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = Color3.fromRGB(22, 22, 22), LayoutOrder = index, Parent = DecorItemsContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
@@ -9508,8 +9922,121 @@ do
 		Lib.PlayClick()
 		isDropdownOpen = not isDropdownOpen
 		Lib.Tween(DropdownArrow, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Rotation = isDropdownOpen and 180 or 0 })
-		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 394) or UDim2.new(1, 0, 0, 50) })
+		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 462) or UDim2.new(1, 0, 0, 50) })
 	end)
+
+	local EffectsCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 50), BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = 7, ClipsDescendants = true, Parent = AccountScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }) })
+	Lib.RegisterThemeElement(EffectsCard, "BackgroundColor3", 0.5)
+
+	local EffectsHeaderBtn = Lib.Create("TextButton", { Size = UDim2.new(1, 0, 0, 50), BackgroundTransparency = 1, Text = "", Parent = EffectsCard })
+	local EffectsHeadTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, -60, 1, 0), Position = UDim2.new(0, 15, 0, 0), BackgroundTransparency = 1, Text = "Profile Effects", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 14, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = EffectsHeaderBtn })
+	Lib.RegisterThemeText(EffectsHeadTitle, "Primary")
+
+	local EffectsArrow = Lib.Create("TextLabel", { Size = UDim2.fromOffset(30, 30), Position = UDim2.new(1, -40, 0.5, -15), BackgroundTransparency = 1, Text = "▼", TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamMedium, Parent = EffectsHeaderBtn })
+	Lib.RegisterThemeText(EffectsArrow, "Secondary")
+
+	local EffectsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 128), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = EffectsCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
+
+	local effectDefs = {
+		{ id = "SparkleOn", title = "Sparkle Effect", locked = "Locked (Complete the Star Supporter quest)", unlocked = "Unlocked from the Star Supporter quest", claim = "Quest_Star_Claimed" },
+		{ id = "DoubleRingOn", title = "Double Ring", locked = "Locked (Complete the Music Lover quest)", unlocked = "Unlocked from the Music Lover quest", claim = "Quest_Music_Claimed" }
+	}
+	local EffectButtons = {}
+	local function RefreshEffectButtons()
+		for _, entry in pairs(EffectButtons) do
+			local def = entry.Def
+			if not State[def.claim] then
+				entry.Button.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+				entry.Button.TextColor3 = Color3.fromRGB(120, 120, 120)
+				entry.Button.Text = "Locked"
+				entry.Desc.Text = def.locked
+				entry.Desc.TextColor3 = Color3.fromRGB(220, 80, 80)
+			elseif State[def.id] then
+				entry.Button.BackgroundColor3 = Lib.GetActiveSwitchColor()
+				entry.Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+				entry.Button.Text = "Equipped"
+				entry.Desc.Text = def.unlocked
+				entry.Desc.TextColor3 = Color3.fromRGB(140, 140, 140)
+			else
+				entry.Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				entry.Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+				entry.Button.Text = "Equip"
+				entry.Desc.Text = def.unlocked
+				entry.Desc.TextColor3 = Color3.fromRGB(140, 140, 140)
+			end
+		end
+		ApplyDecorStyle()
+	end
+
+	for effectIndex, def in ipairs(effectDefs) do
+		local item = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = Color3.fromRGB(22, 22, 22), LayoutOrder = effectIndex, Parent = EffectsContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+		Lib.RegisterThemeElement(item, "BackgroundColor3", 0.7)
+
+		local title = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 20), Position = UDim2.new(0, 12, 0, 10), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 13, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = item })
+		Lib.RegisterThemeText(title, "Primary")
+
+		local desc = Lib.Create("TextLabel", { Size = UDim2.new(1, -120, 0, 18), Position = UDim2.new(0, 12, 0, 30), BackgroundTransparency = 1, Text = "", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = item })
+		local button = Lib.Create("TextButton", { Size = UDim2.fromOffset(80, 30), Position = UDim2.new(1, -90, 0.5, -15), BackgroundColor3 = Color3.fromRGB(40, 40, 40), Text = "Equip", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 12, Font = Enum.Font.GothamBold, Parent = item, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+		button.MouseButton1Click:Connect(function()
+			Lib.PlayClick()
+			if not State[def.claim] then return end
+			State[def.id] = not State[def.id]
+			RefreshEffectButtons()
+			Lib.SavePlaytimeData()
+		end)
+		EffectButtons[def.id] = { Button = button, Desc = desc, Def = def }
+	end
+
+	local isEffectsOpen = false
+	EffectsHeaderBtn.MouseButton1Click:Connect(function()
+		Lib.PlayClick()
+		isEffectsOpen = not isEffectsOpen
+		Lib.Tween(EffectsArrow, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Rotation = isEffectsOpen and 180 or 0 })
+		Lib.Tween(EffectsCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isEffectsOpen and UDim2.new(1, 0, 0, 198) or UDim2.new(1, 0, 0, 50) })
+	end)
+
+	local NameCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 56), BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = 8, Parent = AccountScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }) })
+	Lib.RegisterThemeElement(NameCard, "BackgroundColor3", 0.5)
+
+	local NameTitle = Lib.Create("TextLabel", { Size = UDim2.new(0, 130, 1, 0), Position = UDim2.new(0, 15, 0, 0), BackgroundTransparency = 1, Text = "Custom Name", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 14, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = NameCard })
+	Lib.RegisterThemeText(NameTitle, "Primary")
+
+	local NameHint = Lib.Create("TextLabel", { Size = UDim2.new(1, -40, 0, 14), Position = UDim2.new(0, 15, 0.5, 8), BackgroundTransparency = 1, Text = "", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 10, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = NameCard })
+
+	local NameBox = Lib.Create("TextBox", { Size = UDim2.fromOffset(150, 30), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -66, 0.5, 0), BackgroundColor3 = Color3.fromRGB(25, 25, 25), Text = State.CustomName, PlaceholderText = "Custom name", TextColor3 = Color3.fromRGB(240, 240, 240), PlaceholderColor3 = Color3.fromRGB(120, 120, 120), TextSize = 12, Font = Enum.Font.GothamMedium, ClearTextOnFocus = false, TextXAlignment = Enum.TextXAlignment.Left, Parent = NameCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }), Lib.Create("UIPadding", { PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8) }) })
+	local NameBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(52, 30), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(1, -10, 0.5, 0), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Set", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = NameCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+
+	local function RefreshNameCard()
+		if not State.Quest_Player_Claimed then
+			NameBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+			NameBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
+			NameBtn.Text = "Locked"
+			NameHint.Text = "Locked — complete the Welcome Player quest"
+			NameHint.TextColor3 = Color3.fromRGB(220, 80, 80)
+			pcall(function() NameBox.TextEditable = false end)
+		else
+			NameBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			NameBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+			NameBtn.Text = "Set"
+			NameHint.Text = "Leaderboard name: " .. (State.CustomName ~= "" and State.CustomName or ("@" .. App.Player.Name))
+			NameHint.TextColor3 = Color3.fromRGB(140, 140, 140)
+			pcall(function() NameBox.TextEditable = true end)
+		end
+	end
+
+	NameBtn.MouseButton1Click:Connect(function()
+		Lib.PlayClick()
+		if not State.Quest_Player_Claimed then return end
+		local value = (NameBox.Text or ""):gsub("^%s+", ""):gsub("%s+$", "")
+		if #value > 20 then value = value:sub(1, 20) end
+		State.CustomName = value
+		Lib.SavePlaytimeData()
+		RefreshNameCard()
+		if AccDName then AccDName.Text = value ~= "" and value or App.Player.DisplayName end
+		Lib.Notify({ Title = "Custom Name", Text = value ~= "" and ("Leaderboard name set to " .. value) or "Custom name cleared" })
+	end)
+
+	RefreshNameCard()
 
 	local AchievementsScroll = Lib.Create("ScrollingFrame", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, ScrollBarThickness = 2, ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100), BorderSizePixel = 0, Parent = View_Achievements })
 	local AchievementsLayout = Lib.Create("UIListLayout", { Padding = UDim.new(0, 14), SortOrder = Enum.SortOrder.LayoutOrder, Parent = AchievementsScroll })
@@ -9561,6 +10088,12 @@ do
 			unlock = "You unlocked the Emerald Pulse Glow!", equip = "Emerald"
 		},
 		{
+			title = "DJ", desc = "Listen to 1 hour of music in the player.", reward = "Violet Pulse Glow", format = "%.1f / 1h", goal = 1, previewColor = Color3.fromRGB(150, 70, 230),
+			progress = function() return math.min(State.MusicSeconds / 3600, 1) end,
+			claimed = function() return State.Ach_DJ_Claimed end, setClaimed = function() State.Ach_DJ_Claimed = true end,
+			unlock = "You unlocked the Violet Pulse Glow!", equip = "Violet"
+		},
+		{
 			title = "50 HOURS PLAYED", desc = "You are a true legend of the hub.", reward = "Rainbow Glow", format = "%.1f / 50h", goal = 50, previewColor = Color3.fromRGB(180, 100, 255),
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 50) end,
 			claimed = function() return State.Ach_Rainbow50_Claimed end, setClaimed = function() State.Ach_Rainbow50_Claimed = true end,
@@ -9595,6 +10128,11 @@ do
 		local AchTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
 		Lib.RegisterThemeText(AchTitle, "Primary")
 
+		local FlameLabel
+		if def.equip == "Flame" then
+			FlameLabel = Lib.Create("TextLabel", { Size = UDim2.new(0, 90, 0, 20), Position = UDim2.new(1, -94, 0, 12), BackgroundTransparency = 1, Text = "", TextColor3 = Color3.fromRGB(255, 140, 50), TextSize = 14, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = AchInfoSection })
+		end
+
 		local AchDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = def.desc, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
 		Lib.RegisterThemeText(AchDesc, "Secondary")
 
@@ -9612,6 +10150,10 @@ do
 			local owned = def.claimed()
 			PreviewRing.BackgroundTransparency = owned and 0.08 or 0.65
 			PreviewHalo.Visible = owned
+			if FlameLabel then
+				local streak = GetStreak()
+				FlameLabel.Text = streak >= 1 and ("🔥 " .. streak) or ""
+			end
 			if owned then
 				ClaimAchBtn.Text = "Claimed ✓"
 				ClaimAchBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -9639,6 +10181,7 @@ do
 				Lib.SavePlaytimeData()
 				Refresh()
 				RefreshDecorButtons()
+				Lib.Celebrate()
 				Lib.Notify({ Title = "Achievement Unlocked", Text = def.unlock })
 			end
 		end)
@@ -9651,9 +10194,107 @@ do
 		for _, def in ipairs(AchDefs) do
 			if def.refresh then def.refresh() end
 		end
+		if UI.QuestUpdateCallback then UI.QuestUpdateCallback() end
 	end
 
 	UI.AchUpdateCallback = RefreshAchievementUI
+
+	local function ClaimedAchCount()
+		local count = 0
+		for _, def in ipairs(AchDefs) do
+			if def.claimed() then count = count + 1 end
+		end
+		return count
+	end
+
+	local QuestDefs = {
+		{
+			title = "WELCOME PLAYER", desc = "Play 5 hours to customize your name.", reward = "Custom Name", format = "%.1f / 5h", goal = 5,
+			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 5) end,
+			claim = "Quest_Player_Claimed", unlock = "Custom name unlocked!"
+		},
+		{
+			title = "STAR SUPPORTER", desc = "Claim 2 achievement rewards.", reward = "Sparkle Effect", format = "%d / 2", goal = 2,
+			progress = function() return math.min(ClaimedAchCount(), 2) end,
+			claim = "Quest_Star_Claimed", unlock = "Sparkle effect unlocked!"
+		},
+		{
+			title = "MUSIC LOVER", desc = "Listen to 30 minutes of music.", reward = "Double Ring Effect", format = "%.1f / 30m", goal = 30,
+			progress = function() return math.min(State.MusicSeconds / 60, 30) end,
+			claim = "Quest_Music_Claimed", unlock = "Double ring effect unlocked!"
+		}
+	}
+
+	local function QuestsUI()
+		local header = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1, LayoutOrder = 20, Text = "Quests", TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 16, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchievementsScroll })
+		Lib.RegisterThemeText(header, "Primary")
+		local QuestSub = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), BackgroundTransparency = 1, LayoutOrder = 21, Text = "Complete quests to unlock extras: custom name and profile effects.", TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchievementsScroll })
+		Lib.RegisterThemeText(QuestSub, "Secondary")
+
+		for index, def in ipairs(QuestDefs) do
+			local QuestCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 90), BackgroundColor3 = Color3.fromRGB(12, 12, 12), LayoutOrder = 21 + index, Parent = AchievementsScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }), Lib.Create("UIStroke", { Color = Color3.fromRGB(35, 35, 35), Thickness = 1, Transparency = 0.4 }) })
+			Lib.RegisterThemeElement(QuestCard, "BackgroundColor3", 0.5)
+
+			local QuestIcon = Lib.Create("Frame", { Size = UDim2.new(0, 80, 1, 0), BackgroundTransparency = 1, Parent = QuestCard })
+			Lib.Create("ImageLabel", { Size = UDim2.fromOffset(52, 52), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Image = "rbxassetid://9241155124241", ImageColor3 = Color3.fromRGB(200, 200, 200), ScaleType = Enum.ScaleType.Fit, Parent = QuestIcon })
+			Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = QuestCard })
+
+			local QuestInfo = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = QuestCard })
+			local QuestTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = QuestInfo })
+			Lib.RegisterThemeText(QuestTitle, "Primary")
+
+			local QuestDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = def.desc, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = QuestInfo })
+			Lib.RegisterThemeText(QuestDesc, "Secondary")
+
+			local QuestReward = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 18), Position = UDim2.new(0, 0, 0, 56), BackgroundTransparency = 1, Text = "REWARD: " .. def.reward, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = QuestInfo })
+			Lib.RegisterThemeText(QuestReward, "Secondary")
+
+			local QuestBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(105, 30), Position = UDim2.new(1, -115, 0.5, -15), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Claim", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = QuestCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
+
+			local function QuestRefresh()
+				if State[def.claim] then
+					QuestBtn.Text = "Claimed ✓"
+					QuestBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+					QuestBtn.TextColor3 = Color3.fromRGB(120, 120, 120)
+					QuestBtn.AutoButtonColor = false
+				elseif def.progress() >= def.goal then
+					QuestBtn.Text = "Claim Reward"
+					QuestBtn.BackgroundColor3 = Lib.GetActiveSwitchColor()
+					QuestBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+					QuestBtn.AutoButtonColor = true
+				else
+					QuestBtn.Text = string.format(def.format, def.progress())
+					QuestBtn.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+					QuestBtn.TextColor3 = Color3.fromRGB(130, 130, 130)
+					QuestBtn.AutoButtonColor = false
+				end
+			end
+
+			QuestBtn.MouseButton1Click:Connect(function()
+				Lib.PlayClick()
+				if not State[def.claim] and def.progress() >= def.goal then
+					State[def.claim] = true
+					Lib.SavePlaytimeData()
+					QuestRefresh()
+					RefreshNameCard()
+					RefreshEffectButtons()
+					Lib.Celebrate()
+					Lib.Notify({ Title = "Quest Completed", Text = def.unlock })
+				end
+			end)
+
+			def.refreshQuest = QuestRefresh
+			QuestRefresh()
+		end
+
+		UI.QuestUpdateCallback = function()
+			for _, def in ipairs(QuestDefs) do
+				if def.refreshQuest then def.refreshQuest() end
+			end
+		end
+	end
+	QuestsUI()
+
 	RefreshAchievementUI()
 	RefreshDecorButtons()
 end
@@ -25829,6 +26470,21 @@ function Lib.BuildMusic(group)
 		end
 	end
 	ApplyVolume()
+
+	task.spawn(function()
+		local flush = 0
+		while not State.Unloaded do
+			task.wait(1)
+			if sound.IsPlaying then
+				State.MusicSeconds = State.MusicSeconds + 1
+				flush = flush + 1
+				if flush >= 30 then
+					flush = 0
+					Lib.SavePlaytimeData()
+				end
+			end
+		end
+	end)
 
 	local function ParseTracks(tracks)
 		local out = {}
