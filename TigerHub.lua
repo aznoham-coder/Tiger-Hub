@@ -235,8 +235,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.6",
-	Display = "V3.7.6",
+	Current = "3.7.7",
+	Display = "V3.7.7",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2598,6 +2598,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Заблокировано (серия из 14 дней)",
 		["Unlocked from 14 Day Streak"] = "Открывается за серию из 14 дней",
 		["Secret achievement"] = "Секретное достижение",
+		["Fixed compatibility with executors that have no Drawing library (like Medium): ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor now use a built-in fallback and work everywhere. Also added 3 new achievements — Explorer (run 5 different scripts) for a Rose Pulse Glow, the secret Night Owl (open the hub between midnight and 5 AM) for a Night Blue Glow and 14 Day Streak for a shimmering Shimmer Glow — plus pulsing reward previews on achievement cards, animated reward previews in quest cards and a two-column leaderboard."] = "Исправлена совместимость с экзекуторами без библиотеки Drawing (например, Medium): рамки ESP, трассеры, скелет, полоски здоровья, стрелки и пользовательский курсор теперь используют встроенный запасной вариант и работают везде. Также добавлены 3 новых достижения — Исследователь (запустите 5 разных скриптов) за розовое пульсирующее свечение, секретная Ночная сова (откройте хаб с полуночи до 5 утра) за синее ночное свечение и серия из 14 дней за мерцающее свечение, плюс пульсирующие превью наград на карточках достижений, анимированные превью в заданиях и таблица лидеров в две колонки.",
 		["Global Leaderboard"] = "Глобальный рейтинг"
 	}
 	local Prefixes = {
@@ -4561,6 +4562,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Verrouillé (série de 14 jours)",
 		["Unlocked from 14 Day Streak"] = "Débloqué avec la série de 14 jours",
 		["Secret achievement"] = "Succès secret",
+		["Fixed compatibility with executors that have no Drawing library (like Medium): ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor now use a built-in fallback and work everywhere. Also added 3 new achievements — Explorer (run 5 different scripts) for a Rose Pulse Glow, the secret Night Owl (open the hub between midnight and 5 AM) for a Night Blue Glow and 14 Day Streak for a shimmering Shimmer Glow — plus pulsing reward previews on achievement cards, animated reward previews in quest cards and a two-column leaderboard."] = "Correction de la compatibilité avec les exécuteurs sans librairie Drawing (comme Medium) : les boîtes ESP, tracers, squelette, barres de vie, flèches hors-écran et le curseur personnalisé utilisent maintenant un système de secours intégré et marchent partout. Aussi ajout de 3 nouveaux succès — Explorateur (exécute 5 scripts différents) pour la lueur rose pulsante, l'Oiseau de nuit secret (ouvre le hub entre minuit et 5h du matin) pour la lueur bleu nuit et Série de 14 jours pour la lueur dorée scintillante — plus des aperçus de récompenses animés sur les cartes de succès et dans les quêtes, et le classement en deux colonnes.",
 		["Global Leaderboard"] = "Classement mondial"
 	}
 	local FrPrefixes = {
@@ -8629,7 +8631,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.6", date = "Nov 17", latest = true,
+			version = "V3.7.7", date = "Nov 18", latest = true,
+			notes = {
+				"Fixed compatibility with executors that have no Drawing library (like Medium): ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor now use a built-in fallback and work everywhere. Also added 3 new achievements — Explorer (run 5 different scripts) for a Rose Pulse Glow, the secret Night Owl (open the hub between midnight and 5 AM) for a Night Blue Glow and 14 Day Streak for a shimmering Shimmer Glow — plus pulsing reward previews on achievement cards, animated reward previews in quest cards and a two-column leaderboard."
+			}
+		},
+		{
+			version = "V3.7.6", date = "Nov 17",
 			notes = {
 				"Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."
 			}
