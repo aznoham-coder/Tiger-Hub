@@ -235,8 +235,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.8",
-	Display = "V3.7.8",
+	Current = "3.7.9",
+	Display = "V3.7.9",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2598,6 +2598,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Заблокировано (серия из 14 дней)",
 		["Unlocked from 14 Day Streak"] = "Открывается за серию из 14 дней",
 		["Secret achievement"] = "Секретное достижение",
+		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Исправлена работа эмулятора Drawing на Medium: панель теперь распознаёт поддельные заглушки Drawing (экзекуторы, которые принимают объекты Drawing, но никогда их не рисуют, как семейство Solara) и переключает их на встроенный запасной вариант на основе Instance, так что рамки ESP, трассеры, скелет, полоски здоровья, орбита, прицел, пользовательский курсор и стрелки теперь реально отображаются.",
 		["Hardened the Drawing emulator: the panel now probes the native Drawing library instead of just checking that it exists, always builds the instance fallback and routes every Drawing.new call through a safe resolver — so ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor also work on executors with a broken or locked Drawing global. A notification now confirms when the emulator is active."] = "Усилен эмулятор Drawing: панель теперь проверяет нативную библиотеку Drawing, а не просто её наличие, всегда создаёт запасной вариант на основе Instance и направляет все вызовы Drawing.new через безопасный резолвер — так что рамки ESP, трассеры, скелет, полоски здоровья, стрелки и пользовательский курсор работают и на экзекуторах со сломанной или заблокированной глобальной Drawing. Теперь приходит уведомление, когда эмулятор активен.",
 		["Fixed compatibility with executors that have no Drawing library (like Medium): ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor now use a built-in fallback and work everywhere. Also added 3 new achievements — Explorer (run 5 different scripts) for a Rose Pulse Glow, the secret Night Owl (open the hub between midnight and 5 AM) for a Night Blue Glow and 14 Day Streak for a shimmering Shimmer Glow — plus pulsing reward previews on achievement cards, animated reward previews in quest cards and a two-column leaderboard."] = "Исправлена совместимость с экзекуторами без библиотеки Drawing (например, Medium): рамки ESP, трассеры, скелет, полоски здоровья, стрелки и пользовательский курсор теперь используют встроенный запасной вариант и работают везде. Также добавлены 3 новых достижения — Исследователь (запустите 5 разных скриптов) за розовое пульсирующее свечение, секретная Ночная сова (откройте хаб с полуночи до 5 утра) за синее ночное свечение и серия из 14 дней за мерцающее свечение, плюс пульсирующие превью наград на карточках достижений, анимированные превью в заданиях и таблица лидеров в две колонки.",
 		["Drawing emulator enabled: ESP and cursor work on this executor"] = "Включён эмулятор Drawing: ESP и курсор работают на этом экзекуторе",
@@ -4565,6 +4566,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Verrouillé (série de 14 jours)",
 		["Unlocked from 14 Day Streak"] = "Débloqué avec la série de 14 jours",
 		["Secret achievement"] = "Succès secret",
+		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Correction de l'émulateur Drawing qui ne s'activait pas sur Medium : le panel détecte maintenant les fausses librairies Drawing (les exécuteurs qui acceptent des objets Drawing sans jamais les dessiner, comme la famille Solara) et bascule sur le système de secours intégré sur Instances, ainsi les boîtes ESP, tracers, squelette, barres de vie, orbite, viseur, curseur personnalisé et flèches s'affichent réellement.",
 		["Hardened the Drawing emulator: the panel now probes the native Drawing library instead of just checking that it exists, always builds the instance fallback and routes every Drawing.new call through a safe resolver — so ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor also work on executors with a broken or locked Drawing global. A notification now confirms when the emulator is active."] = "Émulateur Drawing renforcé : le panel teste maintenant la vraie librairie Drawing native au lieu de juste vérifier qu'elle existe, construit toujours le système de secours sur Instances et route chaque appel Drawing.new via un résolveur sécurisé — ainsi les boîtes ESP, tracers, squelette, barres de vie, flèches hors-écran et le curseur personnalisé marchent aussi sur les exécuteurs avec un Drawing global cassé ou bloqué. Une notification confirme maintenant quand l'émulateur est actif.",
 		["Fixed compatibility with executors that have no Drawing library (like Medium): ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor now use a built-in fallback and work everywhere. Also added 3 new achievements — Explorer (run 5 different scripts) for a Rose Pulse Glow, the secret Night Owl (open the hub between midnight and 5 AM) for a Night Blue Glow and 14 Day Streak for a shimmering Shimmer Glow — plus pulsing reward previews on achievement cards, animated reward previews in quest cards and a two-column leaderboard."] = "Correction de la compatibilité avec les exécuteurs sans librairie Drawing (comme Medium) : les boîtes ESP, tracers, squelette, barres de vie, flèches hors-écran et le curseur personnalisé utilisent maintenant un système de secours intégré et marchent partout. Aussi ajout de 3 nouveaux succès — Explorateur (exécute 5 scripts différents) pour la lueur rose pulsante, l'Oiseau de nuit secret (ouvre le hub entre minuit et 5h du matin) pour la lueur bleu nuit et Série de 14 jours pour la lueur dorée scintillante — plus des aperçus de récompenses animés sur les cartes de succès et dans les quêtes, et le classement en deux colonnes.",
 		["Drawing emulator enabled: ESP and cursor work on this executor"] = "Émulateur Drawing activé : l'ESP et le curseur marchent sur cet exécuteur",
@@ -6817,14 +6819,32 @@ ClickSound.Parent = UI.Screen
 do
 	-- Drawing API emulator: instance-backed fallback for executors without native Drawing support.
 	-- Keeps ESP boxes, corners, tracers, skeleton, health bars, offscreen arrows and the custom cursor working.
+	local FORCE_EMU = false
+	pcall(function()
+		local identify = identifyexecutor or getexecutorname
+		if identify then
+			local ok, name = pcall(identify)
+			if ok and type(name) == "string" then
+				local lower = name:lower()
+				-- Solara-family executors (Medium etc.) ship a Drawing stub that accepts objects without rendering them.
+				if lower:find("medium", 1, true) or lower:find("solara", 1, true) then FORCE_EMU = true end
+			end
+		end
+	end)
 	local NATIVE_OK = false
-	if Drawing and type(Drawing.new) == "function" then
+	if not FORCE_EMU and Drawing and type(Drawing.new) == "function" then
 		local ok, probe = pcall(Drawing.new, Drawing, "Line")
 		if ok and probe then
-			NATIVE_OK = true
+			-- Detect fake table-backed stubs: a real Drawing object refuses unknown properties.
+			local stub = false
+			pcall(function()
+				probe.TigerHubStubProbe = 4242
+				if probe.TigerHubStubProbe == 4242 then stub = true end
+			end)
 			pcall(function()
 				if type(probe.Remove) == "function" then probe:Remove() end
 			end)
+			NATIVE_OK = not stub
 		end
 	end
 	if not NATIVE_OK then
@@ -8678,7 +8698,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.8", date = "Nov 18", latest = true,
+			version = "V3.7.9", date = "Nov 18", latest = true,
+			notes = {
+				"Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."
+			}
+		},
+		{
+			version = "V3.7.8", date = "Nov 18",
 			notes = {
 				"Hardened the Drawing emulator: the panel now probes the native Drawing library instead of just checking that it exists, always builds the instance fallback and routes every Drawing.new call through a safe resolver — so ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor also work on executors with a broken or locked Drawing global. A notification now confirms when the emulator is active."
 			}
