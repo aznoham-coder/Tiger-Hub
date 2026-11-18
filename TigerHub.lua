@@ -235,8 +235,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.10",
-	Display = "V3.7.10",
+	Current = "3.7.11",
+	Display = "V3.7.11",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2598,6 +2598,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Заблокировано (серия из 14 дней)",
 		["Unlocked from 14 Day Streak"] = "Открывается за серию из 14 дней",
 		["Secret achievement"] = "Секретное достижение",
+		["Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."] = "Крупное исправление ESP: весь слой Drawing использовал перевёрнутую шкалу прозрачности, поэтому рамки ESP, трассеры, скелет, текст дистанции/инструмента, орбита, ореолы, модели шапок, пользовательский прицел, пользовательская мышь и след курсора рисовались полностью прозрачными и никогда не появлялись. Теперь всё рисуется с правильной непрозрачностью на любом экзекуторе. Таблица лидеров также сначала загружается через обычный HttpGet и отправляется через HttpService, если у экзекутора нет функции request — это возвращает таблицу на экзекуторах вроде Medium.",
 		["Added a Drawing Test button in the Compatibility tab: it draws a test box, line and text in the center of the screen for 5 seconds so you can verify visually that Drawing (native or the emulator) renders on your executor. Also optimized the emulator with batched per-frame rendering for much better performance with many ESP objects."] = "Добавлена кнопка «Тест Drawing» во вкладке совместимости: она рисует тестовую рамку, линию и текст в центре экрана на 5 секунд, чтобы вы могли визуально проверить, отображается ли Drawing (нативный или эмулятор) на вашем экзекуторе. Также эмулятор оптимизирован пакетным рендерингом раз в кадр для заметно лучшей производительности при большом количестве объектов ESP.",
 		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Исправлена работа эмулятора Drawing на Medium: панель теперь распознаёт поддельные заглушки Drawing (экзекуторы, которые принимают объекты Drawing, но никогда их не рисуют, как семейство Solara) и переключает их на встроенный запасной вариант на основе Instance, так что рамки ESP, трассеры, скелет, полоски здоровья, орбита, прицел, пользовательский курсор и стрелки теперь реально отображаются.",
 		["Hardened the Drawing emulator: the panel now probes the native Drawing library instead of just checking that it exists, always builds the instance fallback and routes every Drawing.new call through a safe resolver — so ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor also work on executors with a broken or locked Drawing global. A notification now confirms when the emulator is active."] = "Усилен эмулятор Drawing: панель теперь проверяет нативную библиотеку Drawing, а не просто её наличие, всегда создаёт запасной вариант на основе Instance и направляет все вызовы Drawing.new через безопасный резолвер — так что рамки ESP, трассеры, скелет, полоски здоровья, стрелки и пользовательский курсор работают и на экзекуторах со сломанной или заблокированной глобальной Drawing. Теперь приходит уведомление, когда эмулятор активен.",
@@ -4571,6 +4572,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Verrouillé (série de 14 jours)",
 		["Unlocked from 14 Day Streak"] = "Débloqué avec la série de 14 jours",
 		["Secret achievement"] = "Succès secret",
+		["Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."] = "Grosse correction ESP : toute la couche Drawing inversait l'échelle de transparence, donc les boîtes ESP, les tracers, le squelette, les textes Distance/Objet, l'Orbite, les halos, les modèles de chapeaux, le viseur personnalisé, la souris personnalisée et la traînée du curseur étaient dessinés totalement transparents et n'apparaissaient jamais. Tout se dessine maintenant avec la bonne opacité sur tous les exécuteurs. Le classement se charge aussi d'abord via HttpGet simple et publie via HttpService quand l'exécuteur n'a pas de fonction request — ça le restaure sur des exécuteurs comme Medium.",
 		["Added a Drawing Test button in the Compatibility tab: it draws a test box, line and text in the center of the screen for 5 seconds so you can verify visually that Drawing (native or the emulator) renders on your executor. Also optimized the emulator with batched per-frame rendering for much better performance with many ESP objects."] = "Ajout d'un bouton « Tester Drawing » dans l'onglet Compatibilité : il dessine une boîte test, une ligne et un texte au centre de l'écran pendant 5 secondes pour vérifier visuellement que Drawing (natif ou émulateur) s'affiche sur ton exécuteur. L'émulateur est aussi optimisé avec un rendu groupé par frame pour de bien meilleures performances avec beaucoup d'objets ESP.",
 		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Correction de l'émulateur Drawing qui ne s'activait pas sur Medium : le panel détecte maintenant les fausses librairies Drawing (les exécuteurs qui acceptent des objets Drawing sans jamais les dessiner, comme la famille Solara) et bascule sur le système de secours intégré sur Instances, ainsi les boîtes ESP, tracers, squelette, barres de vie, orbite, viseur, curseur personnalisé et flèches s'affichent réellement.",
 		["Hardened the Drawing emulator: the panel now probes the native Drawing library instead of just checking that it exists, always builds the instance fallback and routes every Drawing.new call through a safe resolver — so ESP boxes, tracers, skeleton, health bars, offscreen arrows and the custom cursor also work on executors with a broken or locked Drawing global. A notification now confirms when the emulator is active."] = "Émulateur Drawing renforcé : le panel teste maintenant la vraie librairie Drawing native au lieu de juste vérifier qu'elle existe, construit toujours le système de secours sur Instances et route chaque appel Drawing.new via un résolveur sécurisé — ainsi les boîtes ESP, tracers, squelette, barres de vie, flèches hors-écran et le curseur personnalisé marchent aussi sur les exécuteurs avec un Drawing global cassé ou bloqué. Une notification confirme maintenant quand l'émulateur est actif.",
@@ -8729,7 +8731,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.10", date = "Nov 18", latest = true,
+			version = "V3.7.11", date = "Nov 18", latest = true,
+			notes = {
+				"Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."
+			}
+		},
+		{
+			version = "V3.7.10", date = "Nov 18",
 			notes = {
 				"Added a Drawing Test button in the Compatibility tab: it draws a test box, line and text in the center of the screen for 5 seconds so you can verify visually that Drawing (native or the emulator) renders on your executor. Also optimized the emulator with batched per-frame rendering for much better performance with many ESP objects."
 			}
@@ -9823,18 +9831,35 @@ function Lib.BuildTop(group)
 	end
 
 	local function LoadRemote()
-		local ok, body = API.HTTPRequest(URL .. "?t=" .. os.time(), "application/json")
-		if not ok or type(body) ~= "string" or body == "" then return nil end
+		local body
+		local okGet, resGet = pcall(function()
+			return game:HttpGet(URL .. "?t=" .. os.time())
+		end)
+		if okGet and type(resGet) == "string" and resGet ~= "" then
+			body = resGet
+		else
+			local okReq, resReq = API.HTTPRequest(URL .. "?t=" .. os.time(), "application/json")
+			if okReq and type(resReq) == "string" then
+				body = resReq
+			end
+		end
+		if type(body) ~= "string" or body == "" then return nil end
 		local decoded, data = pcall(Http.JSONDecode, Http, body)
 		if not decoded or type(data) ~= "table" or type(data.users) ~= "table" then return nil end
 		return data
 	end
 
 	local function SaveRemote(data)
-		if not Req then return end
-		pcall(function()
-			Req({ Url = URL, Method = "POST", Headers = { ["Content-Type"] = "text/plain", ["User-Agent"] = "Mozilla/5.0" }, Body = Http:JSONEncode(data) })
-		end)
+		local payload = Http:JSONEncode(data)
+		if Req then
+			pcall(function()
+				Req({ Url = URL, Method = "POST", Headers = { ["Content-Type"] = "text/plain", ["User-Agent"] = "Mozilla/5.0" }, Body = payload })
+			end)
+		else
+			pcall(function()
+				Http:PostAsync(URL, payload, Enum.HttpContentType.TextPlain)
+			end)
+		end
 	end
 
 	local function MergeAndPrune(data)
@@ -17170,14 +17195,14 @@ function Lib.CreateEspCore()
 		a.Size = size
 		a.Color = color
 		a.Position = v2(x, y)
-		a.Transparency = alpha
+		a.Transparency = 1 - alpha
 		a.Visible = true
 		b.Font = font
 		b.Text = text
 		b.Size = size
 		b.Color = color
 		b.Position = v2(x + 1, y)
-		b.Transparency = alpha
+		b.Transparency = 1 - alpha
 		b.Visible = cfg.Text.Bold
 	end
 
@@ -17196,7 +17221,7 @@ function Lib.CreateEspCore()
 		l.To = v2(x2, y2)
 		l.Color = col
 		l.Thickness = th
-		l.Transparency = alpha
+		l.Transparency = 1 - alpha
 		l.Visible = true
 	end
 
@@ -17491,18 +17516,18 @@ function Lib.CreateEspCore()
 			bg.Outline.Position = v2(minX, minY)
 			bg.Outline.Size = Vector2.new(rw, rh)
 			bg.Outline.Thickness = th + 2
-			bg.Outline.Transparency = alpha
+			bg.Outline.Transparency = 1 - alpha
 			bg.Outline.Visible = plain and outl
 			bg.Box.Position = v2(minX, minY)
 			bg.Box.Size = Vector2.new(rw, rh)
 			bg.Box.Color = pal.solid
 			bg.Box.Thickness = th
-			bg.Box.Transparency = alpha
+			bg.Box.Transparency = 1 - alpha
 			bg.Box.Visible = plain
 			bg.Fill.Position = v2(minX, minY)
 			bg.Fill.Size = Vector2.new(rw, rh)
 			bg.Fill.Color = (gradOn and g.Fill) and gc(pal, 0.5) or pal.solid
-			bg.Fill.Transparency = b.Opacity * alpha
+			bg.Fill.Transparency = 1 - b.Opacity * alpha
 			bg.Fill.Visible = singleFill
 		end
 
@@ -18099,7 +18124,7 @@ function Lib.CreateEspCore()
 						trg.Line.To = v2(cx, maxY)
 						trg.Line.Color = H.Color
 						trg.Line.Thickness = cfg.Tracer.Thickness
-						trg.Line.Transparency = alpha * 0.8
+						trg.Line.Transparency = 1 - alpha * 0.8
 						trg.Line.Visible = true
 					end
 				end
@@ -18213,7 +18238,7 @@ function Lib.CreateEspCore()
 			trg.Line.To = v2(cx, maxY)
 			trg.Line.Color = pc(g.Tracer, pal, 0.5, tr.Color, true)
 			trg.Line.Thickness = tr.Thickness
-			trg.Line.Transparency = 1
+			trg.Line.Transparency = 0
 			trg.Line.Visible = true
 		end
 
@@ -18341,7 +18366,7 @@ function Lib.CreateEspCore()
 			end
 			p[class][i] = d
 		end
-		d.Transparency = 1
+		d.Transparency = 0
 		d.Visible = true
 		return d
 	end
@@ -18380,7 +18405,7 @@ function Lib.CreateEspCore()
 				l.To = pts[i + 1]
 				l.Color = colorOf(i / n)
 				l.Thickness = thickness
-				l.Transparency = opacity
+				l.Transparency = 1 - opacity
 			end
 		end
 	end
@@ -18402,7 +18427,7 @@ function Lib.CreateEspCore()
 					local tr = take(p, "Triangle")
 					tr.PointA, tr.PointB, tr.PointC = MP[a], MP[b], MP[c]
 					tr.Color = cfn(k / nt)
-					tr.Transparency = opacity
+					tr.Transparency = 1 - opacity
 				end
 			end
 		end
@@ -18656,7 +18681,7 @@ function Lib.CreateEspCore()
 					tr.PointB = base[i]
 					tr.PointC = base[i + 1]
 					tr.Color = cf((i + 0.5) / n)
-					tr.Transparency = h.Opacity
+					tr.Transparency = 1 - h.Opacity
 				end
 			end
 		end
@@ -18780,7 +18805,7 @@ function Lib.CreateEspCore()
 						local tr = take(p, "Triangle")
 						tr.PointA, tr.PointB, tr.PointC = MP[1], MP[i], MP[i + 1]
 						tr.Color = col
-						tr.Transparency = m.Opacity
+						tr.Transparency = 1 - m.Opacity
 					end
 				end
 				if m.Outline then
@@ -18976,7 +19001,7 @@ function Lib.CreateEspCore()
 						local a, b = e.pts[j], e.pts[j % n + 1]
 						local l = take(p, "Line")
 						l.From, l.To = T(a[1], a[2]), T(b[1], b[2])
-						l.Color, l.Thickness, l.Transparency, l.ZIndex = black, 3, alpha, z0 + 1
+						l.Color, l.Thickness, l.Transparency, l.ZIndex = black, 3, 1 - alpha, z0 + 1
 					end
 				elseif e.k == "circ" and e.c ~= 3 and e.c ~= 4 then
 					local d = take(p, "Circle")
@@ -18984,7 +19009,7 @@ function Lib.CreateEspCore()
 					d.Radius = e.r * size + (e.filled and 1.5 or 0)
 					d.Filled = e.filled
 					d.Thickness = 4
-					d.Color, d.Transparency, d.ZIndex = black, alpha, z0 + 1
+					d.Color, d.Transparency, d.ZIndex = black, 1 - alpha, z0 + 1
 				end
 			end
 		end
@@ -18998,14 +19023,14 @@ function Lib.CreateEspCore()
 						local a, b = pts[j], pts[j % n + 1]
 						local tr = take(p, "Triangle")
 						tr.PointA, tr.PointB, tr.PointC = ctr, T(a[1], a[2]), T(b[1], b[2])
-						tr.Color, tr.Transparency, tr.ZIndex = col, alpha, z
+						tr.Color, tr.Transparency, tr.ZIndex = col, 1 - alpha, z
 					end
 				else
 					local a = T(pts[1][1], pts[1][2])
 					for j = 2, n - 1 do
 						local tr = take(p, "Triangle")
 						tr.PointA, tr.PointB, tr.PointC = a, T(pts[j][1], pts[j][2]), T(pts[j + 1][1], pts[j + 1][2])
-						tr.Color, tr.Transparency, tr.ZIndex = col, alpha, z
+						tr.Color, tr.Transparency, tr.ZIndex = col, 1 - alpha, z
 					end
 				end
 			elseif e.k == "circ" then
@@ -19014,11 +19039,11 @@ function Lib.CreateEspCore()
 				d.Radius = e.r * size
 				d.Filled = e.filled
 				d.Thickness = 2
-				d.Color, d.Transparency, d.ZIndex = col, alpha, z
+				d.Color, d.Transparency, d.ZIndex = col, 1 - alpha, z
 			else
 				local l = take(p, "Line")
 				l.From, l.To = T(e.x1, e.y1), T(e.x2, e.y2)
-				l.Color, l.Thickness, l.Transparency, l.ZIndex = col, 1.5, alpha, z
+				l.Color, l.Thickness, l.Transparency, l.ZIndex = col, 1.5, 1 - alpha, z
 			end
 		end
 	end
@@ -19040,11 +19065,11 @@ function Lib.CreateEspCore()
 		if outline then
 			local o = take(p, "Line")
 			o.From, o.To = a, b
-			o.Color, o.Thickness, o.Transparency, o.ZIndex = black, th + 2, alpha, 1
+			o.Color, o.Thickness, o.Transparency, o.ZIndex = black, th + 2, 1 - alpha, 1
 		end
 		local l = take(p, "Line")
 		l.From, l.To = a, b
-		l.Color, l.Thickness, l.Transparency, l.ZIndex = col, th, alpha, 2
+		l.Color, l.Thickness, l.Transparency, l.ZIndex = col, th, 1 - alpha, 2
 	end
 
 	local crossDyn = 0
@@ -19091,10 +19116,10 @@ function Lib.CreateEspCore()
 		elseif style == "Circle" then
 			local o = take(p, "Circle")
 			o.Position, o.Radius, o.Filled, o.Thickness = Vector2.new(cx, cy), s, false, th + 2
-			o.Color, o.Transparency, o.ZIndex = black, ol and a or 0, 1
+			o.Color, o.Transparency, o.ZIndex = black, ol and (1 - a) or 1, 1
 			local m = take(p, "Circle")
 			m.Position, m.Radius, m.Filled, m.Thickness = Vector2.new(cx, cy), s, false, th
-			m.Color, m.Transparency, m.ZIndex = col, a, 2
+			m.Color, m.Transparency, m.ZIndex = col, 1 - a, 2
 		elseif style == "Square" then
 			local q = {R(-s, -s), R(s, -s), R(s, s), R(-s, s)}
 			for k = 1, 4 do
@@ -19133,11 +19158,11 @@ function Lib.CreateEspCore()
 			if ol then
 				local o = take(p, "Circle")
 				o.Position, o.Radius, o.Filled = center, r + 1, true
-				o.Color, o.Transparency, o.ZIndex = black, a, 1
+				o.Color, o.Transparency, o.ZIndex = black, 1 - a, 1
 			end
 			local m = take(p, "Circle")
 			m.Position, m.Radius, m.Filled = center, r, true
-			m.Color, m.Transparency, m.ZIndex = style == "Dot" and col or col2, a, 3
+			m.Color, m.Transparency, m.ZIndex = style == "Dot" and col or col2, 1 - a, 3
 		end
 	end
 
@@ -19206,7 +19231,7 @@ function Lib.CreateEspCore()
 				d.Radius = math.max(1, m.Size * 0.4 * f)
 				d.Filled = true
 				d.Color = col:Lerp(col2, 1 - f)
-				d.Transparency = math.clamp(f * 0.6, 0, 1) * m.Opacity
+				d.Transparency = 1 - math.clamp(f * 0.6, 0, 1) * m.Opacity
 				d.ZIndex = 40
 			end
 		else
