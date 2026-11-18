@@ -2654,7 +2654,8 @@ do
 		{ "Custom ", "Свой " },
 		{ "Asset ", "Asset " },
 		{ "Leaderboard name: ", "Имя в таблице: " },
-		{ "Leaderboard name set to ", "Имя для таблицы: " }
+		{ "Leaderboard name set to ", "Имя для таблицы: " },
+		{ "Version ", "Версия " }
 	}
 	local Months = { Jan = "янв", Feb = "фев", Mar = "мар", Apr = "апр", May = "мая", Jun = "июн", Jul = "июл", Aug = "авг", Sep = "сен", Oct = "окт", Nov = "ноя", Dec = "дек" }
 	local Rules = {
@@ -4618,7 +4619,8 @@ do
 		{ "Custom ", "Personnalisé " },
 		{ "Asset ", "Asset " },
 		{ "Leaderboard name: ", "Pseudo du classement : " },
-		{ "Leaderboard name set to ", "Pseudo du classement défini sur " }
+		{ "Leaderboard name set to ", "Pseudo du classement défini sur " },
+		{ "Version ", "Version " }
 	}
 	local FrMonths = { Jan = "janv", Feb = "févr", Mar = "mars", Apr = "avr", May = "mai", Jun = "juin", Jul = "juil", Aug = "août", Sep = "sept", Oct = "oct", Nov = "nov", Dec = "déc" }
 	local FrRules = {
@@ -5784,7 +5786,7 @@ do
 		end
 	end
 
-	function V.Check()
+	function V.Check(manual)
 		if V.Busy then return end
 		V.Busy = true
 		Publish("checking")
@@ -5800,7 +5802,18 @@ do
 				end
 			end
 			V.Busy = false
-			if not State.Unloaded then Publish(status, latest) end
+			if not State.Unloaded then
+				Publish(status, latest)
+				if manual then
+					if status == "outdated" then
+						Lib.Notify({ Title = "Update available", Text = "New version: V" .. latest, Duration = 6 })
+					elseif status == "latest" then
+						Lib.Notify({ Title = "Up to date", Text = "Version " .. (latest or V.Current), Duration = 6 })
+					else
+						Lib.Notify({ Title = "Update check failed", Duration = 6 })
+					end
+				end
+			end
 		end)
 	end
 
@@ -8912,7 +8925,7 @@ function Lib.BuildUpdateLog(view)
 		return button
 	end
 
-	ActionButton("Check for Updates", 1, Version.Check)
+	ActionButton("Check for Updates", 1, function() Version.Check(true) end)
 	local updateNowButton = ActionButton("Update Now", 2, Version.UpdateNow)
 	updateNowButton.Visible = false
 	local copyButton = ActionButton("Copy Link", 3, function()
@@ -10001,7 +10014,7 @@ do
 			if Version.Status == "outdated" then
 				Version.UpdateNow()
 			else
-				Version.Check()
+				Version.Check(true)
 			end
 		end)
 
@@ -34571,6 +34584,7 @@ local function PlayCinematicIntro(onComplete)
 end
 
 Lib.Version.Check()
+Lib.Version.Started = true
 PlayCinematicIntro(StartLoadingSequence)
 
 do
