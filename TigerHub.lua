@@ -190,6 +190,11 @@ local App = {
 		Ach_Streak7_Claimed = false,
 		Ach_Collector10_Claimed = false,
 		Ach_Rainbow50_Claimed = false,
+		Ach_Explorer_Claimed = false,
+		Ach_NightOwl_Claimed = false,
+		Ach_Faithful14_Claimed = false,
+		NightOwlSeen = false,
+		ScriptsRunList = {},
 		MusicSeconds = 0,
 		Ach_DJ_Claimed = false,
 		Quest_Player_Claimed = false,
@@ -2574,6 +2579,25 @@ do
 		["Could not download the update."] = "Не удалось скачать обновление.",
 		["The downloaded script is invalid."] = "Скачанный скрипт повреждён.",
 		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Добавлено удалённое обновление: когда доступно обновление, кнопка «Проверить обновления» становится «Обновить сейчас» и перезапускает панель с новой версией без перезапуска игры. Также достижение DJ (1 час музыки, награда — фиолетовое свечение), огонёк рядом с серией дней, конфетти при получении каждой награды, новая вкладка «Топ» с глобальными таблицами по времени и достижениям, а также задания, открывающие своё имя в таблице, эффект искр и двойное кольцо.",
+		["EXPLORER"] = "ИССЛЕДОВАТЕЛЬ",
+		["Run 5 different scripts from the Scripts tab."] = "Запустите 5 разных скриптов во вкладке Скрипты.",
+		["Rose Pulse Glow"] = "Розовое пульсирующее свечение",
+		["You unlocked the Rose Pulse Glow!"] = "Вы открыли розовое пульсирующее свечение!",
+		["NIGHT OWL"] = "НОЧНАЯ СОВА",
+		["Secret: open the hub between midnight and 5 AM."] = "Секрет: откройте хаб с полуночи до 5 утра.",
+		["Night Blue Glow"] = "Синее ночное свечение",
+		["You unlocked the Night Blue Glow!"] = "Вы открыли синее ночное свечение!",
+		["14 DAY STREAK"] = "СЕРИЯ ИЗ 14 ДНЕЙ",
+		["Use the hub 14 days in a row."] = "Используйте хаб 14 дней подряд.",
+		["Shimmer Glow"] = "Мерцающее свечение",
+		["You unlocked the Shimmer Glow!"] = "Вы открыли мерцающее свечение!",
+		["Locked (Run 5 different scripts)"] = "Заблокировано (запустите 5 разных скриптов)",
+		["Unlocked from 5 Scripts Executed"] = "Открывается за 5 запущенных скриптов",
+		["Locked (Secret night achievement)"] = "Заблокировано (секретное ночное достижение)",
+		["Unlocked from the Night Owl achievement"] = "Открывается за достижение «Ночная сова»",
+		["Locked (Reach 14 day streak)"] = "Заблокировано (серия из 14 дней)",
+		["Unlocked from 14 Day Streak"] = "Открывается за серию из 14 дней",
+		["Secret achievement"] = "Секретное достижение",
 		["Global Leaderboard"] = "Глобальный рейтинг"
 	}
 	local Prefixes = {
@@ -4518,6 +4542,25 @@ do
 		["Could not download the update."] = "Impossible de télécharger la mise à jour.",
 		["The downloaded script is invalid."] = "Le script téléchargé est invalide.",
 		["Added remote updating: when an update is available the Check for Updates button becomes Update Now and reloads the panel with the new version without relaunching the game. Also a DJ achievement (1 hour of music, Violet Pulse Glow reward), a flame next to the day streak, confetti on every claimed reward, a new Leaderboard tab with the global Top Panel Time and Top Achievements rankings, and quests that unlock a custom leaderboard name, a sparkle effect and a double ring."] = "Ajout de la mise à jour à distance : quand une mise à jour est disponible, le bouton Vérifier les mises à jour devient Mettre à jour et recharge le panel avec la nouvelle version sans relancer le jeu. Aussi le succès DJ (1 heure de musique, récompense : lueur violette), une flamme à côté de la série de jours, des confettis à chaque récompense réclamée, un nouvel onglet Classement avec les tops globaux Top Temps Panel et Top Succès, et des quêtes qui débloquent un pseudo de classement personnalisé, l'effet étincelles et le double anneau.",
+		["EXPLORER"] = "EXPLORATEUR",
+		["Run 5 different scripts from the Scripts tab."] = "Exécute 5 scripts différents depuis l'onglet Scripts.",
+		["Rose Pulse Glow"] = "Lueur rose pulsante",
+		["You unlocked the Rose Pulse Glow!"] = "Tu as débloqué la lueur rose pulsante !",
+		["NIGHT OWL"] = "OISEAU DE NUIT",
+		["Secret: open the hub between midnight and 5 AM."] = "Secret : ouvre le hub entre minuit et 5h du matin.",
+		["Night Blue Glow"] = "Lueur bleu nuit",
+		["You unlocked the Night Blue Glow!"] = "Tu as débloqué la lueur bleu nuit !",
+		["14 DAY STREAK"] = "SÉRIE DE 14 JOURS",
+		["Use the hub 14 days in a row."] = "Utilise le hub 14 jours d'affilée.",
+		["Shimmer Glow"] = "Lueur dorée scintillante",
+		["You unlocked the Shimmer Glow!"] = "Tu as débloqué la lueur dorée scintillante !",
+		["Locked (Run 5 different scripts)"] = "Verrouillé (exécute 5 scripts différents)",
+		["Unlocked from 5 Scripts Executed"] = "Débloqué avec 5 scripts exécutés",
+		["Locked (Secret night achievement)"] = "Verrouillé (succès nocturne secret)",
+		["Unlocked from the Night Owl achievement"] = "Débloqué avec le succès Oiseau de nuit",
+		["Locked (Reach 14 day streak)"] = "Verrouillé (série de 14 jours)",
+		["Unlocked from 14 Day Streak"] = "Débloqué avec la série de 14 jours",
+		["Secret achievement"] = "Succès secret",
 		["Global Leaderboard"] = "Classement mondial"
 	}
 	local FrPrefixes = {
@@ -6103,6 +6146,11 @@ do
 						State.Ach_Streak7_Claimed = data.Ach_Streak7_Claimed or false
 						State.Ach_Collector10_Claimed = data.Ach_Collector10_Claimed or false
 						State.Ach_Rainbow50_Claimed = data.Ach_Rainbow50_Claimed or false
+						State.Ach_Explorer_Claimed = data.Ach_Explorer_Claimed or false
+						State.Ach_NightOwl_Claimed = data.Ach_NightOwl_Claimed or false
+						State.Ach_Faithful14_Claimed = data.Ach_Faithful14_Claimed or false
+						State.NightOwlSeen = data.NightOwlSeen or false
+						State.ScriptsRunList = type(data.ScriptsRunList) == "table" and data.ScriptsRunList or {}
 						State.MusicSeconds = tonumber(data.MusicSeconds) or 0
 						State.Ach_DJ_Claimed = data.Ach_DJ_Claimed or false
 						State.Quest_Player_Claimed = data.Quest_Player_Claimed or false
@@ -6124,7 +6172,12 @@ do
 			State.Ach_Streak7_Claimed = true
 			State.Ach_Collector10_Claimed = true
 			State.Ach_Rainbow50_Claimed = true
+			State.Ach_Explorer_Claimed = true
+			State.Ach_NightOwl_Claimed = true
+			State.Ach_Faithful14_Claimed = true
+			State.NightOwlSeen = true
 			State.Ach_DJ_Claimed = true
+			State.ScriptsRunList = State.ScriptsRunList or {}
 			State.Quest_Player_Claimed = true
 			State.Quest_Star_Claimed = true
 			State.Quest_Music_Claimed = true
@@ -6150,6 +6203,11 @@ do
 				Ach_Streak7_Claimed = State.Ach_Streak7_Claimed,
 				Ach_Collector10_Claimed = State.Ach_Collector10_Claimed,
 				Ach_Rainbow50_Claimed = State.Ach_Rainbow50_Claimed,
+				Ach_Explorer_Claimed = State.Ach_Explorer_Claimed,
+				Ach_NightOwl_Claimed = State.Ach_NightOwl_Claimed,
+				Ach_Faithful14_Claimed = State.Ach_Faithful14_Claimed,
+				NightOwlSeen = State.NightOwlSeen,
+				ScriptsRunList = State.ScriptsRunList,
 				MusicSeconds = math.floor(State.MusicSeconds),
 				Ach_DJ_Claimed = State.Ach_DJ_Claimed,
 				Quest_Player_Claimed = State.Quest_Player_Claimed,
@@ -6194,6 +6252,12 @@ do
 			if refreshTimer >= 20 then
 				refreshTimer = 0
 				if Activity.OnRefresh then Activity.OnRefresh() end
+			end
+
+			local hourNow = tonumber(os.date("*t").hour) or 12
+			if hourNow < 5 and not State.NightOwlSeen then
+				State.NightOwlSeen = true
+				Lib.SavePlaytimeData()
 			end
 
 			saveTimer = saveTimer + 1
@@ -9852,14 +9916,22 @@ do
 		Flame = Color3.fromRGB(255, 96, 28),
 		Emerald = Color3.fromRGB(46, 213, 115),
 		Violet = Color3.fromRGB(150, 70, 230),
-		Rainbow = Color3.fromRGB(180, 100, 255)
+		Rainbow = Color3.fromRGB(180, 100, 255),
+		Rose = Color3.fromRGB(255, 90, 160),
+		NightBlue = Color3.fromRGB(90, 130, 255),
+		Shimmer = Color3.fromRGB(255, 200, 40)
 	}
+
+	local function ShimmerColor()
+		local t = (math.sin(os.clock() * 2.2) + 1) / 2
+		return Color3.fromRGB(230 + t * 25, 160 + t * 70, 20 + t * 130)
+	end
 
 	local function ApplyDecorStyle()
 		local color = State.ActiveDecor and DecorStyles[State.ActiveDecor] or nil
 		if not color and State.DoubleRingOn then color = Color3.fromRGB(255, 255, 255) end
 		AvatarGlowRing.Visible = color ~= nil
-		if color and State.ActiveDecor ~= "Rainbow" then AvatarGlowRing.BackgroundColor3 = color end
+		if color and State.ActiveDecor ~= "Rainbow" and State.ActiveDecor ~= "Shimmer" then AvatarGlowRing.BackgroundColor3 = color end
 		if color then GlowTween:Play() else GlowTween:Pause() end
 		AvatarGlowRing2.Visible = State.DoubleRingOn
 		AvatarGlowRing2.BackgroundColor3 = AvatarGlowRing.BackgroundColor3
@@ -9873,6 +9945,8 @@ do
 			task.wait(0.08)
 			if State.ActiveDecor == "Rainbow" and AvatarGlowRing.Visible then
 				AvatarGlowRing.BackgroundColor3 = Color3.fromHSV((os.clock() * 0.12) % 1, 0.72, 1)
+			elseif State.ActiveDecor == "Shimmer" and AvatarGlowRing.Visible then
+				AvatarGlowRing.BackgroundColor3 = ShimmerColor()
 			end
 			if AvatarGlowRing2.Visible then
 				AvatarGlowRing2.BackgroundColor3 = AvatarGlowRing.BackgroundColor3
@@ -9887,7 +9961,7 @@ do
 	local DropdownArrow = Lib.Create("TextLabel", { Size = UDim2.fromOffset(30, 30), Position = UDim2.new(1, -40, 0.5, -15), BackgroundTransparency = 1, Text = "▼", TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 12, Font = Enum.Font.GothamMedium, Parent = DecorHeaderBtn })
 	Lib.RegisterThemeText(DropdownArrow, "Secondary")
 
-	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 400), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
+	local DecorItemsContainer = Lib.Create("Frame", { Size = UDim2.new(1, -30, 0, 604), Position = UDim2.new(0, 15, 0, 50), BackgroundTransparency = 1, Parent = DecorDropdownCard, Lib.Create("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }) })
 	local DecorButtons = {}
 
 	local function RefreshDecorButtons()
@@ -9922,7 +9996,10 @@ do
 		{ id = "Flame", title = "Flame Glow", locked = "Locked (Reach 7 day streak)", unlocked = "Unlocked from 7 Day Streak", claim = "Ach_Streak7_Claimed" },
 		{ id = "Emerald", title = "Emerald Pulse Glow", locked = "Locked (Save 10 scripts)", unlocked = "Unlocked from 10 Saved Scripts", claim = "Ach_Collector10_Claimed" },
 		{ id = "Violet", title = "Violet Pulse Glow", locked = "Locked (Reach the DJ achievement)", unlocked = "Unlocked from 1 Hour of Music", claim = "Ach_DJ_Claimed" },
-		{ id = "Rainbow", title = "Rainbow Glow", locked = "Locked (Reach 50h achievement)", unlocked = "Unlocked from 50 Hours Played", claim = "Ach_Rainbow50_Claimed" }
+		{ id = "Rainbow", title = "Rainbow Glow", locked = "Locked (Reach 50h achievement)", unlocked = "Unlocked from 50 Hours Played", claim = "Ach_Rainbow50_Claimed" },
+		{ id = "Rose", title = "Rose Pulse Glow", locked = "Locked (Run 5 different scripts)", unlocked = "Unlocked from 5 Scripts Executed", claim = "Ach_Explorer_Claimed" },
+		{ id = "NightBlue", title = "Night Blue Glow", locked = "Locked (Secret night achievement)", unlocked = "Unlocked from the Night Owl achievement", claim = "Ach_NightOwl_Claimed" },
+		{ id = "Shimmer", title = "Shimmer Glow", locked = "Locked (Reach 14 day streak)", unlocked = "Unlocked from 14 Day Streak", claim = "Ach_Faithful14_Claimed" }
 	}) do
 		local item = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 60), BackgroundColor3 = Color3.fromRGB(22, 22, 22), LayoutOrder = index, Parent = DecorItemsContainer, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
 		Lib.RegisterThemeElement(item, "BackgroundColor3", 0.7)
@@ -9947,7 +10024,7 @@ do
 		Lib.PlayClick()
 		isDropdownOpen = not isDropdownOpen
 		Lib.Tween(DropdownArrow, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Rotation = isDropdownOpen and 180 or 0 })
-		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 462) or UDim2.new(1, 0, 0, 50) })
+		Lib.Tween(DecorDropdownCard, 0.25, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out, { Size = isDropdownOpen and UDim2.new(1, 0, 0, 666) or UDim2.new(1, 0, 0, 50) })
 	end)
 
 	local EffectsCard = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 50), BackgroundColor3 = Color3.fromRGB(15, 15, 15), LayoutOrder = 7, ClipsDescendants = true, Parent = AccountScroll, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }) })
@@ -10087,6 +10164,14 @@ do
 		return 0
 	end
 
+	local function GetRunCount()
+		local list = State.ScriptsRunList
+		if type(list) ~= "table" then return 0 end
+		local n = 0
+		for _ in pairs(list) do n = n + 1 end
+		return n
+	end
+
 	local AchDefs = {
 		{
 			title = "10 HOURS PLAYED", desc = "Thanks for spending 10 hours with us!", reward = "White Pulse Glow", format = "%.1f / 10h", goal = 10, previewColor = Color3.fromRGB(255, 255, 255),
@@ -10123,6 +10208,24 @@ do
 			progress = function() return math.min(State.TotalPlaytimeSeconds / 3600, 50) end,
 			claimed = function() return State.Ach_Rainbow50_Claimed end, setClaimed = function() State.Ach_Rainbow50_Claimed = true end,
 			unlock = "You unlocked the Rainbow Glow!", equip = "Rainbow"
+		},
+		{
+			title = "EXPLORER", desc = "Run 5 different scripts from the Scripts tab.", reward = "Rose Pulse Glow", format = "%d / 5", goal = 5, previewColor = Color3.fromRGB(255, 90, 160),
+			progress = function() return math.min(GetRunCount(), 5) end,
+			claimed = function() return State.Ach_Explorer_Claimed end, setClaimed = function() State.Ach_Explorer_Claimed = true end,
+			unlock = "You unlocked the Rose Pulse Glow!", equip = "Rose"
+		},
+		{
+			title = "NIGHT OWL", desc = "Secret: open the hub between midnight and 5 AM.", reward = "Night Blue Glow", format = "%d / 1", goal = 1, previewColor = Color3.fromRGB(90, 130, 255), secret = true,
+			progress = function() return State.NightOwlSeen and 1 or 0 end,
+			claimed = function() return State.Ach_NightOwl_Claimed end, setClaimed = function() State.Ach_NightOwl_Claimed = true end,
+			unlock = "You unlocked the Night Blue Glow!", equip = "NightBlue"
+		},
+		{
+			title = "14 DAY STREAK", desc = "Use the hub 14 days in a row.", reward = "Shimmer Glow", format = "%d / 14", goal = 14, previewColor = Color3.fromRGB(255, 200, 40),
+			progress = function() return math.min(GetStreak(), 14) end,
+			claimed = function() return State.Ach_Faithful14_Claimed end, setClaimed = function() State.Ach_Faithful14_Claimed = true end,
+			unlock = "You unlocked the Shimmer Glow!", equip = "Shimmer"
 		}
 	}
 
@@ -10136,6 +10239,9 @@ do
 		local PreviewRing = Lib.Create("Frame", { Size = UDim2.fromOffset(50, 50), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = def.previewColor, BackgroundTransparency = 0.65, Parent = AchIconSection, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
 		Lib.Create("Frame", { Size = UDim2.fromOffset(38, 38), Position = UDim2.new(0.5, 0, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(22, 22, 22), Parent = PreviewRing, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
 
+		Services.Tween:Create(PreviewRing, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.25, Size = UDim2.fromOffset(56, 56) }):Play()
+		Services.Tween:Create(PreviewHalo, TweenInfo.new(1.1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), { BackgroundTransparency = 0.35, Size = UDim2.fromOffset(66, 66) }):Play()
+
 		if def.equip == "Rainbow" then
 			task.spawn(function()
 				while not State.Unloaded do
@@ -10146,11 +10252,21 @@ do
 					end
 				end
 			end)
+		elseif def.equip == "Shimmer" then
+			task.spawn(function()
+				while not State.Unloaded do
+					task.wait(0.08)
+					if PreviewRing.Parent then
+						PreviewRing.BackgroundColor3 = ShimmerColor()
+						PreviewHalo.BackgroundColor3 = PreviewRing.BackgroundColor3
+					end
+				end
+			end)
 		end
 		Lib.Create("Frame", { Size = UDim2.new(0, 1, 1, -20), Position = UDim2.new(0, 80, 0.5, 0), AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = Color3.fromRGB(30, 30, 30), BorderSizePixel = 0, Parent = AchCard })
 
 		local AchInfoSection = Lib.Create("Frame", { Size = UDim2.new(1, -210, 1, 0), Position = UDim2.new(0, 92, 0, 0), BackgroundTransparency = 1, Parent = AchCard })
-		local AchTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = def.title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
+		local AchTitle = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 20), Position = UDim2.new(0, 0, 0, 12), BackgroundTransparency = 1, Text = def.secret and "???" or def.title, TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
 		Lib.RegisterThemeText(AchTitle, "Primary")
 
 		local FlameLabel
@@ -10158,7 +10274,7 @@ do
 			FlameLabel = Lib.Create("TextLabel", { Size = UDim2.new(0, 90, 0, 20), Position = UDim2.new(1, -94, 0, 12), BackgroundTransparency = 1, Text = "", TextColor3 = Color3.fromRGB(255, 140, 50), TextSize = 14, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = AchInfoSection })
 		end
 
-		local AchDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = def.desc, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
+		local AchDesc = Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 0, 16), Position = UDim2.new(0, 0, 0, 34), BackgroundTransparency = 1, Text = def.secret and "Secret achievement" or def.desc, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = AchInfoSection })
 		Lib.RegisterThemeText(AchDesc, "Secondary")
 
 		local RewardRow = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 18), Position = UDim2.new(0, 0, 0, 56), BackgroundTransparency = 1, Parent = AchInfoSection })
@@ -10166,15 +10282,18 @@ do
 		local RewL = Lib.Create("TextLabel", { Size = UDim2.new(0, 50, 1, 0), Position = UDim2.new(0, 17, 0, 0), BackgroundTransparency = 1, Text = "REWARD:", TextColor3 = Color3.fromRGB(220, 220, 220), TextSize = 10, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
 		Lib.RegisterThemeText(RewL, "Primary")
 
-		local RewV = Lib.Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), Position = UDim2.new(0, 72, 0, 0), BackgroundTransparency = 1, Text = def.reward, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
+		local RewV = Lib.Create("TextLabel", { Size = UDim2.new(1, -70, 1, 0), Position = UDim2.new(0, 72, 0, 0), BackgroundTransparency = 1, Text = def.secret and "???" or def.reward, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 11, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, Parent = RewardRow })
 		Lib.RegisterThemeText(RewV, "Secondary")
 
 		local ClaimAchBtn = Lib.Create("TextButton", { Size = UDim2.fromOffset(105, 30), Position = UDim2.new(1, -115, 0.5, -15), BackgroundColor3 = Color3.fromRGB(255, 255, 255), Text = "Claim", TextColor3 = Color3.fromRGB(0, 0, 0), TextSize = 12, Font = Enum.Font.GothamBold, Parent = AchCard, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 6) }) })
 
 		local function Refresh()
 			local owned = def.claimed()
-			PreviewRing.BackgroundTransparency = owned and 0.08 or 0.65
-			PreviewHalo.Visible = owned
+			local hidden = def.secret and not State.NightOwlSeen and not owned
+			AchTitle.Text = hidden and "???" or def.title
+			AchDesc.Text = hidden and "Secret achievement" or def.desc
+			RewV.Text = hidden and "???" or def.reward
+			PreviewHalo.Visible = owned and not hidden
 			if FlameLabel then
 				local streak = GetStreak()
 				FlameLabel.Text = streak >= 1 and ("🔥 " .. streak) or ""
@@ -25821,6 +25940,10 @@ do
 				if source ~= "" and loadstring then fn, err = loadstring(source) end
 				if fn then
 					Lib.ScriptStores.Recent.Add(S.key, S.data)
+					State.ScriptsRunList = State.ScriptsRunList or {}
+					State.ScriptsRunList[tostring(S.key)] = true
+					Lib.SavePlaytimeData()
+					if UI.AchUpdateCallback then UI.AchUpdateCallback() end
 					task.spawn(function()
 						local ok, runError = pcall(fn)
 						if not ok then Lib.Notify({ Title = "Scripts", Text = "Script error: " .. tostring(runError):sub(1, 90) }) end
