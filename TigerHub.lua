@@ -9622,10 +9622,14 @@ function Lib.BuildTop(group)
 
 	local function AchCount()
 		local count = 0
-		for _, flag in ipairs({ "Ach_10Hours_Claimed", "Ach_24Hours_Claimed", "Ach_Streak7_Claimed", "Ach_Collector10_Claimed", "Ach_Rainbow50_Claimed", "Ach_DJ_Claimed" }) do
+		for _, flag in ipairs({ "Ach_10Hours_Claimed", "Ach_24Hours_Claimed", "Ach_Streak7_Claimed", "Ach_Collector10_Claimed", "Ach_Rainbow50_Claimed", "Ach_DJ_Claimed", "Ach_Explorer_Claimed", "Ach_NightOwl_Claimed", "Ach_Faithful14_Claimed" }) do
 			if State[flag] then count = count + 1 end
 		end
 		return count
+	end
+
+	local function IsOG()
+		return AchCount() >= 9
 	end
 
 	local function CleanName(value)
@@ -9666,6 +9670,7 @@ function Lib.BuildTop(group)
 			name = CleanName(State.CustomName ~= "" and State.CustomName or App.Player.DisplayName),
 			time = math.floor(State.TotalPlaytimeSeconds),
 			ach = AchCount(),
+			og = IsOG() or nil,
 			seen = now
 		}
 		local list, cutoff = {}, now - 60 * 86400
@@ -9712,12 +9717,15 @@ function Lib.BuildTop(group)
 	local TimeRows = BuildColumn(1, "Top Panel Time")
 	local AchRows = BuildColumn(2, "Top Achievements")
 
-	local function BuildRow(container, order, rank, name, value, mine)
+	local function BuildRow(container, order, rank, name, value, mine, og)
 		local row = Lib.Create("Frame", { Size = UDim2.new(1, 0, 0, 30), BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = mine and 0.88 or 1, LayoutOrder = order, Parent = container, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 7) }) })
 		local badgeColor = RankColors[rank]
 		local badge = Lib.Create("Frame", { Size = UDim2.fromOffset(22, 22), Position = UDim2.new(0, 5, 0.5, 0), AnchorPoint = Vector2.new(0, 0.5), BackgroundColor3 = badgeColor or Color3.fromRGB(55, 55, 55), BorderSizePixel = 0, Parent = row, Lib.Create("UICorner", { CornerRadius = UDim.new(1, 0) }) })
 		Lib.Create("TextLabel", { Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = tostring(rank), TextColor3 = badgeColor and Color3.fromRGB(24, 24, 24) or Color3.fromRGB(200, 200, 200), TextSize = 11, Font = Enum.Font.GothamBold, Parent = badge })
-		Lib.Create("TextLabel", { Size = UDim2.new(1, -108, 1, 0), Position = UDim2.new(0, 33, 0, 0), BackgroundTransparency = 1, Text = name, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 12, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row })
+		if og then
+			Lib.Create("TextLabel", { Size = UDim2.fromOffset(26, 14), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -100, 0.5, -7), BackgroundColor3 = Color3.fromRGB(255, 200, 40), Text = "OG", TextColor3 = Color3.fromRGB(24, 24, 24), TextSize = 9, Font = Enum.Font.GothamBold, Parent = row, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 7) }) })
+		end
+		Lib.Create("TextLabel", { Size = UDim2.new(1, og and -159 or -108, 1, 0), Position = UDim2.new(0, 33, 0, 0), BackgroundTransparency = 1, Text = name, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 12, Font = Enum.Font.GothamMedium, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = row })
 		Lib.Create("TextLabel", { Size = UDim2.new(0, 86, 1, 0), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -8, 0, 0), BackgroundTransparency = 1, Text = value, TextColor3 = Color3.fromRGB(170, 170, 170), TextSize = 11, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Right, Parent = row })
 	end
 
@@ -9736,8 +9744,9 @@ function Lib.BuildTop(group)
 			return (tonumber(a.entry.time) or 0) > (tonumber(b.entry.time) or 0)
 		end)
 		for index = 1, math.min(#list, 10) do
-			local entry = list[index].entry
-			BuildRow(TimeRows, index, index, CleanName(entry.name), FormatTime(entry.time), list[index].key == MyKey)
+			local item = list[index]
+			local entry = item.entry
+			BuildRow(TimeRows, index, index, CleanName(entry.name), FormatTime(entry.time), item.key == MyKey, entry.og == true or (item.key == MyKey and IsOG()))
 		end
 		if #list == 0 then
 			BuildRow(TimeRows, 1, 1, "Nobody yet — be the first!", "", false)
@@ -9747,8 +9756,9 @@ function Lib.BuildTop(group)
 			return (tonumber(a.entry.ach) or 0) > (tonumber(b.entry.ach) or 0)
 		end)
 		for index = 1, math.min(#list, 10) do
-			local entry = list[index].entry
-			BuildRow(AchRows, index, index, CleanName(entry.name), tostring(tonumber(entry.ach) or 0), list[index].key == MyKey)
+			local item = list[index]
+			local entry = item.entry
+			BuildRow(AchRows, index, index, CleanName(entry.name), tostring(tonumber(entry.ach) or 0), item.key == MyKey, entry.og == true or (item.key == MyKey and IsOG()))
 		end
 		if #list == 0 then
 			BuildRow(AchRows, 1, 1, "Nobody yet — be the first!", "", false)
@@ -10171,6 +10181,13 @@ do
 	AccDName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 18), Position = UDim2.fromOffset(64, 32), BackgroundTransparency = 1, Text = App.Player.DisplayName, TextColor3 = Color3.fromRGB(240, 240, 240), TextSize = 15, Font = Enum.Font.GothamBold, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
 	Lib.RegisterThemeText(AccDName, "Primary")
 	local AccUName = Lib.Create("TextLabel", { Size = UDim2.new(1, -78, 0, 14), Position = UDim2.fromOffset(64, 51), BackgroundTransparency = 1, Text = "@" .. App.Player.Name, TextColor3 = Color3.fromRGB(140, 140, 140), TextSize = 11, Font = Enum.Font.Gotham, TextXAlignment = Enum.TextXAlignment.Left, TextTruncate = Enum.TextTruncate.AtEnd, Parent = accountCell })
+	local AccOG = Lib.Create("TextLabel", { Size = UDim2.fromOffset(30, 15), AnchorPoint = Vector2.new(1, 0), Position = UDim2.new(1, -2, 0, 33), BackgroundColor3 = Color3.fromRGB(255, 200, 40), Text = "OG", TextColor3 = Color3.fromRGB(24, 24, 24), TextSize = 10, Font = Enum.Font.GothamBold, Visible = false, Parent = accountCell, Lib.Create("UICorner", { CornerRadius = UDim.new(0, 8) }) })
+	local function RefreshOG()
+		local og = State.Ach_10Hours_Claimed and State.Ach_24Hours_Claimed and State.Ach_Streak7_Claimed and State.Ach_Collector10_Claimed and State.Ach_Rainbow50_Claimed and State.Ach_DJ_Claimed and State.Ach_Explorer_Claimed and State.Ach_NightOwl_Claimed and State.Ach_Faithful14_Claimed
+		if AccOG then AccOG.Visible = og and true or false end
+	end
+	UI.OGUpdateCallback = RefreshOG
+	RefreshOG()
 	Lib.RegisterThemeText(AccUName, "Secondary")
 	AccText(AccCell(r1, 1, "User ID", true), tostring(App.Player.UserId), 38, 15, true)
 
@@ -10657,6 +10674,7 @@ do
 	end
 
 	local function RefreshAchievementUI()
+		if UI.OGUpdateCallback then UI.OGUpdateCallback() end
 		for _, def in ipairs(AchDefs) do
 			if def.refresh then def.refresh() end
 		end
