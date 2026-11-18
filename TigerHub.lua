@@ -6794,6 +6794,320 @@ end
 
 Lib.MountGui(UI.Screen)
 ClickSound.Parent = UI.Screen
+
+do
+	-- Drawing API emulator: instance-backed fallback for executors without native Drawing support.
+	-- Keeps ESP boxes, corners, tracers, skeleton, health bars, offscreen arrows and the custom cursor working.
+	if not Drawing then
+		local FONT_MAP = {
+			[0] = Enum.Font.SourceSansSemibold,
+			[1] = Enum.Font.SourceSans,
+			[2] = Enum.Font.Arimo,
+			[3] = Enum.Font.Code
+		}
+
+		local EmuGui = Instance.new("ScreenGui")
+		EmuGui.Name = "TigerHubDrawingEmu"
+		EmuGui.IgnoreGuiInset = true
+		EmuGui.DisplayOrder = 2147483647
+		EmuGui.ResetOnSpawn = false
+		EmuGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		Lib.MountGui(EmuGui)
+		Lib.DrawingEmuGui = EmuGui
+
+		local factories = {}
+
+		local function baseFrame(anchor)
+			local f = Instance.new("Frame")
+			f.BorderSizePixel = 0
+			f.BackgroundTransparency = 1
+			f.AnchorPoint = anchor or Vector2.zero
+			f.Visible = false
+			f.Parent = EmuGui
+			return f
+		end
+
+		local function bind(store, apply, inst)
+			return setmetatable({}, {
+				__index = function(_, key)
+					if key == "Remove" or key == "Destroy" then
+						return function()
+							store.__dead = true
+							inst:Destroy()
+						end
+					end
+					return store[key]
+				end,
+				__newindex = function(_, key, value)
+					if store.__dead then return end
+					store[key] = value
+					apply()
+				end
+			})
+		end
+
+		local function applyLine(store, inst)
+			local from, to = store.From, store.To
+			if store.__dead or not store.Visible or not from or not to then
+				inst.Visible = false
+				return
+			end
+			local dx, dy = to.X - from.X, to.Y - from.Y
+			local len = math.sqrt(dx * dx + dy * dy)
+			if len < 1 then
+				inst.Visible = false
+				return
+			end
+			inst.Position = UDim2.fromOffset((from.X + to.X) * 0.5, (from.Y + to.Y) * 0.5)
+			inst.Size = UDim2.fromOffset(len, math.max(store.Thickness or 1, 1))
+			inst.Rotation = math.deg(math.atan2(dy, dx))
+			inst.BackgroundColor3 = store.Color
+			inst.BackgroundTransparency = store.Transparency
+			inst.ZIndex = store.ZIndex or 0
+			inst.Visible = true
+		end
+
+		factories.Line = function()
+			local store = { Visible = false, ZIndex = 0, Color = Color3.new(1, 1, 1), Transparency = 0, Thickness = 1 }
+			local inst = baseFrame(Vector2.new(0.5, 0.5))
+			return bind(store, function() applyLine(store, inst) end, inst)
+		end
+
+		local function applySquare(store, inst, stroke)
+			if store.__dead or not store.Visible then
+				inst.Visible = false
+				return
+			end
+			local pos = store.Position or Vector2.zero
+			local size = store.Size or Vector2.zero
+			inst.Position = UDim2.fromOffset(pos.X, pos.Y)
+			inst.Size = UDim2.fromOffset(math.max(size.X, 1), math.max(size.Y, 1))
+			inst.ZIndex = store.ZIndex or 0
+			if store.Filled then
+				stroke.Enabled = false
+				inst.BackgroundColor3 = store.Color
+				inst.BackgroundTransparency = store.Transparency
+			else
+				inst.BackgroundTransparency = 1
+				stroke.Enabled = true
+				stroke.Color = store.Color
+				stroke.Thickness = math.max(store.Thickness or 1, 1)
+				stroke.Transparency = store.Transparency
+			end
+			inst.Visible = true
+		end
+
+		factories.Square = function()
+			local store = { Visible = false, ZIndex = 0, Color = Color3.new(1, 1, 1), Transparency = 0, Thickness = 1, Filled = false, Position = Vector2.zero, Size = Vector2.zero }
+			local inst = baseFrame(Vector2.zero)
+			local stroke = Instance.new("UIStroke")
+			stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			stroke.Thickness = 1
+			stroke.Enabled = false
+			stroke.Parent = inst
+			return bind(store, function() applySquare(store, inst, stroke) end, inst)
+		end
+
+		local function applyText(store, inst, outline)
+			if store.__dead or not store.Visible then
+				inst.Visible = false
+				return
+			end
+			local center = store.Center and true or false
+			inst.AnchorPoint = center and Vector2.new(0.5, 0.5) or Vector2.zero
+			inst.TextXAlignment = center and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left
+			local pos = store.Position or Vector2.zero
+			inst.Position = UDim2.fromOffset(pos.X, pos.Y)
+			inst.Text = store.Text or ""
+			inst.TextSize = math.max(store.Size or 13, 1)
+			inst.Font = FONT_MAP[store.Font] or Enum.Font.SourceSansSemibold
+			inst.TextColor3 = store.Color
+			inst.TextTransparency = store.Transparency
+			outline.Enabled = store.Outline and true or false
+			outline.Color = store.OutlineColor or Color3.new(0, 0, 0)
+			outline.Transparency = store.Transparency
+			inst.ZIndex = store.ZIndex or 0
+			inst.Visible = true
+		end
+
+		factories.Text = function()
+			local store = { Visible = false, ZIndex = 0, Color = Color3.new(1, 1, 1), Transparency = 0, Text = "", Size = 13, Position = Vector2.zero }
+			local inst = Instance.new("TextLabel")
+			inst.BorderSizePixel = 0
+			inst.BackgroundTransparency = 1
+			inst.AutomaticSize = Enum.AutomaticSize.XY
+			inst.Size = UDim2.fromOffset(0, 0)
+			inst.TextWrapped = false
+			inst.Visible = false
+			inst.Parent = EmuGui
+			local outline = Instance.new("UIStroke")
+			outline.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+			outline.Enabled = false
+			outline.Parent = inst
+			return bind(store, function() applyText(store, inst, outline) end, inst)
+		end
+
+		local MAX_STRIPS = 48
+
+		local function triX(la, lb, lc, y)
+			local xs = {}
+			local edges = { { la, lb }, { lb, lc }, { lc, la } }
+			for _, e in ipairs(edges) do
+				local p, q = e[1], e[2]
+				if (p.Y <= y and q.Y >= y) or (q.Y <= y and p.Y >= y) then
+					if math.abs(q.Y - p.Y) < 0.001 then
+						xs[#xs + 1] = p.X
+						xs[#xs + 1] = q.X
+					else
+						local t = (y - p.Y) / (q.Y - p.Y)
+						xs[#xs + 1] = p.X + (q.X - p.X) * t
+					end
+				end
+			end
+			if #xs == 0 then return nil end
+			local minX, maxX = xs[1], xs[1]
+			for i = 2, #xs do
+				if xs[i] < minX then minX = xs[i] end
+				if xs[i] > maxX then maxX = xs[i] end
+			end
+			return minX, maxX
+		end
+
+		local function applyTriangle(store, inst, strips, edges)
+			if store.__dead or not store.Visible then
+				inst.Visible = false
+				return
+			end
+			local a, b, c = store.PointA, store.PointB, store.PointC
+			if not (a and b and c) then
+				inst.Visible = false
+				return
+			end
+			local minX = math.min(a.X, b.X, c.X)
+			local minY = math.min(a.Y, b.Y, c.Y)
+			local w = math.max(math.max(a.X, b.X, c.X) - minX, 1)
+			local h = math.max(math.max(a.Y, b.Y, c.Y) - minY, 1)
+			inst.Position = UDim2.fromOffset(minX, minY)
+			inst.Size = UDim2.fromOffset(w, h)
+			inst.ZIndex = store.ZIndex or 0
+			local la = Vector2.new(a.X - minX, a.Y - minY)
+			local lb = Vector2.new(b.X - minX, b.Y - minY)
+			local lc = Vector2.new(c.X - minX, c.Y - minY)
+			if store.Filled then
+				for _, e in ipairs(edges) do e.Visible = false end
+				local step = h / MAX_STRIPS
+				local any = false
+				for i = 1, MAX_STRIPS do
+					local s = strips[i]
+					local y = (i - 0.5) * step
+					local xMin, xMax = triX(la, lb, lc, y)
+					if xMin then
+						any = true
+						s.Visible = true
+						s.Position = UDim2.fromOffset(xMin, math.max(y - step * 0.5, 0))
+						s.Size = UDim2.fromOffset(math.max(xMax - xMin, 0.5), math.max(step, 1))
+						s.BackgroundColor3 = store.Color
+						s.BackgroundTransparency = store.Transparency
+						s.ZIndex = store.ZIndex or 0
+					else
+						s.Visible = false
+					end
+				end
+				inst.Visible = any
+			else
+				for _, s in ipairs(strips) do s.Visible = false end
+				local th = math.max(store.Thickness or 1, 1)
+				local segs = { { la, lb }, { lb, lc }, { lc, la } }
+				for i, e in ipairs(edges) do
+					local p, q = segs[i][1], segs[i][2]
+					local dx, dy = q.X - p.X, q.Y - p.Y
+					local len = math.sqrt(dx * dx + dy * dy)
+					if len < 1 then
+						e.Visible = false
+					else
+						e.Visible = true
+						e.Position = UDim2.fromOffset((p.X + q.X) * 0.5, (p.Y + q.Y) * 0.5)
+						e.Size = UDim2.fromOffset(len, th)
+						e.Rotation = math.deg(math.atan2(dy, dx))
+						e.BackgroundColor3 = store.Color
+						e.BackgroundTransparency = store.Transparency
+					end
+				end
+				inst.Visible = true
+			end
+		end
+
+		factories.Triangle = function()
+			local store = { Visible = false, ZIndex = 0, Color = Color3.new(1, 1, 1), Transparency = 0, Thickness = 1, Filled = false }
+			local inst = baseFrame(Vector2.zero)
+			local strips, edges = {}, {}
+			for i = 1, MAX_STRIPS do
+				local s = Instance.new("Frame")
+				s.BorderSizePixel = 0
+				s.BackgroundTransparency = 1
+				s.Visible = false
+				s.Parent = inst
+				strips[i] = s
+			end
+			for i = 1, 3 do
+				local e = Instance.new("Frame")
+				e.BorderSizePixel = 0
+				e.BackgroundTransparency = 1
+				e.AnchorPoint = Vector2.new(0.5, 0.5)
+				e.Visible = false
+				e.Parent = inst
+				edges[i] = e
+			end
+			return bind(store, function() applyTriangle(store, inst, strips, edges) end, inst)
+		end
+
+		local function applyCircle(store, inst, stroke)
+			if store.__dead or not store.Visible then
+				inst.Visible = false
+				return
+			end
+			local r = math.max(store.Radius or 0, 1)
+			local pos = store.Position or Vector2.zero
+			inst.Position = UDim2.fromOffset(pos.X - r, pos.Y - r)
+			inst.Size = UDim2.fromOffset(r * 2, r * 2)
+			inst.ZIndex = store.ZIndex or 0
+			if store.Filled then
+				stroke.Enabled = false
+				inst.BackgroundColor3 = store.Color
+				inst.BackgroundTransparency = store.Transparency
+			else
+				inst.BackgroundTransparency = 1
+				stroke.Enabled = true
+				stroke.Color = store.Color
+				stroke.Thickness = math.max(store.Thickness or 1, 1)
+				stroke.Transparency = store.Transparency
+			end
+			inst.Visible = true
+		end
+
+		factories.Circle = function()
+			local store = { Visible = false, ZIndex = 0, Color = Color3.new(1, 1, 1), Transparency = 0, Thickness = 1, Filled = false, Position = Vector2.zero, Radius = 0, NumSides = 24 }
+			local inst = baseFrame(Vector2.zero)
+			local corner = Instance.new("UICorner")
+			corner.CornerRadius = UDim.new(1, 0)
+			corner.Parent = inst
+			local stroke = Instance.new("UIStroke")
+			stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			stroke.Enabled = false
+			stroke.Parent = inst
+			return bind(store, function() applyCircle(store, inst, stroke) end, inst)
+		end
+
+		Drawing = {
+			new = function(class)
+				local factory = factories[class]
+				if not factory then error("invalid drawing class " .. tostring(class), 2) end
+				return factory()
+			end
+		}
+	end
+end
+
 do
 	local env = type(getgenv) == "function" and getgenv() or _G
 	if env.TigerHubInstance then env.TigerHubInstance.Gui = UI.Screen end
@@ -33574,6 +33888,7 @@ function Lib.Unload()
 
 	for _, connection in ipairs(Lib.Conns) do connection:Disconnect() end
 	table.clear(Lib.Conns)
+	if Lib.DrawingEmuGui then pcall(function() Lib.DrawingEmuGui:Destroy() end) end
 	ClickSound:Destroy()
 end
 
