@@ -235,8 +235,8 @@ local Refs = App.Refs
 
 Lib.Conns = {}
 Lib.Version = {
-	Current = "3.7.11",
-	Display = "V3.7.11",
+	Current = "3.7.12",
+	Display = "V3.7.12",
 	Url = "https://raw.githubusercontent.com/aznoham-coder/Tiger-Hub/refs/heads/main/version.json",
 	Repo = "https://github.com/aznoham-coder/Tiger-Hub",
 	Status = "idle",
@@ -2360,6 +2360,15 @@ do
 		["RTX Blur Size"] = "Сила размытия RTX",
 		["Blur amount"] = "Величина размытия",
 		["Item ESP"] = "ESP предметов",
+		["Quick Profiles"] = "Быстрые профили",
+		["Combat ready"] = "Готов к бою",
+		["See everything"] = "Видеть всё",
+		["Low profile"] = "Незаметность",
+		["🌾 Farm"] = "🌾 Фарм",
+		["👻 Stealth"] = "👻 Стелс",
+		["PvP profile applied: boxes, tracers, skeleton, chams, arrows and crosshair ready."] = "Профиль PvP применён: рамки, трассеры, скелет, чамсы, стрелки и прицел готовы.",
+		["Farm profile applied: full boxes, names, distance, tool, item ESP and gradient."] = "Профиль Фарм применён: полные рамки, имена, дистанция, инструмент, ESP предметов и градиент.",
+		["Stealth profile applied: thin corner boxes and names only."] = "Профиль Стелс применён: тонкие угловые рамки и только имена.",
 		["Highlights dropped tools, pickups and interactables"] = "Подсвечивает выпавшие инструменты, подбираемые вещи и интерактивные объекты",
 		["Item ESP Settings"] = "Настройки ESP предметов",
 		["Item Sources"] = "Источники предметов",
@@ -2598,6 +2607,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Заблокировано (серия из 14 дней)",
 		["Unlocked from 14 Day Streak"] = "Открывается за серию из 14 дней",
 		["Secret achievement"] = "Секретное достижение",
+		["Quick Profiles: three one-click presets — PvP, Farm and Stealth — at the top of the Visuals tab. Each one instantly applies a full set of ESP, model and HUD settings (boxes, tracers, skeleton, chams, arrows, crosshair, item ESP, gradient and more) and a notification confirms what was applied."] = "Быстрые профили: три пресета в один клик — PvP, Фарм и Стелс — вверху вкладки «Визуалы». Каждый мгновенно применяет полный набор настроек ESP, моделей и интерфейса (рамки, трассеры, скелет, чамсы, стрелки, прицел, ESP предметов, градиент и другое), а уведомление подтверждает, что было применено.",
 		["Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."] = "Крупное исправление ESP: весь слой Drawing использовал перевёрнутую шкалу прозрачности, поэтому рамки ESP, трассеры, скелет, текст дистанции/инструмента, орбита, ореолы, модели шапок, пользовательский прицел, пользовательская мышь и след курсора рисовались полностью прозрачными и никогда не появлялись. Теперь всё рисуется с правильной непрозрачностью на любом экзекуторе. Таблица лидеров также сначала загружается через обычный HttpGet и отправляется через HttpService, если у экзекутора нет функции request — это возвращает таблицу на экзекуторах вроде Medium.",
 		["Added a Drawing Test button in the Compatibility tab: it draws a test box, line and text in the center of the screen for 5 seconds so you can verify visually that Drawing (native or the emulator) renders on your executor. Also optimized the emulator with batched per-frame rendering for much better performance with many ESP objects."] = "Добавлена кнопка «Тест Drawing» во вкладке совместимости: она рисует тестовую рамку, линию и текст в центре экрана на 5 секунд, чтобы вы могли визуально проверить, отображается ли Drawing (нативный или эмулятор) на вашем экзекуторе. Также эмулятор оптимизирован пакетным рендерингом раз в кадр для заметно лучшей производительности при большом количестве объектов ESP.",
 		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Исправлена работа эмулятора Drawing на Medium: панель теперь распознаёт поддельные заглушки Drawing (экзекуторы, которые принимают объекты Drawing, но никогда их не рисуют, как семейство Solara) и переключает их на встроенный запасной вариант на основе Instance, так что рамки ESP, трассеры, скелет, полоски здоровья, орбита, прицел, пользовательский курсор и стрелки теперь реально отображаются.",
@@ -3562,6 +3572,14 @@ do
 		["Item Custom Color"] = "Couleur personnalisée des objets",
 		["Item Distance"] = "Distance des objets",
 		["Item ESP"] = "ESP d'objets",
+		["Quick Profiles"] = "Profils rapides",
+		["Combat ready"] = "Prêt au combat",
+		["See everything"] = "Tout voir",
+		["Low profile"] = "Mode discret",
+		["👻 Stealth"] = "👻 Furtif",
+		["PvP profile applied: boxes, tracers, skeleton, chams, arrows and crosshair ready."] = "Profil PvP appliqué : boîtes, tracers, squelette, chams, flèches et viseur prêts.",
+		["Farm profile applied: full boxes, names, distance, tool, item ESP and gradient."] = "Profil Farm appliqué : boîtes pleines, noms, distance, objet, ESP d'objets et dégradé.",
+		["Stealth profile applied: thin corner boxes and names only."] = "Profil Furtif appliqué : boîtes en coins fines et noms uniquement.",
 		["Item ESP Settings"] = "Réglages de l'ESP d'objets",
 		["Item Fill Opacity"] = "Opacité du remplissage des objets",
 		["Item Max Distance"] = "Distance max des objets",
@@ -4572,6 +4590,7 @@ do
 		["Locked (Reach 14 day streak)"] = "Verrouillé (série de 14 jours)",
 		["Unlocked from 14 Day Streak"] = "Débloqué avec la série de 14 jours",
 		["Secret achievement"] = "Succès secret",
+		["Quick Profiles: three one-click presets — PvP, Farm and Stealth — at the top of the Visuals tab. Each one instantly applies a full set of ESP, model and HUD settings (boxes, tracers, skeleton, chams, arrows, crosshair, item ESP, gradient and more) and a notification confirms what was applied."] = "Profils rapides : trois préréglages en un clic — PvP, Farm et Furtif — en haut de l'onglet Visuels. Chacun applique instantanément un jeu complet de réglages ESP, modèles et HUD (boîtes, tracers, squelette, chams, flèches, viseur, ESP d'objets, dégradé et plus) et une notification confirme ce qui a été appliqué.",
 		["Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."] = "Grosse correction ESP : toute la couche Drawing inversait l'échelle de transparence, donc les boîtes ESP, les tracers, le squelette, les textes Distance/Objet, l'Orbite, les halos, les modèles de chapeaux, le viseur personnalisé, la souris personnalisée et la traînée du curseur étaient dessinés totalement transparents et n'apparaissaient jamais. Tout se dessine maintenant avec la bonne opacité sur tous les exécuteurs. Le classement se charge aussi d'abord via HttpGet simple et publie via HttpService quand l'exécuteur n'a pas de fonction request — ça le restaure sur des exécuteurs comme Medium.",
 		["Added a Drawing Test button in the Compatibility tab: it draws a test box, line and text in the center of the screen for 5 seconds so you can verify visually that Drawing (native or the emulator) renders on your executor. Also optimized the emulator with batched per-frame rendering for much better performance with many ESP objects."] = "Ajout d'un bouton « Tester Drawing » dans l'onglet Compatibilité : il dessine une boîte test, une ligne et un texte au centre de l'écran pendant 5 secondes pour vérifier visuellement que Drawing (natif ou émulateur) s'affiche sur ton exécuteur. L'émulateur est aussi optimisé avec un rendu groupé par frame pour de bien meilleures performances avec beaucoup d'objets ESP.",
 		["Fixed the Drawing emulator not kicking in on Medium: the panel now detects fake Drawing stubs (executors that accept Drawing objects without ever rendering them, like the Solara family) and switches them to the built-in instance fallback, so ESP boxes, tracers, skeleton, health bars, orbit, crosshair, custom cursor and arrows now actually show up."] = "Correction de l'émulateur Drawing qui ne s'activait pas sur Medium : le panel détecte maintenant les fausses librairies Drawing (les exécuteurs qui acceptent des objets Drawing sans jamais les dessiner, comme la famille Solara) et bascule sur le système de secours intégré sur Instances, ainsi les boîtes ESP, tracers, squelette, barres de vie, orbite, viseur, curseur personnalisé et flèches s'affichent réellement.",
@@ -8731,7 +8750,13 @@ end
 function Lib.BuildUpdateLog(view)
 	local releases = {
 		{
-			version = "V3.7.11", date = "Nov 18", latest = true,
+			version = "V3.7.12", date = "Nov 18", latest = true,
+			notes = {
+				"Quick Profiles: three one-click presets — PvP, Farm and Stealth — at the top of the Visuals tab. Each one instantly applies a full set of ESP, model and HUD settings (boxes, tracers, skeleton, chams, arrows, crosshair, item ESP, gradient and more) and a notification confirms what was applied."
+			}
+		},
+		{
+			version = "V3.7.11", date = "Nov 18",
 			notes = {
 				"Major ESP fix: the whole Drawing layer inverted the transparency scale, so Box ESP, Tracers, Skeleton, Distance/Tool text, Orbit, Halo rings, Hat models, the custom Crosshair, the custom Mouse and the cursor trail were drawn fully transparent and never showed up. Everything now draws with the correct opacity on every executor. The leaderboard also loads through plain HttpGet first and posts through HttpService when the executor has no request function, which restores it on executors like Medium."
 			}
@@ -20984,6 +21009,95 @@ function Lib.BuildEsp(scroll)
 	local hudGroup = Lib.CreateFeatureGroup(scroll, "HUD", 3)
 	Feature(hudGroup, "Custom Crosshair", "Custom crosshair in the screen center", CR, "Custom Crosshair", 620, crossRows)
 	Feature(hudGroup, "Custom Mouse", "Custom cursor with effects", MS, "Custom Mouse", 560, cursorRows, true)
+
+	do
+		local QuickProfiles = {
+			PvP = {
+				["Box ESP"] = true, ["Box Style"] = "Corners", ["Box Outline"] = true, ["Box Thickness"] = 2, ["Box Filled"] = false,
+				["Name ESP"] = true, ["Name Size"] = 14,
+				["Health ESP"] = true, ["Health Number"] = true, ["Health Side"] = "Right", ["Health Mode"] = "Dynamic",
+				["Distance ESP"] = true,
+				["Tool ESP"] = false,
+				["Tracer ESP"] = true, ["Tracer Origin"] = "Bottom", ["Tracer Thickness"] = 2,
+				["Off-Screen Arrows"] = true, ["Arrow Filled"] = true, ["Arrow Distance Text"] = true,
+				["Skeleton ESP"] = true, ["Skeleton Outline"] = true,
+				["Chams"] = true,
+				["Head Dot"] = false, ["View Direction Line"] = true,
+				["History ESP"] = false, ["Gradient ESP"] = false, ["Item ESP"] = false,
+				["Hat"] = false, ["Face Mask"] = false, ["Halo"] = false, ["Orbit"] = false,
+				["Custom Crosshair"] = true, ["Custom Mouse"] = false,
+				["ESP Max Distance"] = 2000
+			},
+			Farm = {
+				["Box ESP"] = true, ["Box Style"] = "Full", ["Box Outline"] = false, ["Box Thickness"] = 1, ["Box Filled"] = true, ["Box Fill Opacity"] = 0.25,
+				["Name ESP"] = true,
+				["Health ESP"] = true, ["Health Number"] = false,
+				["Distance ESP"] = true, ["Tool ESP"] = true,
+				["Tracer ESP"] = false, ["Off-Screen Arrows"] = false, ["Skeleton ESP"] = false,
+				["Chams"] = true, ["Head Dot"] = false, ["View Direction Line"] = false,
+				["History ESP"] = false, ["Gradient ESP"] = true, ["Item ESP"] = true,
+				["Hat"] = false, ["Face Mask"] = false, ["Halo"] = false, ["Orbit"] = false,
+				["Custom Crosshair"] = false, ["Custom Mouse"] = false,
+				["ESP Max Distance"] = 5000
+			},
+			Stealth = {
+				["Box ESP"] = true, ["Box Style"] = "Corners", ["Box Outline"] = false, ["Box Thickness"] = 1, ["Box Filled"] = false,
+				["Name ESP"] = true, ["Name Size"] = 12,
+				["Health ESP"] = false, ["Distance ESP"] = false, ["Tool ESP"] = false,
+				["Tracer ESP"] = false, ["Off-Screen Arrows"] = false, ["Skeleton ESP"] = false,
+				["Chams"] = false, ["Head Dot"] = false, ["View Direction Line"] = false,
+				["History ESP"] = false, ["Gradient ESP"] = false, ["Item ESP"] = false,
+				["Hat"] = false, ["Face Mask"] = false, ["Halo"] = false, ["Orbit"] = false,
+				["Custom Crosshair"] = false, ["Custom Mouse"] = false,
+				["ESP Max Distance"] = 1000
+			}
+		}
+		local ProfileMeta = {
+			{ key = "PvP", label = "⚔️ PvP", sub = "Combat ready", applied = "PvP profile applied: boxes, tracers, skeleton, chams, arrows and crosshair ready.", accent = Color3.fromRGB(235, 87, 87) },
+			{ key = "Farm", label = "🌾 Farm", sub = "See everything", applied = "Farm profile applied: full boxes, names, distance, tool, item ESP and gradient.", accent = Color3.fromRGB(96, 214, 128) },
+			{ key = "Stealth", label = "👻 Stealth", sub = "Low profile", applied = "Stealth profile applied: thin corner boxes and names only.", accent = Color3.fromRGB(86, 156, 255) }
+		}
+		local profileGroup = Lib.CreateFeatureGroup(scroll, "Quick Profiles", 0)
+		local prow = Lib.Create("Frame", {
+			Size = UDim2.new(1, 0, 0, 62), BackgroundTransparency = 1, LayoutOrder = 1, Parent = profileGroup,
+			Lib.Create("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 6), VerticalAlignment = Enum.VerticalAlignment.Center }),
+			Lib.Create("UIPadding", { PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10) })
+		})
+		for pindex, meta in ipairs(ProfileMeta) do
+			local btn = Lib.Create("TextButton", {
+				Size = UDim2.new(1 / 3, -4, 0, 50), BackgroundColor3 = meta.accent, BackgroundTransparency = 0.86,
+				Text = "", AutoButtonColor = false, LayoutOrder = pindex, Parent = prow,
+				Lib.Create("UICorner", { CornerRadius = UDim.new(0, 10) }),
+				Lib.Create("UIStroke", { Color = meta.accent, Transparency = 0.55, Thickness = 1.2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border })
+			})
+			Lib.Create("TextLabel", { Size = UDim2.new(1, -8, 0, 18), Position = UDim2.fromOffset(4, 7), BackgroundTransparency = 1, Text = meta.label, TextColor3 = meta.accent, TextSize = 15, Font = Enum.Font.GothamBold, Parent = btn })
+			Lib.Create("TextLabel", { Size = UDim2.new(1, -8, 0, 12), Position = UDim2.new(0, 4, 1, -19), BackgroundTransparency = 1, Text = meta.sub, TextColor3 = Color3.fromRGB(150, 150, 150), TextSize = 10, Font = Enum.Font.GothamMedium, Parent = btn })
+			local btnScale = Lib.Create("UIScale", { Scale = 1, Parent = btn })
+			btn.MouseEnter:Connect(function()
+				Lib.Tween(btn, 0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { BackgroundTransparency = 0.72 })
+			end)
+			btn.MouseLeave:Connect(function()
+				Lib.Tween(btn, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { BackgroundTransparency = 0.86 })
+				Lib.Tween(btnScale, 0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Scale = 1 })
+			end)
+			btn.MouseButton1Down:Connect(function()
+				Lib.Tween(btnScale, 0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, { Scale = 0.95 })
+			end)
+			btn.MouseButton1Click:Connect(function()
+				Lib.PlayClick()
+				local espHook = Lib.ConfigExtras and Lib.ConfigExtras.Esp
+				if espHook then
+					espHook.Apply(QuickProfiles[meta.key])
+				end
+				local itemHook = Lib.ConfigExtras and Lib.ConfigExtras.ItemEsp
+				if itemHook and QuickProfiles[meta.key]["Item ESP"] ~= nil then
+					itemHook.Apply({ ["Item ESP"] = QuickProfiles[meta.key]["Item ESP"] })
+				end
+				Lib.Celebrate()
+				Lib.Notify({ Title = "Quick Profiles", Text = meta.applied, Duration = 5 })
+			end)
+		end
+	end
 
 	Lib.StopEsp = E.stop
 
